@@ -2,7 +2,7 @@ class post:
     def __init__(self,c, ti, te, cr, up):
         self.code = c
         self.title = ti
-        self.text = text
+        self.text = te
         self.creation = cr
         self.update = up
 
@@ -20,4 +20,19 @@ class post:
 
     def get_update(self):
         return self.update
+
+    def set_code(self, c):
+        self.code = c
+
+    def set_title(self, ti):
+        self.title = ti
+
+    def set_text(self, te):
+        self.text = te
+
+    def set_creation(self, cr):
+        self.creation = cr
+
+    def set_update(self, up):
+        self.update = up
 

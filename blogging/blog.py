@@ -18,3 +18,14 @@ class blog:
     def get_email(self):
         return self.email
 
+    def set_id(self, num):
+        self.id = num
+
+    def set_name(self, n):
+        self.id = n
+
+    def set_url(self, u):
+        self.url = u
+
+    def set_email(self, e):
+        self.email = e
