@@ -1,4 +1,4 @@
-class blog:
+class Blog:
     """A class that represents a blog"""
     def __init__(self, num, n, u, e):
         self.id = num

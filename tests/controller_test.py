@@ -4,6 +4,8 @@ from blogging.controller import Controller
 from blogging.blog import Blog
 from blogging.post import Post
 
+    #login
+  4     def login(user, password):
 class ControllerTest(TestCase):
 
 	def setUp(self):

@@ -1,4 +1,4 @@
-class post:
+class Post:
     def __init__(self,c, ti, te, cr, up):
         self.code = c
         self.title = ti
