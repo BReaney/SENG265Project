@@ -1,24 +1,26 @@
 import string
-from blog import Blog
+from blogging.blog import Blog
 
 class Controller:
-    #login function, takes a username and a password, returns false if 
-    def __init__(self):
-        self.username = 'user'
-        self.passphrase = 'blogging2025'
-        self.loggedin = FALSE
+    #login function, takes a username and a password, returns false if wrong credentials or already loggedin
+    def __init__(self, username = 'user', passphrase = 'blogging2025'):
+        self.username = username
+        self.passphrase = passphrase
+        self.loggedin = False
 
-    def login(user, password):
+    def login(self, username, passphrase):
     #login function implementation
-        if user == self.username:
-            if password == self.passphrase:
-                if self.loggedin == FALSE:
-                    self.loggedin = TRUE
-                    return TRUE
-        
-        return FALSE
+        if username == self.username:
+            if passphrase == self.passphrase:
+                if self.loggedin == False:
+                    self.loggedin = True
+                    return True
+        return False
 
     
-    def logout():
+    def logout(self):
     #logout function implementation
-
+        if self.loggedin == False:
+            return False
+        self.loggedin = False
+        return True
