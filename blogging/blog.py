@@ -53,3 +53,12 @@ class Blog:
     
     def search_post(self, code):
         return self.posts.get(code)
+    
+    ###################Retrieve Post Implementation#############################
+    #return: list of posts containing the substring in any field
+    def retrieve_posts(self, substring):
+        retrieved_posts = []
+        for x, y in self.posts.items():
+            if substring in y.__repr__():
+                retrieved_posts.append(self.posts.get(x))
+        return retrieved_posts

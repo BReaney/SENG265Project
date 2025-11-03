@@ -109,10 +109,18 @@ class Controller:
             return None
         return self.current_blog.create_post(title, text)
     
-###################################################
+################################################### search post
 
     # performs validity checks before passing query to blog
     def search_post(self, code):
         if self.loggedin != True or self.current_blog == None:
             return None
         return self.current_blog.search_post(code)
+    
+#####################################Retrieve Blog#####################
+
+    #handle request validity checks, return a call to blog to retrieve a list of posts containing a substring within the title or text
+    def retrieve_posts(self, substring):
+        if self.loggedin != True or self.current_blog == None:
+            return None
+        return self.current_blog.retrieve_posts(substring)
