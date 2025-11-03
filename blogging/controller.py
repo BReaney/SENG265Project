@@ -33,7 +33,7 @@ class Controller:
 ##############################Create/Search blog functions#########################
 
     def create_blog(self, id, name, url, email):
-        if self.loggedin == False or self.blogs.get(id) == False:
+        if self.loggedin == False or self.blogs.get(id)!= None:
             return None
         self.blogs |= {id : Blog(id, name, url, email)}
         return self.blogs.get(id)
