@@ -70,3 +70,14 @@ class Controller:
         if self.blogs.pop(id, None) == None: #removes value AND checks success, None is set as the default return value if no blog is found
             return None
         return True
+    
+    
+    ####################list_blogs Test Case Functions#####################
+    def list_blogs(self):
+        #list all blogs
+        if self.loggedin != True:
+            return None
+        blogs = []
+        for i in self.blogs.keys():
+            blogs.append(self.blogs.get(i))
+        return blogs
