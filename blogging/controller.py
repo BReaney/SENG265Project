@@ -11,7 +11,7 @@ class Controller:
         self.loggedin = False
         self.blogs = {}
 
-        ####################Login/Logout Functions#####################
+        ####################Login/Logout case Functions#####################
 
     def login(self, username, passphrase):
     #login function, takes a username and a password, returns false if wrong credentials or already loggedin
@@ -30,7 +30,7 @@ class Controller:
         self.loggedin = False
         return True
 
-##############################Create/Search blog functions#########################
+##############################Create/Search blog case functions#########################
 
     def create_blog(self, id, name, url, email):
         if self.loggedin == False or self.blogs.get(id)!= None:
@@ -51,3 +51,13 @@ class Controller:
             if name in y.name:              #'in' checks a string for a substring and returns a boolean 
                 retrieved_blogs.append(y)   #x:id y:blog
         return retrieved_blogs
+    
+#######################Update blog case functions##########################
+
+    def update_blog(self, cur_id, new_id, new_name, new_url, new_email):
+        #pick a blog by id, update blog values.
+        if self.loggedin != True or self.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs.get(new_id) != None):
+            return False
+        self.blogs.pop(cur_id)
+        self.blogs[new_id] = Blog(new_id, new_name, new_url, new_email)
+        return True
