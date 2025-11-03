@@ -1,0 +1,1 @@
+#should contain a BlogTest class containing unit test functions for blog functionalities/ stories i.e. init, eq, repr, create post, search post, retrieve posts

@@ -1,0 +1,1 @@
+#should contain a PostTest class with post unit tests i.e. initialisation test, repre test, eq test
