@@ -37,3 +37,7 @@ class Controller:
             return None
         self.blogs |= {id : Blog(id, name, url, email)}
         return self.blogs.get(id)
+    
+    def search_blog(self, id):
+    #id search the blog list
+        return self.blogs.get(id)
