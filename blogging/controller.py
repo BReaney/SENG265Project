@@ -61,3 +61,12 @@ class Controller:
         self.blogs.pop(cur_id)
         self.blogs[new_id] = Blog(new_id, new_name, new_url, new_email)
         return True
+    
+    ####################Delete Blog Test Case Functions####################
+    def delete_blog(self, id):
+        #delete a blog by id. return False if the blog list is empty or if not signed in, return None if the blog does not exist, else delete blog and return True
+        if self.loggedin != True or len(self.blogs) == 0:
+            return False
+        if self.blogs.pop(id, None) == None: #removes value AND checks success, None is set as the default return value if no blog is found
+            return None
+        return True
