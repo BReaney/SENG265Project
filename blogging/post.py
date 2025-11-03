@@ -1,10 +1,10 @@
 class Post:
-    def __init__(self,c, ti, te, cr, up):
-        self.code = c
-        self.title = ti
-        self.text = te
-        self.creation = cr
-        self.update = up
+    def __init__(self,code, time, text, creation, update):
+        self.code = code
+        self.title = time
+        self.text = text
+        self.creation = creation
+        self.update = update
 
     def get_code(self):
         return self.code
@@ -21,18 +21,18 @@ class Post:
     def get_update(self):
         return self.update
 
-    def set_code(self, c):
-        self.code = c
+    def set_code(self, code):
+        self.code = code
 
-    def set_title(self, ti):
-        self.title = ti
+    def set_title(self, time):
+        self.title = time
 
-    def set_text(self, te):
-        self.text = te
+    def set_text(self, text):
+        self.text = text
 
-    def set_creation(self, cr):
-        self.creation = cr
+    def set_creation(self, creation):
+        self.creation = creation
 
-    def set_update(self, up):
-        self.update = up
+    def set_update(self, update):
+        self.update = update
 
