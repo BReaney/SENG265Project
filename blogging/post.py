@@ -1,7 +1,11 @@
+import time
+import string
+
+
 class Post:
-    def __init__(self,code, time, text, creation, update):
+    def __init__(self,code, title, text, creation = time.time(), update = time.time()):
         self.code = code
-        self.title = time
+        self.title = title
         self.text = text
         self.creation = creation
         self.update = update
@@ -24,8 +28,8 @@ class Post:
     def set_code(self, code):
         self.code = code
 
-    def set_title(self, time):
-        self.title = time
+    def set_title(self, title):
+        self.title = title
 
     def set_text(self, text):
         self.text = text
@@ -36,3 +40,10 @@ class Post:
     def set_update(self, update):
         self.update = update
 
+###############################
+
+    def __repr__(self):
+        return "Post(%r, %r, %r)" % (self.code, self.title, self.text)
+
+    def __eq__(self, other):
+        return self.__repr__() == other.__repr__()

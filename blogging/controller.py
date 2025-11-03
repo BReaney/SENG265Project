@@ -102,3 +102,9 @@ class Controller:
         self.current_blog = None
         return
 
+###################create post#########################
+
+    def create_post(self, title, text):
+        if self.loggedin != True or self.current_blog == None:
+            return None
+        return self.current_blog.create_post(title, text)

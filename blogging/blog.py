@@ -1,3 +1,4 @@
+from blogging.post import Post
 class Blog:
     """A class that represents a blog"""
     def __init__(self, id, name, url, email):
@@ -5,6 +6,8 @@ class Blog:
         self.name = name
         self.url = url
         self.email = email
+        self.posts = {}
+        self.code = 0
     
     def __repr__(self):
         return "Blog(%d, %r, %r, %r)" % (self.id, self.name, self.url, self.email)
@@ -27,14 +30,21 @@ class Blog:
     def get_email(self):
         return self.email
 
-    def set_id(self, num):
-        self.id = num
+    def set_id(self, id):
+        self.id = id
 
-    def set_name(self, n):
-        self.id = n
+    def set_name(self, name):
+        self.name = name
 
-    def set_url(self, u):
-        self.url = u
+    def set_url(self, url):
+        self.url = url
 
-    def set_email(self, e):
-        self.email = e
+    def set_email(self, email):
+        self.email = email
+
+####################################
+
+    def create_post(self, title, text):
+        self.code += 1
+        self.posts |= {self.code : Post(self.code, title, text)}
+        return self.posts[self.code]
