@@ -41,3 +41,13 @@ class Controller:
     def search_blog(self, id):
     #id search the blog list
         return self.blogs.get(id)
+    
+    def retrieve_blogs(self, name):
+    #searches the blog list by string and returns a new list of all blogs with titles containing the string
+        if self.loggedin != True:
+            return None
+        retrieved_blogs = []
+        for x, y in self.blogs.items():     #.items returns the key and the value of each dict entry as x and y respectively
+            if name in y.name:              #'in' checks a string for a substring and returns a boolean 
+                retrieved_blogs.append(y)   #x:id y:blog
+        return retrieved_blogs
