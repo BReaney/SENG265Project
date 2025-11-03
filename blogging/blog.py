@@ -1,10 +1,19 @@
 class Blog:
     """A class that represents a blog"""
-    def __init__(self, num, n, u, e):
-        self.id = num
-        self.name = n
-        self.url = u
-        self.email = e
+    def __init__(self, id, name, url, email):
+        self.id = id
+        self.name = name
+        self.url = url
+        self.email = email
+    
+    def __repr__(self):
+        return "Blog(%d, %r, %r, %r)" % (self.id, self.name, self.url, self.email)
+
+    def __eq__(self, other):
+        if self.__repr__() == other.__repr__():
+            return True
+        else: 
+            return False
 
     def get_id(self):
         return self.id
