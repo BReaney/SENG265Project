@@ -103,8 +103,16 @@ class Controller:
         return
 
 ###################create post#########################
-
+    ##create_post: performs validity checks before calling blog.create_post
     def create_post(self, title, text):
         if self.loggedin != True or self.current_blog == None:
             return None
         return self.current_blog.create_post(title, text)
+    
+###################################################
+
+    # performs validity checks before passing query to blog
+    def search_post(self, code):
+        if self.loggedin != True or self.current_blog == None:
+            return None
+        return self.current_blog.search_post(code)

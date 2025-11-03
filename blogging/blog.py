@@ -42,9 +42,14 @@ class Blog:
     def set_email(self, email):
         self.email = email
 
-####################################
+#################################### create post ##################################
 
     def create_post(self, title, text):
         self.code += 1
         self.posts |= {self.code : Post(self.code, title, text)}
         return self.posts[self.code]
+    
+    ###############################search post implementation####################
+    
+    def search_post(self, code):
+        return self.posts.get(code)
