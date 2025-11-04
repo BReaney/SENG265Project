@@ -151,3 +151,15 @@ class Controller:
         return True
     
 ################################### List All Posts of Current Blogs ###########
+
+    def list_posts(self):
+        if self.current_blog == None:
+            return None
+        if self.loggedin != True:
+            return None
+        a = []
+        for x in self.current_blog.posts:
+            a.insert(0, self.current_blog.posts.get(x))
+        
+            
+        return a    

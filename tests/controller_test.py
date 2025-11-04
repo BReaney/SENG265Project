@@ -504,62 +504,71 @@ class ControllerTest(TestCase):
 		self.assertTrue(self.controller.delete_post(2), "delete blog's post")
 		self.assertIsNone(self.controller.search_post(2))
 
-	# def test_list_posts(self):
-	# 	# some posts that may be listed
-	# 	expected_post_1 = Post(1, "Starting my journey", "Once upon a time\nThere was a kid...")
-	# 	expected_post_2 = Post(2, "Second step", "Before one could think,\nA storm stroke.")
-	# 	expected_post_3 = Post(3, "Continuing my journey", "Along the way...\nThere were challenges.")
-	# 	expected_post_4 = Post(4, "Fourth step", "When less expected,\nAll worked fine.")
-	# 	expected_post_5 = Post(5, "Finishing my journey", "And that was it.\nEnd of story.")
+	def test_list_posts(self):
+		# some posts that may be listed
+		expected_post_1 = Post(1, "Starting my journey", "Once upon a time\nThere was a kid...")
+		expected_post_2 = Post(2, "Second step", "Before one could think,\nA storm stroke.")
+		expected_post_3 = Post(3, "Continuing my journey", "Along the way...\nThere were challenges.")
+		expected_post_4 = Post(4, "Fourth step", "When less expected,\nAll worked fine.")
+		expected_post_5 = Post(5, "Finishing my journey", "And that was it.\nEnd of story.")
 
-	# 	# cannot do operation without logging in
-	# 	self.assertIsNone(self.controller.list_posts(), "cannot list posts for a blog without logging in")
+		# cannot do operation without logging in
+		self.assertIsNone(self.controller.list_posts(), "cannot list posts for a blog without logging in")
 
-	# 	# login
-	# 	self.assertTrue(self.controller.login("user", "blogging2025"), "login correctly")
+		# login
+		self.assertTrue(self.controller.login("user", "blogging2025"), "login correctly")
 
-	# 	# listing posts when there are no blogs in the system
-	# 	self.assertIsNone(self.controller.list_posts(), "cannot list posts when there are no blogs in the system")
+		# listing posts when there are no blogs in the system
+		self.assertIsNone(self.controller.list_posts(), "cannot list posts when there are no blogs in the system")
 
-	# 	# add one blog and make it the current blog
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.set_current_blog(1111114444)
+		# add one blog and make it the current blog
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.set_current_blog(1111114444)
 
-	# 	# listing posts when the current blog has no posts
-	# 	posts_list = self.controller.list_posts()
-	# 	self.assertEqual(0, len(posts_list), "list of posts for blog has size 0")
+		# listing posts when the current blog has no posts
+		posts_list = self.controller.list_posts()
+		self.assertEqual(0, len(posts_list), "list of posts for blog has size 0")
 
-	# 	# listing posts in a singleton list
-	# 	actual_post = self.controller.create_post("Starting my journey", "Once upon a time\nThere was a kid...")
-	# 	posts_list = self.controller.list_posts()
-	# 	self.assertEqual(1, len(posts_list), "list of posts for blog has size 1")
-	# 	self.assertEqual(expected_post_1, posts_list[0], "post 1 is the listed post.")
+		# listing posts in a singleton list
+		actual_post = self.controller.create_post("Starting my journey", "Once upon a time\nThere was a kid...")
+		posts_list = self.controller.list_posts()
+		self.assertEqual(1, len(posts_list), "list of posts for blog has size 1")
+		self.assertEqual(expected_post_1, posts_list[0], "post 1 is the listed post.")
 
-	# 	# add some more posts
-	# 	self.controller.create_post("Second step", "Before one could think,\nA storm stroke.")
-	# 	self.controller.create_post("Continuing my journey", "Along the way...\nThere were challenges.")
-	# 	self.controller.create_post("Fourth step", "When less expected,\nAll worked fine.")
-	# 	self.controller.create_post("Finishing my journey", "And that was it.\nEnd of story.")
 
-	# 	# listing posts in a larger list
-	# 	posts_list = self.controller.list_posts()
-	# 	self.assertEqual(5, len(posts_list), "list of posts has size 5")
-	# 	self.assertEqual(expected_post_5, posts_list[0], "post 5 is the first in the list of blogs")
-	# 	self.assertEqual(expected_post_4, posts_list[1], "post 4 is the second in the list of blogs")
-	# 	self.assertEqual(expected_post_3, posts_list[2], "post 3 is the third in the list of blogs")
-	# 	self.assertEqual(expected_post_2, posts_list[3], "post 2 is the fourth in the list of blogs")
-	# 	self.assertEqual(expected_post_1, posts_list[4], "post 1 is the fifth in the list of blogs")
 
-	# 	# deleting some posts
-	# 	self.controller.delete_post(3)
-	# 	self.controller.delete_post(1)
-	# 	self.controller.delete_post(5)
 
-	# 	# listing posts for a blog with deleted posts
-	# 	posts_list = self.controller.list_posts()
-	# 	self.assertEqual(2, len(posts_list), "list of posts has size 2")
-	# 	self.assertEqual(expected_post_4, posts_list[0], "post 4 is the first in the list of posts")
-	# 	self.assertEqual(expected_post_2, posts_list[1], "post 2 is the second in the list of posts")
+		
+		# add some more posts
+		self.controller.create_post("Second step", "Before one could think,\nA storm stroke.")
+		self.controller.create_post("Continuing my journey", "Along the way...\nThere were challenges.")
+		self.controller.create_post("Fourth step", "When less expected,\nAll worked fine.")
+		self.controller.create_post("Finishing my journey", "And that was it.\nEnd of story.")
+
+		# listing posts in a larger list
+		posts_list = self.controller.list_posts()
+		self.assertEqual(5, len(posts_list), "list of posts has size 5")
+		self.assertEqual(expected_post_5, posts_list[0], "post 5 is the first in the list of blogs")
+		self.assertEqual(expected_post_4, posts_list[1], "post 4 is the second in the list of blogs")
+		self.assertEqual(expected_post_3, posts_list[2], "post 3 is the third in the list of blogs")
+		self.assertEqual(expected_post_2, posts_list[3], "post 2 is the fourth in the list of blogs")
+		self.assertEqual(expected_post_1, posts_list[4], "post 1 is the fifth in the list of blogs")
+
+		# deleting some posts
+		self.controller.delete_post(3)
+		self.controller.delete_post(1)
+		self.controller.delete_post(5)
+
+		# listing posts for a blog with deleted posts
+		posts_list = self.controller.list_posts()
+		self.assertEqual(2, len(posts_list), "list of posts has size 2")
+		self.assertEqual(expected_post_4, posts_list[0], "post 4 is the first in the list of posts")
+		self.assertEqual(expected_post_2, posts_list[1], "post 2 is the second in the list of posts")
+		self.controller.create_post("Second step", "Before one could think,\nA storm stroke.")
+		self.controller.create_post("Continuing my journey", "Along the way...\nThere were challenges.")
+		self.controller.create_post("Fourth step", "When less expected,\nAll worked fine.")
+		self.controller.create_post("Finishing my journey", "And that was it.\nEnd of story.")
+
 
 
 if __name__ == '__main__':
