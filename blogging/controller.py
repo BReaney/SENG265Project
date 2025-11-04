@@ -1,6 +1,7 @@
 import string
 from blogging.blog import Blog
-
+from blogging.blog import Post
+from datetime import datetime
 class Controller:
     
 
@@ -124,3 +125,16 @@ class Controller:
         if self.loggedin != True or self.current_blog == None:
             return None
         return self.current_blog.retrieve_posts(substring)
+ ################################### Update Posts ######################
+    
+    def update_post(self, code, new_title, new_text):
+        if self.current_blog == None:
+            return None
+        if self.current_blog.search_post(code) == None:
+            return None
+        
+        a = self.current_blog.search_post(code)
+        a.set_title(new_title)
+        a.set_text(new_text)
+        a.set_update(datetime.now().time())
+        return True
