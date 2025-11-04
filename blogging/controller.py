@@ -1,7 +1,7 @@
 import string
 from blogging.blog import Blog
 from blogging.blog import Post
-from datetime import datetime
+import time
 class Controller:
     
 
@@ -126,7 +126,7 @@ class Controller:
             return None
         return self.current_blog.retrieve_posts(substring)
  ################################### Update Posts ######################
-    
+        #takes a code, new info, inserts the new info into the post of key code
     def update_post(self, code, new_title, new_text):
         if self.current_blog == None:
             return None
@@ -136,5 +136,18 @@ class Controller:
         a = self.current_blog.search_post(code)
         a.set_title(new_title)
         a.set_text(new_text)
-        a.set_update(datetime.now().time())
+        a.set_update(time.time())
         return True
+
+################################### Delete Posts ########################
+        #Takes a key, and deletes the post with said key.
+    def delete_post(self, key):
+        if self.current_blog == None:
+            return None
+        if self.current_blog.search_post(key) == None:
+            return None
+        a = self.current_blog
+        a.posts.pop(key)
+        return True
+    
+################################### List All Posts of Current Blogs ###########

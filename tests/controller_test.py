@@ -459,50 +459,50 @@ class ControllerTest(TestCase):
 		expected_post_5a = Post(5, "Finishing my travel", "And that was it.\nEnd of travel.")
 		self.assertEqual(expected_post_5a, actual_post, "blog was updated, their data has to be updated and correct")
 
-	# def test_delete_post(self):
-	# 	# some posts that may be deleted
-	# 	expected_post_1 = Post(1, "Starting my journey", "Once upon a time\nThere was a kid...")
-	# 	expected_post_2 = Post(2, "Second step", "Before one could think,\nA storm stroke.")
-	# 	expected_post_3 = Post(3, "Continuing my journey", "Along the way...\nThere were challenges.")
-	# 	expected_post_4 = Post(4, "Fourth step", "When less expected,\nAll worked fine.")
-	# 	expected_post_5 = Post(5, "Finishing my journey", "And that was it.\nEnd of story.")
+	def test_delete_post(self):
+		# some posts that may be deleted
+		expected_post_1 = Post(1, "Starting my journey", "Once upon a time\nThere was a kid...")
+		expected_post_2 = Post(2, "Second step", "Before one could think,\nA storm stroke.")
+		expected_post_3 = Post(3, "Continuing my journey", "Along the way...\nThere were challenges.")
+		expected_post_4 = Post(4, "Fourth step", "When less expected,\nAll worked fine.")
+		expected_post_5 = Post(5, "Finishing my journey", "And that was it.\nEnd of story.")
 
-	# 	# cannot do operation without logging in
-	# 	self.assertFalse(self.controller.delete_post(3), "cannot delete post without logging in")
+		# cannot do operation without logging in
+		self.assertFalse(self.controller.delete_post(3), "cannot delete post without logging in")
 
-	# 	# login
-	# 	self.assertTrue(self.controller.login("user", "blogging2025"), "login correctly")
+		# login
+		self.assertTrue(self.controller.login("user", "blogging2025"), "login correctly")
 
-	# 	# cannot do operation without a valid current blog
-	# 	self.assertFalse(self.controller.delete_post(3), "cannot delete post without a valid current blog")
+		# cannot do operation without a valid current blog
+		self.assertFalse(self.controller.delete_post(3), "cannot delete post without a valid current blog")
 
-	# 	# add one blog and make it the current blog
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.set_current_blog(1111114444)
+		# add one blog and make it the current blog
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.set_current_blog(1111114444)
 
-	# 	# try to delete a post when there are no posts taken for that blog in the system
-	# 	self.assertFalse(self.controller.delete_post(3), "cannot delete post when there are no posts for that blog in the system")
+		# try to delete a post when there are no posts taken for that blog in the system
+		self.assertFalse(self.controller.delete_post(3), "cannot delete post when there are no posts for that blog in the system")
 
-	# 	# add some posts
-	# 	self.controller.create_post("Starting my journey", "Once upon a time\nThere was a kid...")
-	# 	self.controller.create_post("Second step", "Before one could think,\nA storm stroke.")
-	# 	self.controller.create_post("Continuing my journey", "Along the way...\nThere were challenges.")
-	# 	self.controller.create_post("Fourth step", "When less expected,\nAll worked fine.")
-	# 	self.controller.create_post("Finishing my journey", "And that was it.\nEnd of story.")
+		# add some posts
+		self.controller.create_post("Starting my journey", "Once upon a time\nThere was a kid...")
+		self.controller.create_post("Second step", "Before one could think,\nA storm stroke.")
+		self.controller.create_post("Continuing my journey", "Along the way...\nThere were challenges.")
+		self.controller.create_post("Fourth step", "When less expected,\nAll worked fine.")
+		self.controller.create_post("Finishing my journey", "And that was it.\nEnd of story.")
 
-	# 	# delete one existing post
-	# 	self.assertTrue(self.controller.delete_post(3), "delete blog's post")
-	# 	self.assertIsNone(self.controller.search_post(3))
+		# delete one existing post
+		self.assertTrue(self.controller.delete_post(3), "delete blog's post")
+		self.assertIsNone(self.controller.search_post(3))
 
-	# 	# delete the remaining existing posts, regardless of deleting order
-	# 	self.assertTrue(self.controller.delete_post(1), "delete blog's post")
-	# 	self.assertIsNone(self.controller.search_post(1))
-	# 	self.assertTrue(self.controller.delete_post(5), "delete blog's post")
-	# 	self.assertIsNone(self.controller.search_post(5))
-	# 	self.assertTrue(self.controller.delete_post(4), "delete blog's post")
-	# 	self.assertIsNone(self.controller.search_post(4))
-	# 	self.assertTrue(self.controller.delete_post(2), "delete blog's post")
-	# 	self.assertIsNone(self.controller.search_post(2))
+		# delete the remaining existing posts, regardless of deleting order
+		self.assertTrue(self.controller.delete_post(1), "delete blog's post")
+		self.assertIsNone(self.controller.search_post(1))
+		self.assertTrue(self.controller.delete_post(5), "delete blog's post")
+		self.assertIsNone(self.controller.search_post(5))
+		self.assertTrue(self.controller.delete_post(4), "delete blog's post")
+		self.assertIsNone(self.controller.search_post(4))
+		self.assertTrue(self.controller.delete_post(2), "delete blog's post")
+		self.assertIsNone(self.controller.search_post(2))
 
 	# def test_list_posts(self):
 	# 	# some posts that may be listed
