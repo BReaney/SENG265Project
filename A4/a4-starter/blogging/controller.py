@@ -2,33 +2,43 @@ import string
 from blogging.blog import Blog
 from blogging.blog import Post
 import time
+from blogging.exception.duplicate_login_exception import DuplicateLoginException
+from blogging.exception.illegal_access_exception import IllegalAccessException
+from blogging.exception.illegal_operation_exception import IllegalOperationException
+from blogging.exception.invalid_login_exception import InvalidLoginException
+from blogging.exception.invalid_logout_exception import InvalidLogoutException
+from blogging.exception.no_current_blog_exception import NoCurrentBlogException
+
 class Controller:
     
 
     
-    def __init__(self, username = 'user', passphrase = 'blogging2025'):
+    def __init__(self, username = 'user', passphrase = '123456'):
         self.username = username
         self.passphrase = passphrase
         self.loggedin = False
         self.blogs = {}
         self.current_blog = None
+        self.autosave = False
 
         ####################Login/Logout Functions#####################
 
     def login(self, username, passphrase):
     #login function, takes a username and a password, returns false if wrong credentials or already loggedin
+        
         if username == self.username:
             if passphrase == self.passphrase:
                 if self.loggedin == False:
                     self.loggedin = True
                     return True
-        return False
+        raise InvalidLoginException
 
     
     def logout(self):
     #logout function implementation
         if self.loggedin == False:
-            return False
+            raise InvalidLogoutException
+            
         self.loggedin = False
         self.unset_current_blog()
         return True
