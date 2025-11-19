@@ -140,7 +140,14 @@ class Controller:
         return True
 
 ################################### Delete Posts ########################
-        #Takes a key, and deletes the post with said key.
+        ###Takes a key, and deletes the post with said key.
+        ###TODO: once exceptions are handled, replace this implementation with the commented out implementation which passes deletion responsibility to the blog class
+        ###TODO: implement exception handling
+    # def delete_post(self, key):
+    #     if self.current_blog == None:
+    #         return None
+    #     return self.current_blog.delete_post(key)
+
     def delete_post(self, key):
         if self.current_blog == None:
             return None
@@ -149,6 +156,7 @@ class Controller:
         a = self.current_blog
         a.posts.pop(key)
         return True
+
     
 ################################### List All Posts of Current Blogs ###########
 

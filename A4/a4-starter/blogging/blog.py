@@ -10,7 +10,7 @@ class Blog:
         self.code = 0
     
     def __repr__(self):
-        return "Blog(%d, %r, %r, %r)" % (self.id, self.name, self.url, self.email)
+        return "Blog(%d, %r, %r, %r, %r)" % (self.id, self.name, self.url, self.email, self.code)
 
     def __eq__(self, other):
         if self.__repr__() == other.__repr__():
@@ -62,3 +62,13 @@ class Blog:
             if substring in y.__repr__():
                 retrieved_posts.append(self.posts.get(x))
         return retrieved_posts
+
+    ##################Delete Post Implementation###############################
+    ###return: none; delete post; decrement blog id
+    ###TODO: once exceptions are handled, implement this as a sub call of the controller class delete_post function
+
+    def delete_post(self, key):
+        if self.search_post(key) == None:
+            return None
+        self.posts.pop(key)
+        return True
