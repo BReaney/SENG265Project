@@ -35,14 +35,18 @@ class PostTest(TestCase):
         Post3= Post(333, "Test3", "This is a test post that isnt the same as test 1 or 2", time3, time3 )
 
         expectedS1 = "Post(555, 'Test', 'This is a test post', %0.7r, %0.7r)" % (time1, time1)
+        expectedS1a = "Post(555, 'Test', 'This is a test post with a new update timestamp', %0.7r, %0.7r)" % (time1, time2)
         expectedS2 = "Post(444, 'Test2', 'This is a test post that isnt the same as test 1', %0.7r, %0.7r)" % (time2, time2)
         expectedS3 = "Post(333, 'Test3', 'This is a test post that isnt the same as test 1 or 2', %0.7r, %0.7r)" % (time3, time3)
 
-
         self.assertEqual(Post1.__repr__(), expectedS1)
-
         self.assertEqual(Post2.__repr__(), expectedS2)
-
         self.assertEqual(Post3.__repr__(), expectedS3)
+        self.assertNotEqual(Post1.__repr__(), expectedS1a)
+        
+        Post1.set_update(time2)
+        self.assertNotEqual(Post1.__repr__(), expectedS1a)
+        Post1.set_text('This is a test post with a new update timestamp')
+        self.assertEqual(Post1.__repr__(), expectedS1a)
 if __name__ == '__main__':
 	unittest.main()
