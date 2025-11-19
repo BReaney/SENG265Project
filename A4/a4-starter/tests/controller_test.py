@@ -47,141 +47,141 @@ class ControllerTest(TestCase):
 		self.assertTrue(self.controller.logout(), "can log out again")
 
 
-	# def test_create_search_blog(self):
-	# 	# some blogs that will be created
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+	def test_create_search_blog(self):
+		# some blogs that will be created
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
 
-	# 	# cannot do search and create operations without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot search blog without logging in"):
-	# 		self.controller.search_blog(1111114444)
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot create blog without logging in"):
-	# 		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		# cannot do search and create operations without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot search blog without logging in"):
+			self.controller.search_blog(1111114444)
+		with self.assertRaises(IllegalAccessException, msg="cannot create blog without logging in"):
+			self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
 
-	# 	# add one blog
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
-	# 	actual_blog = self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.assertIsNotNone(actual_blog, "blog created cannot be null")
+		# add one blog
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+		actual_blog = self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.assertIsNotNone(actual_blog, "blog created cannot be null")
 
-	# 	# implement __eq__(self, other) in Blog to compare blogs based on its attributes
-	# 	self.assertEqual(expected_blog_1, actual_blog, "Short Journey blog was created and their data are correct")
+		# implement __eq__(self, other) in Blog to compare blogs based on its attributes
+		self.assertEqual(expected_blog_1, actual_blog, "Short Journey blog was created and their data are correct")
 
-	# 	# after creating the blog, one should be able to search it
-	# 	actual_blog = self.controller.search_blog(1111114444)
-	# 	self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null")
-	# 	self.assertEqual(expected_blog_1, actual_blog, "Short Journey blog was created, retrieved and its data are correct")
+		# after creating the blog, one should be able to search it
+		actual_blog = self.controller.search_blog(1111114444)
+		self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null")
+		self.assertEqual(expected_blog_1, actual_blog, "Short Journey blog was created, retrieved and its data are correct")
 
-	# 	# should not allow to create another blog with same id
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot add a blog with an ID that is already registered"):
-	# 		self.controller.create_blog(1111114444, "Long Journey", "long_journey", "long.journey@gmail.com")
+		# should not allow to create another blog with same id
+		with self.assertRaises(IllegalOperationException, msg="cannot add a blog with an ID that is already registered"):
+			self.controller.create_blog(1111114444, "Long Journey", "long_journey", "long.journey@gmail.com")
 
-	# 	# add a second blog
-	# 	actual_blog = self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.assertIsNotNone(actual_blog, "second blog created cannot be null")
-	# 	self.assertEqual(expected_blog_2, actual_blog, "second blog, Long Journey, was created and its data are correct")
-	# 	actual_blog = self.controller.search_blog(1111115555)
-	# 	self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null")
-	# 	self.assertEqual(expected_blog_2, actual_blog, "second blog, Long Journey, was created, retrieved and its data are correct")
+		# add a second blog
+		actual_blog = self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.assertIsNotNone(actual_blog, "second blog created cannot be null")
+		self.assertEqual(expected_blog_2, actual_blog, "second blog, Long Journey, was created and its data are correct")
+		actual_blog = self.controller.search_blog(1111115555)
+		self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null")
+		self.assertEqual(expected_blog_2, actual_blog, "second blog, Long Journey, was created, retrieved and its data are correct")
 
-	# 	# add a third blog
-	# 	actual_blog = self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.assertIsNotNone(actual_blog, "blog created cannot be null")
-	# 	self.assertEqual(expected_blog_3, actual_blog, "Long Trip blog was created and its data are correct")
-	# 	actual_blog = self.controller.search_blog(1111112000)
-	# 	self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null")
-	# 	self.assertEqual(expected_blog_3, actual_blog, "third blog, Long Trip, was created, retrieved and its data are correct")
+		# add a third blog
+		actual_blog = self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.assertIsNotNone(actual_blog, "blog created cannot be null")
+		self.assertEqual(expected_blog_3, actual_blog, "Long Trip blog was created and its data are correct")
+		actual_blog = self.controller.search_blog(1111112000)
+		self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null")
+		self.assertEqual(expected_blog_3, actual_blog, "third blog, Long Trip, was created, retrieved and its data are correct")
 
-	# 	# creating new blogs should not affect previous blogs
-	# 	actual_blog = self.controller.search_blog(1111115555)
-	# 	self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null, regardless of search order")
-	# 	self.assertEqual(expected_blog_2, actual_blog, "Long Journey blog was created, retrieved and its data are correct regardless of search order")
-	# 	actual_blog = self.controller.search_blog(1111114444)
-	# 	self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null, regardless of search order")
-	# 	self.assertEqual(expected_blog_1, actual_blog, "Short Journey blog was created, retrieved and its data are correct regardless of search order")
+		# creating new blogs should not affect previous blogs
+		actual_blog = self.controller.search_blog(1111115555)
+		self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null, regardless of search order")
+		self.assertEqual(expected_blog_2, actual_blog, "Long Journey blog was created, retrieved and its data are correct regardless of search order")
+		actual_blog = self.controller.search_blog(1111114444)
+		self.assertIsNotNone(actual_blog, "blog created and retrieved cannot be null, regardless of search order")
+		self.assertEqual(expected_blog_1, actual_blog, "Short Journey blog was created, retrieved and its data are correct regardless of search order")
 
 
-	# def test_retrieve_blogs(self):
-	# 	# some blogs that will be retrieved
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+	def test_retrieve_blogs(self):
+		# some blogs that will be retrieved
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# cannot do operation without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot retrieve blogs without logging in"):
-	# 		self.controller.retrieve_blogs("Short Journey")
+		# cannot do operation without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot retrieve blogs without logging in"):
+			self.controller.retrieve_blogs("Short Journey")
 
-	# 	# login and create some blogs
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+		# login and create some blogs
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# retrieve one blog
-	# 	retrieved_list = self.controller.retrieve_blogs("Long Journey")
-	# 	self.assertEqual(1, len(retrieved_list), "retrieved list of blogs has size 1")
-	# 	actual_blog = retrieved_list[0]
-	# 	self.assertEqual(expected_blog_2, actual_blog, "retrieved blog in the list is Long Journey")
+		# retrieve one blog
+		retrieved_list = self.controller.retrieve_blogs("Long Journey")
+		self.assertEqual(1, len(retrieved_list), "retrieved list of blogs has size 1")
+		actual_blog = retrieved_list[0]
+		self.assertEqual(expected_blog_2, actual_blog, "retrieved blog in the list is Long Journey")
 
-	# 	# retrieve two blogs
-	# 	retrieved_list = self.controller.retrieve_blogs("Journey")
-	# 	self.assertEqual(2, len(retrieved_list), "retrieved list of blogs with Journey keyword has size 2")
-	# 	self.assertEqual(expected_blog_1, retrieved_list[0], "first blog in the retrieved list is Short Journey")
-	# 	self.assertEqual(expected_blog_2, retrieved_list[1], "second blog in the retrieved list is Long Journey")
+		# retrieve two blogs
+		retrieved_list = self.controller.retrieve_blogs("Journey")
+		self.assertEqual(2, len(retrieved_list), "retrieved list of blogs with Journey keyword has size 2")
+		self.assertEqual(expected_blog_1, retrieved_list[0], "first blog in the retrieved list is Short Journey")
+		self.assertEqual(expected_blog_2, retrieved_list[1], "second blog in the retrieved list is Long Journey")
 
-	# 	# retrieve zero blogs
-	# 	retrieved_list = self.controller.retrieve_blogs("Travel")
-	# 	self.assertEqual(0, len(retrieved_list))
+		# retrieve zero blogs
+		retrieved_list = self.controller.retrieve_blogs("Travel")
+		self.assertEqual(0, len(retrieved_list))
 
-	# def test_update_blog(self):
-	# 	# some blogs that may be updated
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+	def test_update_blog(self):
+		# some blogs that may be updated
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# cannot do operation without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot update blog without logging in"):
-	# 		self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
+		# cannot do operation without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot update blog without logging in"):
+			self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
 
-	# 	# login
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+		# login
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
 
-	# 	# try to update a blog when there are no blogs in the system
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
-	# 		self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
+		# try to update a blog when there are no blogs in the system
+		with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
+			self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
 
-	# 	# create some blogs
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+		# create some blogs
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# update one blog, but keep the Blog key (id) unchanged
-	# 	self.assertTrue(self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com"), 
-	# 		"update blog data and keep the id unchanged")
-	# 	actual_blog = self.controller.search_blog(1111114444)
-	# 	self.assertNotEqual(expected_blog_1, actual_blog, "blog has updated data, cannot be equal to the original data")
-	# 	expected_blog_3a = Blog(1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
-	# 	self.assertEqual(expected_blog_3a, actual_blog, "blog was updated, its data have to be updated and correct")
+		# update one blog, but keep the Blog key (id) unchanged
+		self.assertTrue(self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com"), 
+			"update blog data and keep the id unchanged")
+		actual_blog = self.controller.search_blog(1111114444)
+		self.assertNotEqual(expected_blog_1, actual_blog, "blog has updated data, cannot be equal to the original data")
+		expected_blog_3a = Blog(1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
+		self.assertEqual(expected_blog_3a, actual_blog, "blog was updated, its data have to be updated and correct")
 
-	# 	# update one blog, and change the Blog key (id) as well
-	# 	self.assertTrue(self.controller.update_blog(1111117777, 1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com"), 
-	# 		"update blog data and also change the id")
-	# 	actual_blog = self.controller.search_blog(1111118888)
-	# 	self.assertNotEqual(expected_blog_5, actual_blog, "blog has updated data, cannot be equal to the original data")
-	# 	expected_blog_5a = Blog(1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com")
-	# 	self.assertEqual(expected_blog_5a, actual_blog, "blog was updated, its data have to be updated and correct")
+		# update one blog, and change the Blog key (id) as well
+		self.assertTrue(self.controller.update_blog(1111117777, 1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com"), 
+			"update blog data and also change the id")
+		actual_blog = self.controller.search_blog(1111118888)
+		self.assertNotEqual(expected_blog_5, actual_blog, "blog has updated data, cannot be equal to the original data")
+		expected_blog_5a = Blog(1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com")
+		self.assertEqual(expected_blog_5a, actual_blog, "blog was updated, its data have to be updated and correct")
 
-	# 	# update one blog with a conflicting existing id
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
-	# 		self.controller.update_blog(1111114444, 1111112000, "Short Travel", "short_travel", "short.travel@gmail.com")
+		# update one blog with a conflicting existing id
+		with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
+			self.controller.update_blog(1111114444, 1111112000, "Short Travel", "short_travel", "short.travel@gmail.com")
 
 	# def test_delete_blog(self):
 	# 	# some blogs that may be deleted
