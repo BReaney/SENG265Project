@@ -12,22 +12,31 @@ class PostTest(TestCase):
         self.post = Post(999, "Test", "This is a test post", time.time(), time.time() )
 
     def test_EqIni(self):
-        expected1 = Post(999, "Test","This is a test post", time.time(), time.time() )
-        expected2 = Post(888, "Test2", "This is a test post that isnt the same as test 1", time.time(), time.time() )
-        expected3 = Post(777, "Test3", "This is a test post that isnt the same as test 1 or 2", time.time(), time.time() )
+        time1 = time.time()
+        time2 = time.time()
+        time3 = time.time()
+        expected1 = Post(999, "Test","This is a test post", time1, time1 )
+        expected2 = Post(888, "Test2", "This is a test post that isnt the same as test 1", time2, time2 )
+        expected3 = Post(777, "Test3", "This is a test post that isnt the same as test 1 or 2", time3, time3 )
 
         self.assertEqual(expected1, expected1)
         self.assertNotEqual(expected1, expected2)
         self.assertNotEqual(expected2, expected3)
 
     def test_repre(self):
-        Post1 = Post(555, "Test", "This is a test post", time.time(), time.time() )
-        Post2 = Post(444, "Test2", "This is a test post that isnt the same as test 1", time.time(), time.time() )
-        Post3= Post(333, "Test3", "This is a test post that isnt the same as test 1 or 2", time.time(), time.time() )
+        time1 = time.time()
+        time2 = time.time()
+        time3 = time.time()
+        time4 = time.time()
+        time5 = time.time()
 
-        expectedS1 = "Post(555, 'Test', 'This is a test post')"
-        expectedS2 = "Post(444, 'Test2', 'This is a test post that isnt the same as test 1')"
-        expectedS3 = "Post(333, 'Test3', 'This is a test post that isnt the same as test 1 or 2')"
+        Post1 = Post(555, "Test", "This is a test post", time1, time1)
+        Post2 = Post(444, "Test2", "This is a test post that isnt the same as test 1", time2, time2 )
+        Post3= Post(333, "Test3", "This is a test post that isnt the same as test 1 or 2", time3, time3 )
+
+        expectedS1 = "Post(555, 'Test', 'This is a test post', %0.7r, %0.7r)" % (time1, time1)
+        expectedS2 = "Post(444, 'Test2', 'This is a test post that isnt the same as test 1', %0.7r, %0.7r)" % (time2, time2)
+        expectedS3 = "Post(333, 'Test3', 'This is a test post that isnt the same as test 1 or 2', %0.7r, %0.7r)" % (time3, time3)
 
         self.assertEqual(Post1.__repr__(), expectedS1)
 
