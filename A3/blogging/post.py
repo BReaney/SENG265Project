@@ -43,7 +43,8 @@ class Post:
 ###############################
 
     def __repr__(self):
-        return "Post(%r, %r, %r)" % (self.code, self.title, self.text)
+        return "Post(%r, %r, %r, %0.7r, %0.7r)" % (self.code, self.title, self.text, self.creation, self.update)
+
 
     def __eq__(self, other):
         return self.__repr__() == other.__repr__()
