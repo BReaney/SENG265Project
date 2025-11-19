@@ -1,0 +1,95 @@
+Assignment 2 Grading:
+---------------------
+Student Group "group030" (Bennett Reaney & Munroe Parlee)
+Grade: 87/100, 87%
+
+Python test results:
+------------------------
+
+Results for controller_test.py:
+
+test_create_post (tests.controller_test.ControllerTest) ... ok
+test_create_search_blog (tests.controller_test.ControllerTest) ... ok
+test_delete_blog (tests.controller_test.ControllerTest) ... ok
+test_delete_post (tests.controller_test.ControllerTest) ... ok
+test_list_blogs (tests.controller_test.ControllerTest) ... ok
+test_list_posts (tests.controller_test.ControllerTest) ... ok
+test_login_logout (tests.controller_test.ControllerTest) ... ok
+test_retrieve_blogs (tests.controller_test.ControllerTest) ... ok
+test_retrieve_posts (tests.controller_test.ControllerTest) ... ok
+test_set_get_current_blog (tests.controller_test.ControllerTest) ... ok
+test_update_blog (tests.controller_test.ControllerTest) ... ok
+test_update_post (tests.controller_test.ControllerTest) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.001s
+
+OK
+
+Results for blog_test.py:
+
+test_createorsearchPost (tests.blog_test.BlogTest) ... ok
+test_eq (tests.blog_test.BlogTest) ... ok
+test_repre (tests.blog_test.BlogTest) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+
+Results for post_test.py:
+
+test_EqIni (tests.post_test.PostTest) ... ok
+test_repre (tests.post_test.PostTest) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+
+
+Summary:
+Passed tests: 17
+Failed tests: 0
+
+Unit tests: 5/15 points, many aspects of testing missed here (e.g. timestamps, post id incrementation, meticulous equality checking). 
+Controller tests: 60/60 points.
+
+Version Control (git log):
+--------------------------
+1ccce0e	Bennett Reaney	Tue Nov 4 15:08:47 2025 -0800	Final test files for the blog and post classes
+c4d6dfc	Bennett Reaney	Tue Nov 4 14:20:05 2025 -0800	implemented listing posts, all functions passing tests
+9b6ad6a	Bennett Reaney	Tue Nov 4 13:51:28 2025 -0800	implemented Delete Posts
+332346f	Bennett Reaney	Tue Nov 4 13:38:53 2025 -0800	implemented updating posts
+8e04c17	Munroe Parlee	Mon Nov 3 15:41:16 2025 -0800	initial blog and post unit test file creation, file specification comments
+1df331c	Munroe Parlee	Mon Nov 3 15:32:51 2025 -0800	implement post retrieval with validity checks in controller and implementation in blog
+bd40043	Munroe Parlee	Mon Nov 3 15:09:56 2025 -0800	implement post creation and searching with validity checks in controller and implementation in blog
+41d1b7f	Munroe Parlee	Mon Nov 3 14:51:29 2025 -0800	implement loggedin and current blog checks in blog.create_post; implement create_post and posts dictionary in blog; implement __repr__, __eq__ in Post
+649bdd7	Munroe Parlee	Mon Nov 3 13:47:02 2025 -0800	update parameters to match attribute names
+f6f0252	Munroe Parlee	Sun Nov 2 18:04:46 2025 -0800	fix bugs introduced to earlier unit tests by get/set/unset current blog implementation
+24bcc83	Munroe Parlee	Sun Nov 2 17:57:27 2025 -0800	implement get/set/unset current blog functions, passes test cases
+5b758c1	Munroe Parlee	Sun Nov 2 17:40:18 2025 -0800	implement list_blogs to pass test_list_blogs cases
+f35afdb	Munroe Parlee	Sun Nov 2 17:22:06 2025 -0800	implement delete_blog to pass delete blog test case
+516ad48	Munroe Parlee	Sun Nov 2 17:13:05 2025 -0800	implement update_blog functions, pass update_blog test cases
+af8eb88	Munroe Parlee	Sun Nov 2 16:58:28 2025 -0800	implement search/retrieve blog functions to pass test_retrieve_blog test cases
+e678ac8	Munroe Parlee	Sun Nov 2 16:20:19 2025 -0800	fix create_blog duplicate id blog creation bug
+0a6ff8a	Munroe Parlee	Sun Nov 2 16:18:08 2025 -0800	implement search_blog, search_blog test 1 passes
+933fd02	Munroe Parlee	Sun Nov 2 16:14:54 2025 -0800	def create_blog in controller.py, def __eq__ and __repr__ in blog
+007fcf1	Munroe Parlee	Sun Nov 2 15:14:52 2025 -0800	set default username and passphrase values, update bool implementation, implement logout, pass log-in/log-out tests
+1228da3	Bennett Reaney	Wed Oct 29 17:31:45 2025 -0700	first attempt at login implementaion
+3d7905c	Bennett Reaney	Wed Oct 29 17:14:34 2025 -0700	fixed breaney.txt
+4c35906	Bennett Reaney	Wed Oct 29 17:13:33 2025 -0700	changes to controller class
+b16f0d2	Bennett Reaney	Wed Oct 29 16:37:32 2025 -0700	added setters for blog and post classes
+a96e4ea	Bennett Reaney	Wed Oct 29 16:18:55 2025 -0700	Merge branch 'main' of https://gitlab.csc.uvic.ca/courses/2025091/SENG265_COSI/teams/group030
+778e7b0	Bennett Reaney	Wed Oct 29 16:17:36 2025 -0700	constructors and getters made for blog and post classes
+29dbd21	Munroe Parlee	Wed Oct 29 16:17:32 2025 -0700	added id file
+056a2c4	Bennett Reaney	Wed Oct 29 15:53:05 2025 -0700	Added empty class files
+16f6d2b	Bennett Reaney	Wed Oct 29 14:53:35 2025 -0700	added id file
+959d076	Roberto Bittencourt	Tue Oct 21 14:14:13 2025 -0700	Added controller tests and configuration files
+c025491	Roberto Bittencourt	Tue Oct 21 21:08:52 2025 +0000	Initial commit
+
+Excellent commit log, demonstrating collaborative progress through the assignment. 5/5 points.
+
+Modularization: 10/10 points.
+Documentation: 7/10 points, substantial amount of code lacks comments (each function should have at least one).
+Other remarks:
