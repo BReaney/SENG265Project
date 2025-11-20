@@ -1,5 +1,6 @@
 from blogging.post import Post
-from blogging.dao.post_dao import PostDAO
+from blogging.dao.post_dao_pickle import PostDAOPickle
+
 class Blog:
     """A class that represents a blog"""
     def __init__(self, id, name, url, email):
@@ -63,4 +64,3 @@ class Blog:
             if substring in y.__repr__():
                 retrieved_posts.append(self.posts.get(x))
         return retrieved_posts
-    class 

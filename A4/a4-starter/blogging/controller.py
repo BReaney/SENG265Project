@@ -8,7 +8,8 @@ from blogging.exception.illegal_operation_exception import IllegalOperationExcep
 from blogging.exception.invalid_login_exception import InvalidLoginException
 from blogging.exception.invalid_logout_exception import InvalidLogoutException
 from blogging.exception.no_current_blog_exception import NoCurrentBlogException
-from blogging.dao.blog_dao import BlogDAO
+from blogging.dao.blog_dao_json import ConcreteBlogDAOJSON
+
 from pickle import load, dump
 import json
 class Controller:
@@ -44,7 +45,7 @@ class Controller:
     #logout function implementation
         if self.loggedin == False:
             raise InvalidLogoutException
-        self.unset_current_blog()
+        #self.unset_current_blog()
         self.loggedin = False
         return True
 
@@ -54,162 +55,162 @@ class Controller:
         if self.loggedin == False:
             raise IllegalAccessException
         
-        if self.blogs.get(id)!= None:
+        if self.blogs_dao.search_blog(id)!= None:
             raise IllegalOperationException
-            
-        self.blogs |= {id : Blog(id, name, url, email)}
-        return self.blogs.get(id)
+        nblog = Blog(id, name, url, email)   
+        self.blogs_dao.create_blog(nblog)
+        return self.blogs_dao.search_blog(id)
     
     def search_blog(self, id):
     #id search the blog list
         if self.loggedin == False:
             raise IllegalAccessException
-        return self.blogs.get(id)
+        return self.blogs_dao.search_blog(id)
     
-    def retrieve_blogs(self, name):
-    #searches the blog list by string and returns a new list of all blogs with titles containing the string
-        if self.loggedin != True:
-            raise IllegalAccessException
-        retrieved_blogs = []
-        for x, y in self.blogs.items():     #.items returns the key and the value of each dict entry as x and y respectively
-            if name in y.name:              #'in' checks a string for a substring and returns a boolean 
-                retrieved_blogs.append(y)   #x:id y:blog
-        return retrieved_blogs
+#     def retrieve_blogs(self, name):
+#     #searches the blog list by string and returns a new list of all blogs with titles containing the string
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         retrieved_blogs = []
+#         for x, y in self.blogs.items():     #.items returns the key and the value of each dict entry as x and y respectively
+#             if name in y.name:              #'in' checks a string for a substring and returns a boolean 
+#                 retrieved_blogs.append(y)   #x:id y:blog
+#         return retrieved_blogs
     
-#######################Update blog functions##########################
+# #######################Update blog functions##########################
 
-    def update_blog(self, cur_id, new_id, new_name, new_url, new_email):
-        #pick a blog by id, update blog values.
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs.get(new_id) != None) or (self.current_blog != None and (cur_id == self.current_blog.id or new_id == self.current_blog.id)):
-            raise IllegalOperationException
-        self.blogs.pop(cur_id)
-        self.blogs[new_id] = Blog(new_id, new_name, new_url, new_email)
-        return True
+#     def update_blog(self, cur_id, new_id, new_name, new_url, new_email):
+#         #pick a blog by id, update blog values.
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs.get(new_id) != None) or (self.current_blog != None and (cur_id == self.current_blog.id or new_id == self.current_blog.id)):
+#             raise IllegalOperationException
+#         self.blogs.pop(cur_id)
+#         self.blogs[new_id] = Blog(new_id, new_name, new_url, new_email)
+#         return True
     
-    ####################Delete Blog Functions####################
-    def delete_blog(self, id):
-        #delete a blog by id. return False if the blog list is empt, not signed in, or current blog, return None if the blog does not exist, else delete blog and return True
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if len(self.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id):
-            raise IllegalOperationException
-        if self.blogs.pop(id, None) == None: #removes blog, None is set as the default return value if no blog is found else returns the blog
-            raise IllegalOperationException
-        return True
-    
-    
-    ####################list_blogs Functions#####################
-    def list_blogs(self):
-        #list all blogs
-        if self.loggedin != True:
-            raise IllegalAccessException
-        blogs = []
-        for i in self.blogs.keys():
-            blogs.append(self.blogs.get(i))
-        return blogs
-    
-    ##################set/get current blog functions#############
-    def get_current_blog(self):
-        #get current blog, return None if not logged in or does not exist
-        if self.loggedin != True:
-            raise IllegalAccessException
-        return self.current_blog
+#     ####################Delete Blog Functions####################
+#     def delete_blog(self, id):
+#         #delete a blog by id. return False if the blog list is empt, not signed in, or current blog, return None if the blog does not exist, else delete blog and return True
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if len(self.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id):
+#             raise IllegalOperationException
+#         if self.blogs.pop(id, None) == None: #removes blog, None is set as the default return value if no blog is found else returns the blog
+#             raise IllegalOperationException
+#         return True
     
     
-    def set_current_blog(self, id):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.search_blog(id) == None:
-            raise IllegalOperationException
-        self.current_blog = self.search_blog(id)
-        return True
+#     ####################list_blogs Functions#####################
+#     def list_blogs(self):
+#         #list all blogs
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         blogs = []
+#         for i in self.blogs.keys():
+#             blogs.append(self.blogs.get(i))
+#         return blogs
     
-    def unset_current_blog(self):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        self.current_blog = None
-        return
+#     ##################set/get current blog functions#############
+#     def get_current_blog(self):
+#         #get current blog, return None if not logged in or does not exist
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         return self.current_blog
+    
+    
+#     def set_current_blog(self, id):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.search_blog(id) == None:
+#             raise IllegalOperationException
+#         self.current_blog = self.search_blog(id)
+#         return True
+    
+#     def unset_current_blog(self):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         self.current_blog = None
+#         return
 
-###################create post#########################
-    ##create_post: performs validity checks before calling blog.create_post
-    def create_post(self, title, text):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.current_blog == None:
-            raise NoCurrentBlogException
-        return self.current_blog.create_post(title, text)
+# ###################create post#########################
+#     ##create_post: performs validity checks before calling blog.create_post
+#     def create_post(self, title, text):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.current_blog == None:
+#             raise NoCurrentBlogException
+#         return self.current_blog.create_post(title, text)
     
-################################################### search post
+# ################################################### search post
 
-    # performs validity checks before passing query to blog
-    def search_post(self, code):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.current_blog == None:
-            raise NoCurrentBlogException
-        return self.current_blog.search_post(code)
+#     # performs validity checks before passing query to blog
+#     def search_post(self, code):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.current_blog == None:
+#             raise NoCurrentBlogException
+#         return self.current_blog.search_post(code)
     
-#####################################Retrieve Blog#####################
+# #####################################Retrieve Blog#####################
 
-    #handle request validity checks, return a call to blog to retrieve a list of posts containing a substring within the title or text
-    def retrieve_posts(self, substring):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.current_blog == None:
-            raise NoCurrentBlogException
-        return self.current_blog.retrieve_posts(substring)
- ################################### Update Posts ######################
-        #takes a code, new info, inserts the new info into the post of key code
-    def update_post(self, code, new_title, new_text):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.current_blog == None:
-            raise NoCurrentBlogException
-        if self.current_blog.search_post(code) == None:
-            return None
+#     #handle request validity checks, return a call to blog to retrieve a list of posts containing a substring within the title or text
+#     def retrieve_posts(self, substring):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.current_blog == None:
+#             raise NoCurrentBlogException
+#         return self.current_blog.retrieve_posts(substring)
+#  ################################### Update Posts ######################
+#         #takes a code, new info, inserts the new info into the post of key code
+#     def update_post(self, code, new_title, new_text):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.current_blog == None:
+#             raise NoCurrentBlogException
+#         if self.current_blog.search_post(code) == None:
+#             return None
         
-        a = self.current_blog.search_post(code)
-        a.set_title(new_title)
-        a.set_text(new_text)
-        a.set_update(time.time())
-        return True
+#         a = self.current_blog.search_post(code)
+#         a.set_title(new_title)
+#         a.set_text(new_text)
+#         a.set_update(time.time())
+#         return True
 
-################################### Delete Posts ########################
-        ###Takes a key, and deletes the post with said key.
-        ###TODO: once exceptions are handled, replace this implementation with the commented out implementation which passes deletion responsibility to the blog class
-        ###TODO: implement exception handling
-    # def delete_post(self, key):
-    #     if self.current_blog == None:
-    #         return None
-    #     return self.current_blog.delete_post(key)
+# ################################### Delete Posts ########################
+#         ###Takes a key, and deletes the post with said key.
+#         ###TODO: once exceptions are handled, replace this implementation with the commented out implementation which passes deletion responsibility to the blog class
+#         ###TODO: implement exception handling
+#     # def delete_post(self, key):
+#     #     if self.current_blog == None:
+#     #         return None
+#     #     return self.current_blog.delete_post(key)
 
-    def delete_post(self, key):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.current_blog == None:
-            raise NoCurrentBlogException
-        if self.current_blog.search_post(key) == None:
-            return None
-        a = self.current_blog
-        a.posts.pop(key)
-        return True
+#     def delete_post(self, key):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.current_blog == None:
+#             raise NoCurrentBlogException
+#         if self.current_blog.search_post(key) == None:
+#             return None
+#         a = self.current_blog
+#         a.posts.pop(key)
+#         return True
 
     
-################################### List All Posts of Current Blogs ###########
+# ################################### List All Posts of Current Blogs ###########
 
-    def list_posts(self):
-        if self.loggedin != True:
-            raise IllegalAccessException
-        if self.current_blog == None:
-            raise NoCurrentBlogException
-        a = []
-        for x in self.current_blog.posts:
-            a.insert(0, self.current_blog.posts.get(x))
+#     def list_posts(self):
+#         if self.loggedin != True:
+#             raise IllegalAccessException
+#         if self.current_blog == None:
+#             raise NoCurrentBlogException
+#         a = []
+#         for x in self.current_blog.posts:
+#             a.insert(0, self.current_blog.posts.get(x))
         
             
-        return a    
+#         return a    
 
     
         
