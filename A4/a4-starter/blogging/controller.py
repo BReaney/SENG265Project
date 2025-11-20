@@ -8,7 +8,9 @@ from blogging.exception.illegal_operation_exception import IllegalOperationExcep
 from blogging.exception.invalid_login_exception import InvalidLoginException
 from blogging.exception.invalid_logout_exception import InvalidLogoutException
 from blogging.exception.no_current_blog_exception import NoCurrentBlogException
-
+from blogging.dao.blog_dao import BlogDAO
+from pickle import load, dump
+import json
 class Controller:
     
 
@@ -19,7 +21,7 @@ class Controller:
             "ali": "@G00dPassw0rd"
         }
         self.loggedin = False
-        self.blogs = {}
+        self.blogs_dao = ConcreteBlogDAOJSON()
         self.current_blog = None
         self.autosave = False
 
@@ -208,3 +210,7 @@ class Controller:
         
             
         return a    
+
+    
+        
+        
