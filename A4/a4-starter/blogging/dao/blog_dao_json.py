@@ -45,7 +45,13 @@ class ConcreteBlogDAOJSON(BlogDAO):
             file.write(blog_json)    
             file.write('\n')
     def retrieve_blogs(self, search_string):
-        pass
+        r_blogs = []
+        for items in self.blogs:
+            if search_string in self.blogs[items].name:
+                r_blogs.append(self.blogs[items])
+
+        return r_blogs
+        
     
     def update_blog(self, key, blog):
         pass

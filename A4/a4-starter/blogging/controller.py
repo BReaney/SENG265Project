@@ -67,15 +67,14 @@ class Controller:
             raise IllegalAccessException
         return self.blogs_dao.search_blog(id)
     
-#     def retrieve_blogs(self, name):
-#     #searches the blog list by string and returns a new list of all blogs with titles containing the string
-#         if self.loggedin != True:
-#             raise IllegalAccessException
-#         retrieved_blogs = []
-#         for x, y in self.blogs.items():     #.items returns the key and the value of each dict entry as x and y respectively
-#             if name in y.name:              #'in' checks a string for a substring and returns a boolean 
-#                 retrieved_blogs.append(y)   #x:id y:blog
-#         return retrieved_blogs
+    def retrieve_blogs(self, name):
+    #searches the blog list by string and returns a new list of all blogs with titles containing the string
+        if self.loggedin != True:
+            raise IllegalAccessException
+        retrieved_blogs = self.blogs_dao.retrieve_blogs(name)
+           
+            
+        return retrieved_blogs
     
 # #######################Update blog functions##########################
 

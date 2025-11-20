@@ -21,21 +21,21 @@ class IntegrationTest(TestCase):
 		self.controller = Controller()
 
 	# comment the tearDown method to see the file when the test ends.
-	# def tearDown(self):
-	# 	blogs_file = self.configuration.__class__.blogs_file
-	# 	records_path = self.configuration.__class__.records_path
-	# 	blogs_file_exists = os.path.exists(blogs_file)
-	# 	if os.path.exists(records_path):
-	# 		filenames = os.listdir(records_path)
-	# 		for filename in filenames:
-	# 			if self.configuration.__class__.records_extension not in filename:
-	# 				continue
-	# 			record_file_path = os.path.join(records_path, filename)
-	# 			if os.path.isfile(record_file_path):
-	# 				os.remove(record_file_path)
-	# 	# removing the blogs file later to avoid concurrency issues
-	# 	if blogs_file_exists:
-	# 		os.remove(blogs_file)
+	def tearDown(self):
+		blogs_file = self.configuration.__class__.blogs_file
+		records_path = self.configuration.__class__.records_path
+		blogs_file_exists = os.path.exists(blogs_file)
+		if os.path.exists(records_path):
+			filenames = os.listdir(records_path)
+			for filename in filenames:
+				if self.configuration.__class__.records_extension not in filename:
+					continue
+				record_file_path = os.path.join(records_path, filename)
+				if os.path.isfile(record_file_path):
+					os.remove(record_file_path)
+		# removing the blogs file later to avoid concurrency issues
+		if blogs_file_exists:
+			os.remove(blogs_file)
 
 	def reset_persistence(self):
 		self.controller = Controller()
@@ -137,44 +137,44 @@ class IntegrationTest(TestCase):
 
 
 
-	# def test_retrieve_blogs(self):
-	# 	# some blogs that will be retrieved
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+	def test_retrieve_blogs(self):
+		# some blogs that will be retrieved
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# cannot do operation without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot retrieve blogs without logging in"):
-	# 		self.controller.retrieve_blogs("Short Journey")
+		# cannot do operation without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot retrieve blogs without logging in"):
+			self.controller.retrieve_blogs("Short Journey")
 
-	# 	# login and create some blogs
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+		# login and create some blogs
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# after creating some blogs, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# after creating some blogs, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	# retrieve one blog
-	# 	retrieved_list = self.controller.retrieve_blogs("Long Journey")
-	# 	self.assertEqual(1, len(retrieved_list), "retrieved list of blogs has size 1")
-	# 	actual_blog = retrieved_list[0]
-	# 	self.assertEqual(expected_blog_2, actual_blog, "retrieved blog in the list is Long Journey")
+		# retrieve one blog
+		retrieved_list = self.controller.retrieve_blogs("Long Journey")
+		self.assertEqual(1, len(retrieved_list), "retrieved list of blogs has size 1")
+		actual_blog = retrieved_list[0]
+		self.assertEqual(expected_blog_2, actual_blog, "retrieved blog in the list is Long Journey")
 
-	# 	# retrieve two blogs
-	# 	retrieved_list = self.controller.retrieve_blogs("Journey")
-	# 	self.assertEqual(2, len(retrieved_list), "retrieved list of blogs with Journey keyword has size 2")
-	# 	self.assertEqual(expected_blog_1, retrieved_list[0], "first blog in the retrieved list is Short Journey")
-	# 	self.assertEqual(expected_blog_2, retrieved_list[1], "second blog in the retrieved list is Long Journey")
+		# retrieve two blogs
+		retrieved_list = self.controller.retrieve_blogs("Journey")
+		self.assertEqual(2, len(retrieved_list), "retrieved list of blogs with Journey keyword has size 2")
+		self.assertEqual(expected_blog_1, retrieved_list[0], "first blog in the retrieved list is Short Journey")
+		self.assertEqual(expected_blog_2, retrieved_list[1], "second blog in the retrieved list is Long Journey")
 
-	# 	# retrieve zero blogs
-	# 	retrieved_list = self.controller.retrieve_blogs("Travel")
-	# 	self.assertEqual(0, len(retrieved_list))
+		# retrieve zero blogs
+		retrieved_list = self.controller.retrieve_blogs("Travel")
+		self.assertEqual(0, len(retrieved_list))
 
 
 	# def test_update_blog(self):
