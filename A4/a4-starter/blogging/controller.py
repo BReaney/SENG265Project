@@ -2,33 +2,47 @@ import string
 from blogging.blog import Blog
 from blogging.blog import Post
 import time
+from blogging.exception.duplicate_login_exception import DuplicateLoginException
+from blogging.exception.illegal_access_exception import IllegalAccessException
+from blogging.exception.illegal_operation_exception import IllegalOperationException
+from blogging.exception.invalid_login_exception import InvalidLoginException
+from blogging.exception.invalid_logout_exception import InvalidLogoutException
+from blogging.exception.no_current_blog_exception import NoCurrentBlogException
+
 class Controller:
     
 
     
-    def __init__(self, username = 'user', passphrase = 'blogging2025'):
-        self.username = username
-        self.passphrase = passphrase
+    def __init__(self):
+        self.users = {
+            "user": "123456",
+            "ali": "@G00dPassw0rd"
+        }
         self.loggedin = False
         self.blogs = {}
         self.current_blog = None
+        self.autosave = False
 
         ####################Login/Logout Functions#####################
 
     def login(self, username, passphrase):
     #login function, takes a username and a password, returns false if wrong credentials or already loggedin
-        if username == self.username:
-            if passphrase == self.passphrase:
-                if self.loggedin == False:
-                    self.loggedin = True
-                    return True
-        return False
+        names = self.users.items()       
+        if self.loggedin == True:
+            raise DuplicateLoginException
+        for items in names:
+            if username in items:
+                    if passphrase in items:
+                        self.loggedin = True
+                        return True
+        raise InvalidLoginException
 
     
     def logout(self):
     #logout function implementation
         if self.loggedin == False:
-            return False
+            raise InvalidLogoutException
+            
         self.loggedin = False
         self.unset_current_blog()
         return True
@@ -36,19 +50,25 @@ class Controller:
 ##############################Create/Search blog functions#########################
 
     def create_blog(self, id, name, url, email):
-        if self.loggedin == False or self.blogs.get(id)!= None:
-            return None
+        if self.loggedin == False:
+            raise IllegalAccessException
+        
+        if self.blogs.get(id)!= None:
+            raise IllegalOperationException
+            
         self.blogs |= {id : Blog(id, name, url, email)}
         return self.blogs.get(id)
     
     def search_blog(self, id):
     #id search the blog list
+        if self.loggedin == False:
+            raise IllegalAccessException
         return self.blogs.get(id)
     
     def retrieve_blogs(self, name):
     #searches the blog list by string and returns a new list of all blogs with titles containing the string
         if self.loggedin != True:
-            return None
+            raise IllegalAccessException
         retrieved_blogs = []
         for x, y in self.blogs.items():     #.items returns the key and the value of each dict entry as x and y respectively
             if name in y.name:              #'in' checks a string for a substring and returns a boolean 
@@ -59,8 +79,10 @@ class Controller:
 
     def update_blog(self, cur_id, new_id, new_name, new_url, new_email):
         #pick a blog by id, update blog values.
-        if self.loggedin != True or self.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs.get(new_id) != None) or (self.current_blog != None and (cur_id == self.current_blog.id or new_id == self.current_blog.id)):
-            return False
+        if self.loggedin != True:
+            raise IllegalAccessException
+        if self.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs.get(new_id) != None) or (self.current_blog != None and (cur_id == self.current_blog.id or new_id == self.current_blog.id)):
+            raise IllegalOperationException
         self.blogs.pop(cur_id)
         self.blogs[new_id] = Blog(new_id, new_name, new_url, new_email)
         return True
