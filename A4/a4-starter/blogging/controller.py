@@ -103,7 +103,7 @@ class Controller:
     def list_blogs(self):
         #list all blogs
         if self.loggedin != True:
-            return None
+            raise IllegalAccessException
         blogs = []
         for i in self.blogs.keys():
             blogs.append(self.blogs.get(i))
