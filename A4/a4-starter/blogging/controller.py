@@ -42,9 +42,8 @@ class Controller:
     #logout function implementation
         if self.loggedin == False:
             raise InvalidLogoutException
-            
-        self.loggedin = False
         self.unset_current_blog()
+        self.loggedin = False
         return True
 
 ##############################Create/Search blog functions#########################
@@ -113,17 +112,21 @@ class Controller:
     def get_current_blog(self):
         #get current blog, return None if not logged in or does not exist
         if self.loggedin != True:
-            return None
+            raise IllegalAccessException
         return self.current_blog
     
     
     def set_current_blog(self, id):
-        if self.loggedin != True or self.search_blog(id) == None:
-            return False
+        if self.loggedin != True:
+            raise IllegalAccessException
+        if self.search_blog(id) == None:
+            raise IllegalOperationException
         self.current_blog = self.search_blog(id)
         return True
     
     def unset_current_blog(self):
+        if self.loggedin != True:
+            raise IllegalAccessException
         self.current_blog = None
         return
 
