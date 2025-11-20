@@ -184,8 +184,10 @@ class Controller:
     #     return self.current_blog.delete_post(key)
 
     def delete_post(self, key):
+        if self.loggedin != True:
+            raise IllegalAccessException
         if self.current_blog == None:
-            return None
+            raise NoCurrentBlogException
         if self.current_blog.search_post(key) == None:
             return None
         a = self.current_blog
@@ -196,10 +198,10 @@ class Controller:
 ################################### List All Posts of Current Blogs ###########
 
     def list_posts(self):
-        if self.current_blog == None:
-            return None
         if self.loggedin != True:
-            return None
+            raise IllegalAccessException
+        if self.current_blog == None:
+            raise NoCurrentBlogException
         a = []
         for x in self.current_blog.posts:
             a.insert(0, self.current_blog.posts.get(x))
