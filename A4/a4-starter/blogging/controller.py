@@ -161,8 +161,10 @@ class Controller:
  ################################### Update Posts ######################
         #takes a code, new info, inserts the new info into the post of key code
     def update_post(self, code, new_title, new_text):
+        if self.loggedin != True:
+            raise IllegalAccessException
         if self.current_blog == None:
-            return None
+            raise NoCurrentBlogException
         if self.current_blog.search_post(code) == None:
             return None
         
