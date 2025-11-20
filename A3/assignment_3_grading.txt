@@ -1,7 +1,7 @@
 Assignment 2 Grading:
 ---------------------
 Student Group "group030" (Bennett Reaney & Munroe Parlee)
-Grade: 87/100, 87%
+Grade: 89/100, 89%
 
 Python test results:
 ------------------------
@@ -52,7 +52,7 @@ Summary:
 Passed tests: 17
 Failed tests: 0
 
-Unit tests: 5/15 points, many aspects of testing missed here (e.g. timestamps, post id incrementation, meticulous equality checking). 
+Unit tests: 7/15 points, several aspects of testing missed here that we were expecting (e.g. timestamps, post id incrementation, meticulous equality checking). 
 Controller tests: 60/60 points.
 
 Version Control (git log):
@@ -92,4 +92,11 @@ Excellent commit log, demonstrating collaborative progress through the assignmen
 
 Modularization: 10/10 points.
 Documentation: 7/10 points, substantial amount of code lacks comments (each function should have at least one).
-Other remarks:
+
+Other remarks: 
+Upon review, I'm able to give you slightly more marks for your unit tests, but not much. 
+Equality checking makes up the majority of the limited tests you've implemented, but your approach to that 
+is fairly basic (not rigourously checking that equality behaves as expected per field of each object).
+
+Keep in mind that the 15 points for unit testing are only in reference to post_test.py 
+and blog_test.py - you got full marks, 60/60, on the controller tests.
