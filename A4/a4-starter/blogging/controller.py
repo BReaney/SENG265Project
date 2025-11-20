@@ -90,10 +90,12 @@ class Controller:
     ####################Delete Blog Functions####################
     def delete_blog(self, id):
         #delete a blog by id. return False if the blog list is empt, not signed in, or current blog, return None if the blog does not exist, else delete blog and return True
-        if self.loggedin != True or len(self.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id):
-            return False
-        if self.blogs.pop(id, None) == None: #removes value AND checks success, None is set as the default return value if no blog is found
-            return None
+        if self.loggedin != True:
+            raise IllegalAccessException
+        if len(self.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id):
+            raise IllegalOperationException
+        if self.blogs.pop(id, None) == None: #removes blog, None is set as the default return value if no blog is found else returns the blog
+            raise IllegalOperationException
         return True
     
     
