@@ -3,10 +3,13 @@ from blogging.dao.blog_dao import BlogDAO
 from blogging.dao.blog_encoder import BlogEncoder
 from blogging.dao.blog_decoder import BlogDecoder
 from blogging.blog import Blog
+from blogging.configuration import Configuration
 import os
 class ConcreteBlogDAOJSON(BlogDAO):
 
     def __init__(self):
+        self.configuration = Configuration()
+        self.persistence = self.configuration.__class__.autosave
         self.filename = "blogging/blogs.json"
         self.blogs = {}
         try:
@@ -38,12 +41,15 @@ class ConcreteBlogDAOJSON(BlogDAO):
     
     
     def create_blog(self, blog):
+        
         self.blogs[blog.id] = Blog(blog.id, blog.name, blog.url, blog.email)
-        with open(self.filename, 'a') as file:
-            blog_json = json.dumps(blog, cls=BlogEncoder)
+        if self.persistence == True:
+            with open(self.filename, 'a') as file:
+                blog_json = json.dumps(blog, cls=BlogEncoder)
             
-            file.write(blog_json)    
-            file.write('\n')
+                file.write(blog_json)    
+                file.write('\n')
+
     def retrieve_blogs(self, search_string):
         r_blogs = []
         for items in self.blogs:
@@ -55,26 +61,26 @@ class ConcreteBlogDAOJSON(BlogDAO):
     
     def update_blog(self, key, blog):
         self.blogs[key] = blog
-        
-        with open(self.filename, 'w') as file:
+        if self.persistence == True:
+            with open(self.filename, 'w') as file:
             
-            for items in self.blogs:
-                blog_json = json.dumps(self.blogs[items], cls=BlogEncoder)
-                file.write(blog_json)
-                file.write('\n')
+                for items in self.blogs:
+                    blog_json = json.dumps(self.blogs[items], cls=BlogEncoder)
+                    file.write(blog_json)
+                    file.write('\n')
 
         return self.blogs[key]
         
     
     def delete_blog(self, key):
         self.blogs.pop(key)
-        
-        with open(self.filename, 'w') as file:
+        if self.persistence == True:
+            with open(self.filename, 'w') as file:
             
-            for items in self.blogs:
-                blog_json = json.dumps(self.blogs[items], cls=BlogEncoder)
-                file.write(blog_json)
-                file.write('\n')
+                for items in self.blogs:
+                    blog_json = json.dumps(self.blogs[items], cls=BlogEncoder)
+                    file.write(blog_json)
+                    file.write('\n')
 
         pass
     

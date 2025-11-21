@@ -9,7 +9,7 @@ from blogging.exception.invalid_login_exception import InvalidLoginException
 from blogging.exception.invalid_logout_exception import InvalidLogoutException
 from blogging.exception.no_current_blog_exception import NoCurrentBlogException
 from blogging.dao.blog_dao_json import ConcreteBlogDAOJSON
-
+from blogging.configuration import Configuration
 from pickle import load, dump
 import json
 class Controller:
@@ -24,7 +24,8 @@ class Controller:
         self.loggedin = False
         self.blogs_dao = ConcreteBlogDAOJSON()
         self.current_blog = None
-        self.autosave = False
+        self.configuration = Configuration()
+        self.autosave = self.configuration.__class__.autosave
 
         ####################Login/Logout Functions#####################
 
@@ -88,7 +89,8 @@ class Controller:
             if cur_id == self.current_blog.id:
                 raise IllegalOperationException
         nblog = Blog(new_id, new_name, new_url, new_email)
-        self.blogs_dao.update_blog(cur_id, nblog)
+        self.blogs_dao.delete_blog(cur_id)
+        self.blogs_dao.update_blog(new_id, nblog)
         return True
     
     ####################Delete Blog Functions####################
