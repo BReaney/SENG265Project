@@ -177,246 +177,246 @@ class IntegrationTest(TestCase):
 		self.assertEqual(0, len(retrieved_list))
 
 
-	# def test_update_blog(self):
-	# 	# some blogs that may be updated
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+	def test_update_blog(self):
+		# some blogs that may be updated
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# cannot do operation without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot update blog without logging in"):
-	# 		self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
+		# cannot do operation without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot update blog without logging in"):
+			self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
 
-	# 	# login
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+		# login
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
 
-	# 	# try to update a blog when there are no blogs in the system
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
-	# 		self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
+		# try to update a blog when there are no blogs in the system
+		with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
+			self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
 
-	# 	# create some blogs
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+		# create some blogs
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# after creating some blogs, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# after creating some blogs, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	# update one blog, but keep the Blog key (id) unchanged
-	# 	self.assertTrue(self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com"), 
-	# 		"update blog data and keep the id unchanged")
+		# update one blog, but keep the Blog key (id) unchanged
+		self.assertTrue(self.controller.update_blog(1111114444, 1111114444, "Short Travel", "short_travel", "short.travel@gmail.com"), 
+			"update blog data and keep the id unchanged")
 
-	# 	# after updating a blog, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# after updating a blog, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	actual_blog = self.controller.search_blog(1111114444)
-	# 	self.assertNotEqual(expected_blog_1, actual_blog, "blog has updated data, cannot be equal to the original data")
-	# 	expected_blog_3a = Blog(1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
-	# 	self.assertEqual(expected_blog_3a, actual_blog, "blog was updated, its data have to be updated and correct")
+		actual_blog = self.controller.search_blog(1111114444)
+		self.assertNotEqual(expected_blog_1, actual_blog, "blog has updated data, cannot be equal to the original data")
+		expected_blog_3a = Blog(1111114444, "Short Travel", "short_travel", "short.travel@gmail.com")
+		self.assertEqual(expected_blog_3a, actual_blog, "blog was updated, its data have to be updated and correct")
 
-	# 	# update one blog, and change the Blog key (id) as well
-	# 	self.assertTrue(self.controller.update_blog(1111117777, 1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com"), 
-	# 		"update blog data and also change the id")
+		# update one blog, and change the Blog key (id) as well
+		self.assertTrue(self.controller.update_blog(1111117777, 1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com"), 
+			"update blog data and also change the id")
 
-	# 	# after updating a blog, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# after updating a blog, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	actual_blog = self.controller.search_blog(1111118888)
-	# 	self.assertNotEqual(expected_blog_5, actual_blog, "blog has updated data, cannot be equal to the original data")
-	# 	expected_blog_5a = Blog(1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com")
-	# 	self.assertEqual(expected_blog_5a, actual_blog, "blog was updated, its data have to be updated and correct")
+		actual_blog = self.controller.search_blog(1111118888)
+		self.assertNotEqual(expected_blog_5, actual_blog, "blog has updated data, cannot be equal to the original data")
+		expected_blog_5a = Blog(1111118888, "Cool Blog", "cool_blog", "cool.blog@gmail.com")
+		self.assertEqual(expected_blog_5a, actual_blog, "blog was updated, its data have to be updated and correct")
 
-	# 	# update one blog with a conflicting existing id
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
-	# 		self.controller.update_blog(1111114444, 1111112000, "Short Travel", "short_travel", "short.travel@gmail.com")
-
-
-	# def test_delete_blog(self):
-	# 	# some blogs that may be deleted
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
-
-	# 	# cannot do operation without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot delete blog without logging in"):
-	# 		self.controller.delete_blog(1111114444)
-
-	# 	# login
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
-
-	# 	# try to delete a blog when there are no registered blogs
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot delete blog when no blogs are registered"):
-	# 		self.controller.delete_blog(1111114444)
-
-	# 	# add some blogs
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
-
-	# 	# after creating some blogs, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
-
-	# 	# try to delete a blog with an ID that is not registered in the system
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot delete blog with an ID that is not registered"):
-	# 		self.controller.delete_blog(1111118888)
-
-	# 	# delete one blog at the start of the collection
-	# 	self.assertTrue(self.controller.delete_blog(1111114444), "delete blog from the start of the collection")
-
-	# 	# after deleting a blog, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
-
-	# 	self.assertIsNone(self.controller.search_blog(1111114444), "deleted blog cannot be found in the system")
-
-	# 	# delete one blog at the middle of the collection
-	# 	self.assertTrue(self.controller.delete_blog(1111112000), "delete blog from the middle of the collection")
-
-	# 	# after deleting a blog, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
-
-	# 	self.assertIsNone(self.controller.search_blog(1111112000), "deleted blog cannot be found in the system")
-
-	# 	# delete one blog at the end of the collection
-	# 	self.assertTrue(self.controller.delete_blog(1111117777), "delete blog from the end of the collection")
-
-	# 	# after deleting a blog, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
-
-	# 	self.assertIsNone(self.controller.search_blog(1111117777), "deleted blog cannot be found in the system")
+		# update one blog with a conflicting existing id
+		with self.assertRaises(IllegalOperationException, msg="cannot update blog with an ID that is not registered"):
+			self.controller.update_blog(1111114444, 1111112000, "Short Travel", "short_travel", "short.travel@gmail.com")
 
 
-	# def test_list_blogs(self):
-	# 	# some blogs that may be listed
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+	def test_delete_blog(self):
+		# some blogs that may be deleted
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# cannot do operation without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot list blogs without logging in"):
-	# 		self.controller.list_blogs()
+		# cannot do operation without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot delete blog without logging in"):
+			self.controller.delete_blog(1111114444)
 
-	# 	# login
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+		# login
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
 
-	# 	# listing blogs when there are no blogs in the system
-	# 	blogs_list = self.controller.list_blogs()
-	# 	self.assertEqual(0, len(blogs_list), "list of blogs has size 0")
+		# try to delete a blog when there are no registered blogs
+		with self.assertRaises(IllegalOperationException, msg="cannot delete blog when no blogs are registered"):
+			self.controller.delete_blog(1111114444)
 
-	# 	# add one blog
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		# add some blogs
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# after creating a blog, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# after creating some blogs, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	# listing blogs in a singleton list
-	# 	blogs_list = self.controller.list_blogs()
-	# 	self.assertEqual(1, len(blogs_list), "list of blogs has size 1")
-	# 	self.assertEqual(expected_blog_1, blogs_list[0], "Short Journey blog is the only one in the list of blogs")
+		# try to delete a blog with an ID that is not registered in the system
+		with self.assertRaises(IllegalOperationException, msg="cannot delete blog with an ID that is not registered"):
+			self.controller.delete_blog(1111118888)
 
-	# 	# add some more blogs
-	# 	self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+		# delete one blog at the start of the collection
+		self.assertTrue(self.controller.delete_blog(1111114444), "delete blog from the start of the collection")
 
-	# 	# after creating some blogs, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# after deleting a blog, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	# listing blogs in a larger list
-	# 	blogs_list = self.controller.list_blogs()
-	# 	self.assertEqual(5, len(blogs_list), "list of blogs has size 5")
-	# 	self.assertEqual(expected_blog_1, blogs_list[0], "blog 1 is the first in the list of blogs")
-	# 	self.assertEqual(expected_blog_2, blogs_list[1], "blog 2 is the second in the list of blogs")
-	# 	self.assertEqual(expected_blog_3, blogs_list[2], "blog 3 is the third in the list of blogs")
-	# 	self.assertEqual(expected_blog_4, blogs_list[3], "blog 4 is the fourth in the list of blogs")
-	# 	self.assertEqual(expected_blog_5, blogs_list[4], "blog 5 is the fifth in the list of blogs")
+		self.assertIsNone(self.controller.search_blog(1111114444), "deleted blog cannot be found in the system")
 
-	# 	# deleting some blogs
-	# 	self.controller.delete_blog(1111114444)
-	# 	self.controller.delete_blog(1111112000)
-	# 	self.controller.delete_blog(1111117777)
+		# delete one blog at the middle of the collection
+		self.assertTrue(self.controller.delete_blog(1111112000), "delete blog from the middle of the collection")
 
-	# 	# after deleting some blogs, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# after deleting a blog, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	# listing blogs after deleting some blogs
-	# 	blogs_list = self.controller.list_blogs()
-	# 	self.assertEqual(2, len(blogs_list), "list of blogs has size 2")
-	# 	self.assertEqual(expected_blog_2, blogs_list[0], "blog 2 is the first in the list of blogs")
-	# 	self.assertEqual(expected_blog_4, blogs_list[1], "blog 4 is the second in the list of blogs")
+		self.assertIsNone(self.controller.search_blog(1111112000), "deleted blog cannot be found in the system")
+
+		# delete one blog at the end of the collection
+		self.assertTrue(self.controller.delete_blog(1111117777), "delete blog from the end of the collection")
+
+		# after deleting a blog, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
+
+		self.assertIsNone(self.controller.search_blog(1111117777), "deleted blog cannot be found in the system")
 
 
-	# def test_set_get_current_blog(self):
-	# 	# one of these blogs will be set as the current blog
-	# 	expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+	def test_list_blogs(self):
+		# some blogs that may be listed
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# cannot do operations without logging in
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot get current blog without logging in"):
-	# 		self.controller.get_current_blog()
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot set current blog without logging in"):
-	# 		self.controller.set_current_blog(1111110001)
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot unset current blog without logging in"):
-	# 		self.controller.unset_current_blog()
+		# cannot do operation without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot list blogs without logging in"):
+			self.controller.list_blogs()
 
-	# 	# login
-	# 	self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+		# login
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
 
-	# 	# add some blogs
-	# 	self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
-	# 	self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
-	# 	self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
-	# 	self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
-	# 	self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+		# listing blogs when there are no blogs in the system
+		blogs_list = self.controller.list_blogs()
+		self.assertEqual(0, len(blogs_list), "list of blogs has size 0")
 
-	# 	# after creating some blogs, reset persistence to ensure that persistence is working well 
-	# 	self.reset_persistence()
+		# add one blog
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
 
-	# 	# cannot get current blog without setting it first
-	# 	self.assertIsNone(self.controller.get_current_blog(), "cannot get current blog without setting them first")
+		# after creating a blog, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	# cannot set a non-existent blog to be the current blog
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot set non-existent blog as the current blog"):
-	# 		self.controller.set_current_blog(1111110001)
+		# listing blogs in a singleton list
+		blogs_list = self.controller.list_blogs()
+		self.assertEqual(1, len(blogs_list), "list of blogs has size 1")
+		self.assertEqual(expected_blog_1, blogs_list[0], "Short Journey blog is the only one in the list of blogs")
 
-	# 	# set one blog to be the current blog
-	# 	self.controller.set_current_blog(1111112000)
-	# 	actual_current_blog = self.controller.get_current_blog()
-	# 	self.assertIsNotNone(actual_current_blog)
-	# 	self.assertEqual(expected_blog_3, actual_current_blog, "expected current blog is blog 3")
+		# add some more blogs
+		self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
 
-	# 	# cannot delete the current blog, unset current blog first
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot delete the current blog"):
-	# 		self.controller.delete_blog(1111112000)
+		# after creating some blogs, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	# cannot update the current blog, unset current blog first
-	# 	with self.assertRaises(IllegalOperationException, msg="cannot update the current blog"):
-	# 		self.controller.update_blog(1111112000, 1111112000, "Short Travel", "short_travel", "short.travel@gmail.com")
+		# listing blogs in a larger list
+		blogs_list = self.controller.list_blogs()
+		self.assertEqual(5, len(blogs_list), "list of blogs has size 5")
+		self.assertEqual(expected_blog_1, blogs_list[0], "blog 1 is the first in the list of blogs")
+		self.assertEqual(expected_blog_2, blogs_list[1], "blog 2 is the second in the list of blogs")
+		self.assertEqual(expected_blog_3, blogs_list[2], "blog 3 is the third in the list of blogs")
+		self.assertEqual(expected_blog_4, blogs_list[3], "blog 4 is the fourth in the list of blogs")
+		self.assertEqual(expected_blog_5, blogs_list[4], "blog 5 is the fifth in the list of blogs")
 
-	# 	# unset current blog
-	# 	self.controller.unset_current_blog()
-	# 	actual_current_blog = self.controller.get_current_blog()
-	# 	self.assertIsNone(actual_current_blog)
+		# deleting some blogs
+		self.controller.delete_blog(1111114444)
+		self.controller.delete_blog(1111112000)
+		self.controller.delete_blog(1111117777)
 
-	# 	# handle log out
-	# 	self.controller.set_current_blog(1111112000)
-	# 	self.controller.logout()
+		# after deleting some blogs, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
 
-	# 	with self.assertRaises(IllegalAccessException, msg="cannot get current blog after logging out"):
-	# 		self.controller.get_current_blog()
+		# listing blogs after deleting some blogs
+		blogs_list = self.controller.list_blogs()
+		self.assertEqual(2, len(blogs_list), "list of blogs has size 2")
+		self.assertEqual(expected_blog_2, blogs_list[0], "blog 2 is the first in the list of blogs")
+		self.assertEqual(expected_blog_4, blogs_list[1], "blog 4 is the second in the list of blogs")
+
+
+	def test_set_get_current_blog(self):
+		# one of these blogs will be set as the current blog
+		expected_blog_1 = Blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		expected_blog_2 = Blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		expected_blog_3 = Blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		expected_blog_4 = Blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		expected_blog_5 = Blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+
+		# cannot do operations without logging in
+		with self.assertRaises(IllegalAccessException, msg="cannot get current blog without logging in"):
+			self.controller.get_current_blog()
+		with self.assertRaises(IllegalAccessException, msg="cannot set current blog without logging in"):
+			self.controller.set_current_blog(1111110001)
+		with self.assertRaises(IllegalAccessException, msg="cannot unset current blog without logging in"):
+			self.controller.unset_current_blog()
+
+		# login
+		self.assertTrue(self.controller.login("user", "123456"), "login correctly")
+
+		# add some blogs
+		self.controller.create_blog(1111114444, "Short Journey", "short_journey", "short.journey@gmail.com")
+		self.controller.create_blog(1111115555, "Long Journey", "long_journey", "long.journey@gmail.com")
+		self.controller.create_blog(1111112000, "Long Trip", "long_trip", "long.trip@gmail.com")
+		self.controller.create_blog(1111116666, "Short Trip", "short_trip", "short.trip@gmail.com")
+		self.controller.create_blog(1111117777, "Boring Blog", "boring_blog", "boring.blog@gmail.com")
+
+		# after creating some blogs, reset persistence to ensure that persistence is working well 
+		self.reset_persistence()
+
+		# cannot get current blog without setting it first
+		self.assertIsNone(self.controller.get_current_blog(), "cannot get current blog without setting them first")
+
+		# cannot set a non-existent blog to be the current blog
+		with self.assertRaises(IllegalOperationException, msg="cannot set non-existent blog as the current blog"):
+			self.controller.set_current_blog(1111110001)
+
+		# set one blog to be the current blog
+		self.controller.set_current_blog(1111112000)
+		actual_current_blog = self.controller.get_current_blog()
+		self.assertIsNotNone(actual_current_blog)
+		self.assertEqual(expected_blog_3, actual_current_blog, "expected current blog is blog 3")
+
+		# cannot delete the current blog, unset current blog first
+		with self.assertRaises(IllegalOperationException, msg="cannot delete the current blog"):
+			self.controller.delete_blog(1111112000)
+
+		# cannot update the current blog, unset current blog first
+		with self.assertRaises(IllegalOperationException, msg="cannot update the current blog"):
+			self.controller.update_blog(1111112000, 1111112000, "Short Travel", "short_travel", "short.travel@gmail.com")
+
+		# unset current blog
+		self.controller.unset_current_blog()
+		actual_current_blog = self.controller.get_current_blog()
+		self.assertIsNone(actual_current_blog)
+
+		# handle log out
+		self.controller.set_current_blog(1111112000)
+		self.controller.logout()
+
+		with self.assertRaises(IllegalAccessException, msg="cannot get current blog after logging out"):
+			self.controller.get_current_blog()
 
 	# def test_create_post(self):
 	# 	# some posts that may be created

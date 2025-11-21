@@ -55,7 +55,7 @@ class Controller:
         if self.loggedin == False:
             raise IllegalAccessException
         
-        if self.blogs_dao.search_blog(id)!= None:
+        if self.blogs_dao.search_blog(id) != None:
             raise IllegalOperationException
         nblog = Blog(id, name, url, email)   
         self.blogs_dao.create_blog(nblog)
@@ -78,59 +78,65 @@ class Controller:
     
 # #######################Update blog functions##########################
 
-#     def update_blog(self, cur_id, new_id, new_name, new_url, new_email):
-#         #pick a blog by id, update blog values.
-#         if self.loggedin != True:
-#             raise IllegalAccessException
-#         if self.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs.get(new_id) != None) or (self.current_blog != None and (cur_id == self.current_blog.id or new_id == self.current_blog.id)):
-#             raise IllegalOperationException
-#         self.blogs.pop(cur_id)
-#         self.blogs[new_id] = Blog(new_id, new_name, new_url, new_email)
-#         return True
+    def update_blog(self, cur_id, new_id, new_name, new_url, new_email):
+        # pick a blog by id, update blog values.
+        if self.loggedin != True:
+            raise IllegalAccessException
+        if self.blogs_dao.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs_dao.blogs.get(new_id) != None):
+            raise IllegalOperationException
+        if self.current_blog != None:
+            if cur_id == self.current_blog.id:
+                raise IllegalOperationException
+        nblog = Blog(new_id, new_name, new_url, new_email)
+        self.blogs_dao.update_blog(cur_id, nblog)
+        return True
     
-#     ####################Delete Blog Functions####################
-#     def delete_blog(self, id):
-#         #delete a blog by id. return False if the blog list is empt, not signed in, or current blog, return None if the blog does not exist, else delete blog and return True
-#         if self.loggedin != True:
-#             raise IllegalAccessException
-#         if len(self.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id):
-#             raise IllegalOperationException
-#         if self.blogs.pop(id, None) == None: #removes blog, None is set as the default return value if no blog is found else returns the blog
-#             raise IllegalOperationException
-#         return True
+    ####################Delete Blog Functions####################
+    def delete_blog(self, id):
+        
+        if self.loggedin != True:
+            raise IllegalAccessException
+        if len(self.blogs_dao.blogs) == None:
+            raise IllegalOperationException
+        if self.blogs_dao.search_blog(id) == None:
+            raise IllegalOperationException
+        if self.current_blog != None:
+            if id == self.current_blog.id:
+                raise IllegalOperationException
+        self.blogs_dao.delete_blog(id)
+
+        return True
     
     
 #     ####################list_blogs Functions#####################
-#     def list_blogs(self):
-#         #list all blogs
-#         if self.loggedin != True:
-#             raise IllegalAccessException
-#         blogs = []
-#         for i in self.blogs.keys():
-#             blogs.append(self.blogs.get(i))
-#         return blogs
+    def list_blogs(self):
+        #list all blogs
+        if self.loggedin != True:
+            raise IllegalAccessException
+        blogs = self.blogs_dao.list_blogs()
+        return blogs
     
-#     ##################set/get current blog functions#############
-#     def get_current_blog(self):
-#         #get current blog, return None if not logged in or does not exist
-#         if self.loggedin != True:
-#             raise IllegalAccessException
-#         return self.current_blog
+    ##################set/get current blog functions#############
+    def get_current_blog(self):
+        #get current blog, return None if not logged in or does not exist
+        if self.loggedin != True:
+            raise IllegalAccessException
+        return self.current_blog
     
     
-#     def set_current_blog(self, id):
-#         if self.loggedin != True:
-#             raise IllegalAccessException
-#         if self.search_blog(id) == None:
-#             raise IllegalOperationException
-#         self.current_blog = self.search_blog(id)
-#         return True
+    def set_current_blog(self, id):
+        if self.loggedin != True:
+            raise IllegalAccessException
+        if self.blogs_dao.search_blog(id) == None:
+            raise IllegalOperationException
+        self.current_blog = self.blogs_dao.search_blog(id)
+        return True
     
-#     def unset_current_blog(self):
-#         if self.loggedin != True:
-#             raise IllegalAccessException
-#         self.current_blog = None
-#         return
+    def unset_current_blog(self):
+        if self.loggedin != True:
+            raise IllegalAccessException
+        self.current_blog = None
+        return
 
 # ###################create post#########################
 #     ##create_post: performs validity checks before calling blog.create_post

@@ -35,7 +35,7 @@ class ConcreteBlogDAOJSON(BlogDAO):
     def search_blog(self, key):
         return self.blogs.get(key)
         
-      
+    
     
     def create_blog(self, blog):
         self.blogs[blog.id] = Blog(blog.id, blog.name, blog.url, blog.email)
@@ -54,10 +54,35 @@ class ConcreteBlogDAOJSON(BlogDAO):
         
     
     def update_blog(self, key, blog):
-        pass
+        self.blogs[key] = blog
+        
+        with open(self.filename, 'w') as file:
+            
+            for items in self.blogs:
+                blog_json = json.dumps(self.blogs[items], cls=BlogEncoder)
+                file.write(blog_json)
+                file.write('\n')
+
+        return self.blogs[key]
+        
     
     def delete_blog(self, key):
+        self.blogs.pop(key)
+        
+        with open(self.filename, 'w') as file:
+            
+            for items in self.blogs:
+                blog_json = json.dumps(self.blogs[items], cls=BlogEncoder)
+                file.write(blog_json)
+                file.write('\n')
+
         pass
     
     def list_blogs(self):
+        i = list(self.blogs.keys())
+        li = []
+        for index in range(len(self.blogs)):
+            li.append(self.blogs[i[index]])
+
+        return li
         pass
