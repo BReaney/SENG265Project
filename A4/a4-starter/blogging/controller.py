@@ -12,33 +12,50 @@ from blogging.dao.blog_dao_json import ConcreteBlogDAOJSON
 from blogging.configuration import Configuration
 from pickle import load, dump
 import json
+import hashlib
 class Controller:
     
 
     
     def __init__(self):
-        self.users = {
-            "user": "123456",
-            "ali": "@G00dPassw0rd"
-        }
+        self.users = self.load_users()
         self.loggedin = False
         self.blogs_dao = ConcreteBlogDAOJSON()
         self.current_blog = None
         self.configuration = Configuration()
         self.autosave = self.configuration.__class__.autosave
+    
 
+    def load_users(self):
+        users = {}
+        infile = open('blogging/users.txt', 'r')
+        
+        for lines in infile:
+            tok = lines.strip().split(',')
+            users[tok[0]] = tok[1]
+        infile.close()
+        return users
+    
         ####################Login/Logout Functions#####################
+        #used function from Lab 09 to get the password hash. 
+    def get_password_hash(self, password):
+        
+        encoded_password = password.encode('utf-8')    
+        hash_object = hashlib.sha256(encoded_password)      
+        hex_dig = hash_object.hexdigest()   
 
+        return hex_dig
     def login(self, username, passphrase):
     #login function, takes a username and a password, returns false if wrong credentials or already loggedin
-        names = self.users.items()       
+           
         if self.loggedin == True:
             raise DuplicateLoginException
-        for items in names:
-            if username in items:
-                    if passphrase in items:
-                        self.loggedin = True
-                        return True
+        
+        hashpassword = self.get_password_hash(passphrase)    
+        if self.users.get(username) == hashpassword:
+            self.loggedin = True
+            return True
+
         raise InvalidLoginException
 
     
@@ -46,7 +63,7 @@ class Controller:
     #logout function implementation
         if self.loggedin == False:
             raise InvalidLogoutException
-        #self.unset_current_blog()
+        self.unset_current_blog()
         self.loggedin = False
         return True
 
