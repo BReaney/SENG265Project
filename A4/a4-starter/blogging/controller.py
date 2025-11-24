@@ -170,7 +170,7 @@ class Controller:
             raise NoCurrentBlogException
         return self.current_blog.search_post(code)
     
-# #####################################Retrieve Blog#####################
+# #####################################Retrieve posts#####################
 
     #handle request validity checks, return a call to blog to retrieve a list of posts containing a substring within the title or text
     def retrieve_posts(self, substring):
@@ -211,9 +211,10 @@ class Controller:
             raise NoCurrentBlogException
         if self.current_blog.search_post(key) == None:
             return None
-        a = self.current_blog
-        a.posts.pop(key)
-        return True
+        # a = self.current_blog
+        # a.posts.pop(key)
+        # return True
+        return self.current_blog.delete_post(key)
 
     
 # ################################### List All Posts of Current Blogs ###########
@@ -223,12 +224,13 @@ class Controller:
             raise IllegalAccessException
         if self.current_blog == None:
             raise NoCurrentBlogException
-        a = []
-        for x in self.current_blog.posts:
-            a.insert(0, self.current_blog.posts.get(x))
+        # a = []
+        # for x in self.current_blog.posts:
+        #     a.insert(0, self.current_blog.posts.get(x))
         
             
-        return a    
+        # return a    
+        return self.current_blog.list_posts()
 
     
         

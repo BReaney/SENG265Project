@@ -59,11 +59,11 @@ class Blog:
     ###################Retrieve Post Implementation#############################
     #return: list of posts containing the substring in any field
     def retrieve_posts(self, substring):
-        retrieved_posts = []
-        for x, y in self.posts.items():
-            if substring in y.__repr__():
-                retrieved_posts.append(self.posts.get(x))
-        return retrieved_posts
+        # retrieved_posts = []
+        # for x, y in self.posts.items():
+        #     if substring in y.__repr__():
+        #         retrieved_posts.append(self.posts.get(x))
+        return self.posts_dao.retrieve_posts(substring)
 
     ##################Delete Post Implementation###############################
     ###return: none; delete post; decrement blog id
@@ -72,5 +72,9 @@ class Blog:
     def delete_post(self, key):
         if self.search_post(key) == None:
             return None
-        self.posts.pop(key)
-        return True
+        
+        return self.posts_dao.delete_post(key)
+    
+    ################### List All Posts of Current Blog #########################
+    def list_posts(self):
+        return self.posts_dao.list_posts()
