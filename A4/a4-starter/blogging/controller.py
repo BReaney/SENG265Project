@@ -24,6 +24,7 @@ class Controller:
         self.current_blog = None
         self.configuration = Configuration()
         self.autosave = self.configuration.__class__.autosave
+        
     
 
     def load_users(self):
@@ -189,11 +190,8 @@ class Controller:
         if self.current_blog.search_post(code) == None:
             return None
         
-        a = self.current_blog.search_post(code)
-        a.set_title(new_title)
-        a.set_text(new_text)
-        a.set_update(time.time())
-        return True
+       
+        return self.current_blog.update_post(code, new_title, new_text)
 
 ################################### Delete Posts ########################
         ###Takes a key, and deletes the post with said key.

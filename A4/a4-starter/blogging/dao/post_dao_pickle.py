@@ -44,12 +44,23 @@ class PostDAOPickle(PostDAO):
         return retrieved_posts
     
     def update_post(self, key, new_title, new_text):
-        pass
+        post = self.search_post(key)
+        if post == None:
+            return None
+        post.set_title(new_title)
+        post.set_text(new_text)
+        post.set_update(time.time())
+        self.posts[key] = post
+        if self.persistence == True:
+            self.dump_posts()
+        return True
     
     def delete_post(self, key):
         if self.search_post(key) == None:
             return None
         self.posts.pop(key)
+        if self.persistence == True:
+            self.dump_posts()
         return True
         # pass
     

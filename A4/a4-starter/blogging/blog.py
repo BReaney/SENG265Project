@@ -78,3 +78,7 @@ class Blog:
     ################### List All Posts of Current Blog #########################
     def list_posts(self):
         return self.posts_dao.list_posts()
+    
+    ################### Update Post Implementation ##########################
+    def update_post(self, key, new_title, new_text):
+        return self.posts_dao.update_post(key, new_title, new_text)
