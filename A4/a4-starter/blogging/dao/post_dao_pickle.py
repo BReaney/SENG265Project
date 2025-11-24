@@ -10,14 +10,29 @@ class PostDAOPickle(PostDAO):
     def __init__(self):
         self.configuration = Configuration()
         self.persistence = self.configuration.__class__.autosave
+        self.filename = f'{self.configuration.__class__.records_path}/{1111114444}{self.configuration.__class__.records_extension}'
         self.posts = {}
-    
+        self.load_posts()
+
+    def load_posts(self):
+        try:
+            with open(self.filename, 'rb') as file:
+                self.posts = load(file)
+        except:
+            pass
+
+    def dump_posts(self):
+        with open(self.filename, 'wb') as file:
+            dump(self.posts, file)
+
     def search_post(self, key):
         return self.posts.get(key)
         # pass
     
     def create_post(self, post):
         self.posts[post.code] = post
+        if self.persistence == True:
+            self.dump_posts()
         return self.search_post(post.code)
         # pass
     
