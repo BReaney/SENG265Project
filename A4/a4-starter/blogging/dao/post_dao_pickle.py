@@ -6,10 +6,13 @@ class PostDAOPickle(PostDAO):
         self.posts = {}
     
     def search_post(self, key):
-        pass
+        return self.posts.get(key)
+        # pass
     
     def create_post(self, post):
-        pass
+        self.posts[post.code] = post
+        return self.search_post(post.code)
+        # pass
     
     def retrieve_posts(self, search_string):
         pass

@@ -8,7 +8,7 @@ class Blog:
         self.name = name
         self.url = url
         self.email = email
-        self.posts = PostDAOPickle()
+        self.posts_dao = PostDAOPickle()
         self.code = 0
     
     def __repr__(self):
@@ -48,13 +48,13 @@ class Blog:
 
     def create_post(self, title, text):
         self.code += 1
-        self.posts |= {self.code : Post(self.code, title, text)}
-        return self.posts[self.code]
+        # self.posts |= {self.code : Post(self.code, title, text)}
+        return self.posts_dao.create_post(Post(self.code, title, text))
     
     ###############################search post implementation####################
     
     def search_post(self, code):
-        return self.posts.get(code)
+        return self.posts_dao.search_post(code)
     
     ###################Retrieve Post Implementation#############################
     #return: list of posts containing the substring in any field
