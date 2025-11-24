@@ -115,10 +115,9 @@ class Controller:
         #delete a blog by id. return False if the blog list is empt, not signed in, or current blog, return None if the blog does not exist, else delete blog and return True
         if self.loggedin != True:
             raise IllegalAccessException
-        if len(self.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id):
+        if len(self.blogs_dao.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id) or self.search_blog(id) == None:
             raise IllegalOperationException
-        if self.blogs.pop(id, None) == None: #removes blog, None is set as the default return value if no blog is found else returns the blog
-            raise IllegalOperationException
+        self.blogs_dao.delete_blog(id)
         return True
     
     
