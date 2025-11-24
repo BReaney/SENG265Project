@@ -1,6 +1,9 @@
 from blogging.dao.post_dao import PostDAO
 
 class PostDAOPickle(PostDAO):
+
+    def __init__(self):
+        self.posts = {}
     
     def search_post(self, key):
         pass
