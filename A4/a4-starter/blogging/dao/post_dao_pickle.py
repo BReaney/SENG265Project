@@ -1,8 +1,15 @@
 from blogging.dao.post_dao import PostDAO
+import time
+from blogging.configuration import Configuration
+from blogging.post import Post
+from pickle import load, dump
+import os
 
 class PostDAOPickle(PostDAO):
 
     def __init__(self):
+        self.configuration = Configuration()
+        self.persistence = self.configuration.__class__.autosave
         self.posts = {}
     
     def search_post(self, key):
