@@ -8,33 +8,54 @@ from blogging.exception.illegal_operation_exception import IllegalOperationExcep
 from blogging.exception.invalid_login_exception import InvalidLoginException
 from blogging.exception.invalid_logout_exception import InvalidLogoutException
 from blogging.exception.no_current_blog_exception import NoCurrentBlogException
-
+from blogging.dao.blog_dao_json import ConcreteBlogDAOJSON
+from blogging.configuration import Configuration
+from pickle import load, dump
+import json
+import hashlib
 class Controller:
     
 
     
     def __init__(self):
-        self.users = {
-            "user": "123456",
-            "ali": "@G00dPassw0rd"
-        }
+        self.users = self.load_users()
         self.loggedin = False
-        self.blogs = {}
+        self.blogs_dao = ConcreteBlogDAOJSON()
         self.current_blog = None
-        self.autosave = False
+        self.configuration = Configuration()
+        self.autosave = self.configuration.__class__.autosave
+    
 
+    def load_users(self):
+        users = {}
+        infile = open('blogging/users.txt', 'r')
+        
+        for lines in infile:
+            tok = lines.strip().split(',')
+            users[tok[0]] = tok[1]
+        infile.close()
+        return users
+    
         ####################Login/Logout Functions#####################
+        #used function from Lab 09 to get the password hash. 
+    def get_password_hash(self, password):
+        
+        encoded_password = password.encode('utf-8')    
+        hash_object = hashlib.sha256(encoded_password)      
+        hex_dig = hash_object.hexdigest()   
 
+        return hex_dig
     def login(self, username, passphrase):
     #login function, takes a username and a password, returns false if wrong credentials or already loggedin
-        names = self.users.items()       
+           
         if self.loggedin == True:
             raise DuplicateLoginException
-        for items in names:
-            if username in items:
-                    if passphrase in items:
-                        self.loggedin = True
-                        return True
+        
+        hashpassword = self.get_password_hash(passphrase)    
+        if self.users.get(username) == hashpassword:
+            self.loggedin = True
+            return True
+
         raise InvalidLoginException
 
     
@@ -52,38 +73,41 @@ class Controller:
         if self.loggedin == False:
             raise IllegalAccessException
         
-        if self.blogs.get(id)!= None:
+        if self.blogs_dao.search_blog(id) != None:
             raise IllegalOperationException
-            
-        self.blogs |= {id : Blog(id, name, url, email)}
-        return self.blogs.get(id)
+        nblog = Blog(id, name, url, email)   
+        self.blogs_dao.create_blog(nblog)
+        return self.blogs_dao.search_blog(id)
     
     def search_blog(self, id):
     #id search the blog list
         if self.loggedin == False:
             raise IllegalAccessException
-        return self.blogs.get(id)
+        return self.blogs_dao.search_blog(id)
     
     def retrieve_blogs(self, name):
     #searches the blog list by string and returns a new list of all blogs with titles containing the string
         if self.loggedin != True:
             raise IllegalAccessException
-        retrieved_blogs = []
-        for x, y in self.blogs.items():     #.items returns the key and the value of each dict entry as x and y respectively
-            if name in y.name:              #'in' checks a string for a substring and returns a boolean 
-                retrieved_blogs.append(y)   #x:id y:blog
+        retrieved_blogs = self.blogs_dao.retrieve_blogs(name)
+           
+            
         return retrieved_blogs
     
-#######################Update blog functions##########################
+# #######################Update blog functions##########################
 
     def update_blog(self, cur_id, new_id, new_name, new_url, new_email):
-        #pick a blog by id, update blog values.
+        # pick a blog by id, update blog values.
         if self.loggedin != True:
             raise IllegalAccessException
-        if self.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs.get(new_id) != None) or (self.current_blog != None and (cur_id == self.current_blog.id or new_id == self.current_blog.id)):
+        if self.blogs_dao.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs_dao.blogs.get(new_id) != None):
             raise IllegalOperationException
-        self.blogs.pop(cur_id)
-        self.blogs[new_id] = Blog(new_id, new_name, new_url, new_email)
+        if self.current_blog != None:
+            if cur_id == self.current_blog.id:
+                raise IllegalOperationException
+        nblog = Blog(new_id, new_name, new_url, new_email)
+        self.blogs_dao.delete_blog(cur_id)
+        self.blogs_dao.update_blog(new_id, nblog)
         return True
     
     ####################Delete Blog Functions####################
@@ -98,14 +122,12 @@ class Controller:
         return True
     
     
-    ####################list_blogs Functions#####################
+#     ####################list_blogs Functions#####################
     def list_blogs(self):
         #list all blogs
         if self.loggedin != True:
             raise IllegalAccessException
-        blogs = []
-        for i in self.blogs.keys():
-            blogs.append(self.blogs.get(i))
+        blogs = self.blogs_dao.list_blogs()
         return blogs
     
     ##################set/get current blog functions#############
@@ -139,7 +161,7 @@ class Controller:
             raise NoCurrentBlogException
         return self.current_blog.create_post(title, text)
     
-################################################### search post
+# ################################################### search post
 
     # performs validity checks before passing query to blog
     def search_post(self, code):
@@ -149,7 +171,7 @@ class Controller:
             raise NoCurrentBlogException
         return self.current_blog.search_post(code)
     
-#####################################Retrieve Blog#####################
+# #####################################Retrieve Blog#####################
 
     #handle request validity checks, return a call to blog to retrieve a list of posts containing a substring within the title or text
     def retrieve_posts(self, substring):
@@ -195,7 +217,7 @@ class Controller:
         return True
 
     
-################################### List All Posts of Current Blogs ###########
+# ################################### List All Posts of Current Blogs ###########
 
     def list_posts(self):
         if self.loggedin != True:
@@ -208,3 +230,7 @@ class Controller:
         
             
         return a    
+
+    
+        
+        
