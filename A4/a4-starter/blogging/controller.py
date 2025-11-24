@@ -24,6 +24,7 @@ class Controller:
         self.current_blog = None
         self.configuration = Configuration()
         self.autosave = self.configuration.__class__.autosave
+        
     
 
     def load_users(self):
@@ -170,7 +171,7 @@ class Controller:
             raise NoCurrentBlogException
         return self.current_blog.search_post(code)
     
-# #####################################Retrieve Blog#####################
+# #####################################Retrieve posts#####################
 
     #handle request validity checks, return a call to blog to retrieve a list of posts containing a substring within the title or text
     def retrieve_posts(self, substring):
@@ -189,11 +190,8 @@ class Controller:
         if self.current_blog.search_post(code) == None:
             return None
         
-        a = self.current_blog.search_post(code)
-        a.set_title(new_title)
-        a.set_text(new_text)
-        a.set_update(time.time())
-        return True
+       
+        return self.current_blog.update_post(code, new_title, new_text)
 
 ################################### Delete Posts ########################
         ###Takes a key, and deletes the post with said key.
@@ -211,9 +209,10 @@ class Controller:
             raise NoCurrentBlogException
         if self.current_blog.search_post(key) == None:
             return None
-        a = self.current_blog
-        a.posts.pop(key)
-        return True
+        # a = self.current_blog
+        # a.posts.pop(key)
+        # return True
+        return self.current_blog.delete_post(key)
 
     
 # ################################### List All Posts of Current Blogs ###########
@@ -223,12 +222,13 @@ class Controller:
             raise IllegalAccessException
         if self.current_blog == None:
             raise NoCurrentBlogException
-        a = []
-        for x in self.current_blog.posts:
-            a.insert(0, self.current_blog.posts.get(x))
+        # a = []
+        # for x in self.current_blog.posts:
+        #     a.insert(0, self.current_blog.posts.get(x))
         
             
-        return a    
+        # return a    
+        return self.current_blog.list_posts()
 
     
         

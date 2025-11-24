@@ -8,7 +8,7 @@ class Blog:
         self.name = name
         self.url = url
         self.email = email
-        self.posts = PostDAOPickle()
+        self.posts_dao = PostDAOPickle()
         self.code = 0
     
     def __repr__(self):
@@ -48,22 +48,22 @@ class Blog:
 
     def create_post(self, title, text):
         self.code += 1
-        self.posts |= {self.code : Post(self.code, title, text)}
-        return self.posts[self.code]
+        # self.posts |= {self.code : Post(self.code, title, text)}
+        return self.posts_dao.create_post(Post(self.code, title, text))
     
     ###############################search post implementation####################
     
     def search_post(self, code):
-        return self.posts.get(code)
+        return self.posts_dao.search_post(code)
     
     ###################Retrieve Post Implementation#############################
     #return: list of posts containing the substring in any field
     def retrieve_posts(self, substring):
-        retrieved_posts = []
-        for x, y in self.posts.items():
-            if substring in y.__repr__():
-                retrieved_posts.append(self.posts.get(x))
-        return retrieved_posts
+        # retrieved_posts = []
+        # for x, y in self.posts.items():
+        #     if substring in y.__repr__():
+        #         retrieved_posts.append(self.posts.get(x))
+        return self.posts_dao.retrieve_posts(substring)
 
     ##################Delete Post Implementation###############################
     ###return: none; delete post; decrement blog id
@@ -72,5 +72,13 @@ class Blog:
     def delete_post(self, key):
         if self.search_post(key) == None:
             return None
-        self.posts.pop(key)
-        return True
+        
+        return self.posts_dao.delete_post(key)
+    
+    ################### List All Posts of Current Blog #########################
+    def list_posts(self):
+        return self.posts_dao.list_posts()
+    
+    ################### Update Post Implementation ##########################
+    def update_post(self, key, new_title, new_text):
+        return self.posts_dao.update_post(key, new_title, new_text)
