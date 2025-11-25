@@ -9,7 +9,7 @@ class ConcreteBlogDAOJSON(BlogDAO):
 
     def __init__(self):
         self.configuration = Configuration()
-        self.persistence = self.configuration.__class__.autosave
+        self.autosave = self.configuration.__class__.autosave
         self.filename = "blogging/blogs.json"
         self.blogs = {}
         try:
@@ -44,7 +44,7 @@ class ConcreteBlogDAOJSON(BlogDAO):
         
         self.blogs[blog.id] = Blog(blog.id, blog.name, blog.url, blog.email)
         ###update persistent collection if persistence is toggled
-        if self.persistence == True:
+        if self.autosave == True:
             with open(self.filename, 'a') as file:
                 blog_json = json.dumps(blog, cls=BlogEncoder)
             
@@ -63,7 +63,7 @@ class ConcreteBlogDAOJSON(BlogDAO):
     def update_blog(self, key, blog):
         
         self.blogs[key] = blog
-        if self.persistence == True:
+        if self.autosave == True:
             with open(self.filename, 'w') as file:
             
                 for items in self.blogs:
@@ -79,7 +79,7 @@ class ConcreteBlogDAOJSON(BlogDAO):
             return False
         
         self.blogs.pop(key)
-        if self.persistence == True:
+        if self.autosave == True:
             with open(self.filename, 'w') as file:
             
                 for items in self.blogs:
