@@ -312,7 +312,7 @@ class ControllerTest(TestCase):
 		with self.assertRaises(IllegalOperationException, msg="cannot set non-existent blog as the current blog"):
 			self.controller.set_current_blog(1111110001)
 		# self.controller.set_current_blog(1111110001)
-		# self.assertIsNone(self.controller.get_current_blog(), "cannot get non-existent blog as current blog")
+		self.assertIsNone(self.controller.get_current_blog(), "cannot get non-existent blog as current blog")
 
 		# set one blog to be the current blog
 		self.controller.set_current_blog(1111112000)
