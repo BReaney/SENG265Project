@@ -119,8 +119,8 @@ class Controller:
             raise IllegalAccessException
         if len(self.blogs_dao.blogs) == 0 or (self.current_blog != None and id == self.current_blog.id) or self.search_blog(id) == None:
             raise IllegalOperationException
-        self.blogs_dao.delete_blog(id)
-        return True
+        
+        return self.blogs_dao.delete_blog(id)
     
     
 #     ####################list_blogs Functions#####################

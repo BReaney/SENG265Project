@@ -30,7 +30,6 @@ class PostDAOPickle(PostDAO):
     ###return the keyed post else return None
     def search_post(self, key):
         return self.posts.get(key)
-        # pass
     
     ### create post, update persistence file, return results of searching the post
     def create_post(self, post):
@@ -38,7 +37,6 @@ class PostDAOPickle(PostDAO):
         if self.persistence == True:
             self.dump_posts()
         return self.search_post(post.code)
-        # pass
 
     ###iterate through the posts collection and return a list of posts containing the string in their representation
     def retrieve_posts(self, search_string):
@@ -69,7 +67,6 @@ class PostDAOPickle(PostDAO):
         if self.persistence == True:
             self.dump_posts()
         return True
-        # pass
     
     ###return a list of all posts in the post collection 
     def list_posts(self):
@@ -77,4 +74,3 @@ class PostDAOPickle(PostDAO):
         for x,y in self.posts.items():
             all_posts.insert(0, self.posts.get(x))
         return all_posts
-        # pass
