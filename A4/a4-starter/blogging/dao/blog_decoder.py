@@ -7,5 +7,7 @@ class BlogDecoder(json.JSONDecoder):
 
     def object_hook(self, dct):
         if '__type__' in dct and dct ['__type__'] == 'Blog':
-            return Blog(dct['id'], dct['name'], dct['url'], dct['email'])
+            blog = Blog(dct['id'], dct['name'], dct['url'], dct['email'])
+            blog.code = dct['code']
+            return blog
         return dct

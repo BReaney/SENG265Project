@@ -101,12 +101,13 @@ class Controller:
         # pick a blog by id, update blog values.
         if self.loggedin != True:
             raise IllegalAccessException
-        if self.blogs_dao.blogs.get(cur_id) == None or (cur_id != new_id and self.blogs_dao.blogs.get(new_id) != None):
+        if self.search_blog(cur_id) == None or (cur_id != new_id and self.blogs_dao.blogs.get(new_id) != None):
             raise IllegalOperationException
         if self.current_blog != None:
             if cur_id == self.current_blog.id:
                 raise IllegalOperationException
         nblog = Blog(new_id, new_name, new_url, new_email)
+        nblog.code = self.search_blog(cur_id).code
         self.blogs_dao.delete_blog(cur_id)
         self.blogs_dao.update_blog(new_id, nblog)
         return True
@@ -144,6 +145,7 @@ class Controller:
         if self.search_blog(id) == None:
             raise IllegalOperationException
         self.current_blog = self.search_blog(id)
+
         return True
     
     def unset_current_blog(self):
@@ -159,7 +161,10 @@ class Controller:
             raise IllegalAccessException
         if self.current_blog == None:
             raise NoCurrentBlogException
-        return self.current_blog.create_post(title, text)
+        post = self.current_blog.create_post(title, text)
+        self.blogs_dao.update_blog(self.current_blog.id, self.current_blog)
+
+        return post
     
 # ################################################### search post
 

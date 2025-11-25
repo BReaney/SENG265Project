@@ -60,6 +60,7 @@ class ConcreteBlogDAOJSON(BlogDAO):
         
     
     def update_blog(self, key, blog):
+        
         self.blogs[key] = blog
         if self.persistence == True:
             with open(self.filename, 'w') as file:

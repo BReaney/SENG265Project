@@ -5,6 +5,7 @@ from blogging.post import Post
 from pickle import load, dump
 import os
 
+
 class PostDAOPickle(PostDAO):
 
     def __init__(self):
@@ -13,6 +14,7 @@ class PostDAOPickle(PostDAO):
         self.filename = f'{self.configuration.__class__.records_path}/{1111114444}{self.configuration.__class__.records_extension}'
         self.posts = {}
         self.load_posts()
+        
 
     def load_posts(self):
         try:
