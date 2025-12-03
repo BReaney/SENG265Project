@@ -1,7 +1,7 @@
 import sys
 from blogging.configuration import Configuration
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.QtCore import QSize, Qt 
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 
 class BloggingGUI(QMainWindow):
 
@@ -11,8 +11,10 @@ class BloggingGUI(QMainWindow):
         self.configuration = Configuration()
         self.configuration.__class__.autosave = True
         # Continue here with your code!
-
-
+        self.setWindowTitle("Cool Title")
+        button = QPushButton("Log in")
+        self.setCentralWidget(button)
+        self.setFixedSize(QSize(600, 400))
 
 def main():
     app = QApplication(sys.argv)
