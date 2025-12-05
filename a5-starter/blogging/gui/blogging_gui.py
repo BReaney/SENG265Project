@@ -3,6 +3,7 @@ from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
 from blogging.controller import Controller
+from blogging.gui.posting_gui import PostingGUI
 # from login_gui import LoginGUI
 
 class BloggingGUI(QMainWindow):
@@ -146,6 +147,10 @@ class BloggingGUI(QMainWindow):
         home_page_widget.setLayout(layout_home_page)
         self.layout_page.addWidget(home_page_widget)
 
+        ##################################### Blog Menu ##########################################
+        blog_menu_widget = PostingGUI(self, self.controller)
+        self.layout_page.addWidget(blog_menu_widget)
+
                 #################### Create Add Blog Window ##################
         add_blog_layout = QGridLayout()
         add_blog_widget = QWidget()
@@ -205,6 +210,8 @@ class BloggingGUI(QMainWindow):
 
         
 
+        
+
     def toggle_window(self, window):
         self.layout_page.setCurrentIndex(window)
         self.page_widget.setLayout(self.layout_page)
@@ -260,6 +267,7 @@ class BloggingGUI(QMainWindow):
     def list_all_blogs_button_clicked(self):
         pass
     def edit_blog_button_clicked(self):
+        self.toggle_window(3)
         pass
     def log_out_button_clicked(self):
         self.log_out()
