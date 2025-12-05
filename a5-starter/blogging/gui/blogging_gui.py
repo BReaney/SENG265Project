@@ -23,13 +23,13 @@ class BloggingGUI(QMainWindow):
         #Setting up main page Log In button
         button_login_page = QPushButton("Log in")
         
-        button_login_page.setCheckable(True)
+        
         button_login_page.clicked.connect(self.login_page_button_clicked)
 
         #Setting up Quit Button 
         button_quit = QPushButton("Quit")
 
-        button_quit.setCheckable(True)
+      
         button_quit.clicked.connect(self.quit_button_clicked)
         #testing Qline
         
@@ -191,6 +191,7 @@ class BloggingGUI(QMainWindow):
         button_layout.addWidget(self.add_blog_cancel_button)
 
         self.add_blog_cancel_button.clicked.connect(self.cancel_button_clicked)
+        self.add_blog_complete_button.clicked.connect(self.add_blog_complete_button_clicked)
         ################### Page Layout ###############
         page_layout = QVBoxLayout()
 
@@ -274,9 +275,23 @@ class BloggingGUI(QMainWindow):
         self.controller.logout()
 
     def add_blog_complete_button_clicked(self):
-        pass
+
+        self.add_blog()
+        button = QMessageBox.information(self, "Added Blog Successfully!", "Success!")
+        if button == QMessageBox.StandardButton.Ok:
+            self.toggle_window(2)
+        
+
     def add_blog_clear_button_clicked(self):
         pass
+
+    def add_blog(self):
+        id = int(self.text_id.text())
+        name = self.text_name.text()
+        email = self.text_name.text()
+        url = self.text_url.text()
+        self.controller.create_blog(id, name, url, email)
+
 
 # class LoginGUI(QMainWindow):
 #     def __init__(self, controller):
