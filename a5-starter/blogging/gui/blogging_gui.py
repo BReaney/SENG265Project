@@ -1,7 +1,9 @@
 import sys
 from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
-from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton
+from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
+from blogging.controller import Controller
+# from login_gui import LoginGUI
 
 class BloggingGUI(QMainWindow):
 
@@ -12,46 +14,421 @@ class BloggingGUI(QMainWindow):
         self.configuration.__class__.autosave = True
         # Continue here with your code!
         #Still workshopping title
-        self.setWindowTitle("Cool Title")
-
-        #initializing layout
-        layout = QVBoxLayout()
+        self.controller = Controller()
+        self.setWindowTitle("Main Menu")
+        self.resize(600, 400)
+        self.layout_page = QStackedLayout()
+        #initializing login layout
+        layout_start_page = QVBoxLayout()
         #Setting up main page Log In button
-        button = QPushButton("Log in")
+        button_login_page = QPushButton("Log in")
         
-        button.setCheckable(True)
-        button.clicked.connect(self.Log_in_button)
+        button_login_page.setCheckable(True)
+        button_login_page.clicked.connect(self.login_page_button_clicked)
 
         #Setting up Quit Button 
-        button2 = QPushButton("Quit")
+        button_quit = QPushButton("Quit")
 
-        button2.setCheckable(True)
-        button2.clicked.connect(self.Quit_Button)
+        button_quit.setCheckable(True)
+        button_quit.clicked.connect(self.quit_button_clicked)
         #testing Qline
         
 
         #Adding all buttons to layout
-        layout.addWidget(button)
-        layout.addWidget(button2)
+        layout_start_page.addWidget(button_login_page)
+        layout_start_page.addWidget(button_quit)
 
         #Window Settings
-        widget = QWidget()
-        widget.setLayout(layout)
+        start_page_widget = QWidget()
+        start_page_widget.setLayout(layout_start_page)
+        self.layout_page.addWidget(start_page_widget)
+        self.layout_page.setCurrentIndex(0)
+        
+        self.page_widget = QWidget()
+        self.page_widget.setLayout(self.layout_page)
         self.setFixedSize(QSize(600, 400))
+        self.setCentralWidget(self.page_widget)
+
+        ################ Add Login Page #####################
+        # self.login_gui = LoginGUI(self.controller)
+        # layout_login_page = QGridLayout()
+         #### define textbox layout #######
+        layout_login_input = QGridLayout()
+        
+
+        ##### text box definition and labeling #######
+        label_user = QLabel("Username")
+        self.text_user = QLineEdit()
+        label_password = QLabel("Password")
+        self.text_password = QLineEdit()
+
+        ##### add text boxes to layout ###########
+        layout_login_input.addWidget(label_user, 0, 0)
+        layout_login_input.addWidget(self.text_user, 0, 1)
+        layout_login_input.addWidget(label_password, 1, 0)
+        layout_login_input.addWidget(self.text_password, 1, 1)
+
+        ################# define login button layout ###############
+        layout_login_buttons = QHBoxLayout()
+
+        #### button config ####
+        button_login = QPushButton("Log in")
+        button_clear = QPushButton("Clear")
+        button_cancel = QPushButton("Cancel")
+
+        button_login.setEnabled(True)
+        button_clear.setEnabled(True)
+        button_cancel.setEnabled(True)
+
+        layout_login_buttons.addWidget(button_login)
+        layout_login_buttons.addWidget(button_clear)
+        layout_login_buttons.addWidget(button_cancel)
+
+        ### connect button signals to slots ###
+        button_login.clicked.connect(self.login_button_clicked)
+        button_clear.clicked.connect(self.clear_button_clicked)
+        button_cancel.clicked.connect(self.cancel_button_clicked)
+
+        ###### widget layout config #############
+
+        layout_login_page = QVBoxLayout()
+
+        login_input_widget = QWidget()
+        login_input_widget.setLayout(layout_login_input)
+        login_buttons_widget = QWidget()
+        login_buttons_widget.setLayout(layout_login_buttons)
+        layout_login_page.addWidget(login_input_widget)
+        layout_login_page.addWidget(login_buttons_widget)
+        login_page_widget = QWidget()
+        login_page_widget.setLayout(layout_login_page)
+        self.layout_page.addWidget(login_page_widget)
+        # widget.setLayout(layout_login_page)
+
+        # self.setCentralWidget(widget)
+
+        ######################## Add Home Page ########################
+        layout_home_page = QVBoxLayout()
+        layout_home_menu = QVBoxLayout()
+
+        home_page_widget = QWidget()
+
+        home_menu_widget = QWidget()
+
+        button_add_new_blog = QPushButton('Add New Blog')
+        button_search_blog_by_id = QPushButton('Search Blog By ID')
+        button_retrieve_blogs_by_name = QPushButton('Retrieve Blogs By Name')
+        button_change_blog_data = QPushButton('Change Blog Data')
+        button_remove_blog = QPushButton('Remove Blog')
+        button_list_all_blogs = QPushButton('List All Blogs')
+        button_edit_blog = QPushButton('Edit Blog')
+        button_log_out = QPushButton('Log Out')
+
+        layout_home_menu.addWidget(button_add_new_blog) 
+        layout_home_menu.addWidget(button_search_blog_by_id) 
+        layout_home_menu.addWidget(button_retrieve_blogs_by_name) 
+        layout_home_menu.addWidget(button_change_blog_data) 
+        layout_home_menu.addWidget(button_remove_blog)
+        layout_home_menu.addWidget(button_list_all_blogs) 
+        layout_home_menu.addWidget(button_edit_blog)
+        layout_home_menu.addWidget(button_log_out)
+
+        button_add_new_blog.clicked.connect(self.add_new_blog_button_clicked) 
+        button_search_blog_by_id.clicked.connect(self.search_blog_by_id_button_clicked) 
+        button_retrieve_blogs_by_name.clicked.connect(self.retrieve_blogs_by_name_button_clicked) 
+        button_change_blog_data.clicked.connect(self.change_blog_data_button_clicked) 
+        button_remove_blog.clicked.connect(self.remove_blog_button_clicked)
+        button_list_all_blogs.clicked.connect(self.list_all_blogs_button_clicked) 
+        button_edit_blog.clicked.connect(self.edit_blog_button_clicked)
+        button_log_out.clicked.connect(self.log_out_button_clicked)
+
+        home_menu_widget.setLayout(layout_home_menu)
+        layout_home_page.addWidget(home_menu_widget)
+        home_page_widget.setLayout(layout_home_page)
+        self.layout_page.addWidget(home_page_widget)
+
+                #################### Create Add Blog Window ##################
+        add_blog_layout = QGridLayout()
+        add_blog_widget = QWidget()
+
+        #################### Create Labels and Lines for all Fields################
+
+        label_id = QLabel("ID")
+        self.text_id = QLineEdit()
+        label_name = QLabel("Name")
+        self.text_name = QLineEdit()
+        label_url = QLabel("Url")
+        self.text_url = QLineEdit()
+        label_email = QLabel("Email")
+        self.text_email = QLineEdit()
+
+
+        ################### Organize layouts ######################
+
+        add_blog_layout.addWidget(label_id, 0, 0)
+        add_blog_layout.addWidget(self.text_id, 0, 1)
+
+        add_blog_layout.addWidget(label_name, 1, 0)
+        add_blog_layout.addWidget(self.text_name, 1, 1)
+
+        add_blog_layout.addWidget(label_url, 2, 0)
+        add_blog_layout.addWidget(self.text_url, 2, 1)
+
+        add_blog_layout.addWidget(label_email, 3, 0)
+        add_blog_layout.addWidget(self.text_email, 3, 1)
+
+        ################### Complete/Clear/Cancel Buttons ################
+        button_layout = QHBoxLayout()
+        self.add_blog_complete_button = QPushButton("Complete")
+        self.add_blog_clear_button = QPushButton("Clear")
+        self.add_blog_cancel_button = QPushButton("Cancel")
+
+        self.add_blog_complete_button.setEnabled(True)
+        self.add_blog_clear_button.setEnabled(True)
+        self.add_blog_cancel_button.setEnabled(True)
+
+        button_layout.addWidget(self.add_blog_complete_button)
+        button_layout.addWidget(self.add_blog_clear_button)
+        button_layout.addWidget(self.add_blog_cancel_button)
+
+        self.add_blog_cancel_button.clicked.connect(self.cancel_button_clicked)
+        ################### Page Layout ###############
+        page_layout = QVBoxLayout()
+
+        top_widget = QWidget()
+        top_widget.setLayout(add_blog_layout)
+        bottom_widget = QWidget()
+        bottom_widget.setLayout(button_layout)
+        page_layout.addWidget(top_widget)
+        page_layout.addWidget(bottom_widget)
+        add_blog_widget.setLayout(page_layout)
+        self.layout_page.addWidget(add_blog_widget)
+
+        
+
+    def toggle_window(self, window):
+        self.layout_page.setCurrentIndex(window)
+        self.page_widget.setLayout(self.layout_page)
+        self.setCentralWidget(self.page_widget)
+
+    def login_page_button_clicked(self):
+        # QMessageBox.information(self, 'Login', 'You want to log in :)')
+        # self.login_gui.show()
+        self.toggle_window(1)
+        
+        pass
+
+    def quit_button_clicked(self):
+        # QMessageBox.information(self, 'Quit', 'You want to quit :(')
+        self.close()
+
+    def login_button_clicked(self):
+        try:
+            self.login()
+            button = QMessageBox.information(self, 'Success', 'Login successful')
+            if button == QMessageBox.StandardButton.Ok:
+                self.toggle_window(2)
+        except:
+            button = QMessageBox.warning(self, 'Failure', 'Login failed')
+            if button == QMessageBox.StandardButton.Ok:
+                self.clear_button_clicked()
+
+        pass
+
+    def clear_button_clicked(self):
+        self.text_password.setText('')
+        self.text_user.setText('')
+
+    def cancel_button_clicked(self):
+        # self.close()
+        if(self.layout_page.currentIndex == 1):
+            self.toggle_window(0)
+        else:
+            self.toggle_window(2)
+        pass
+    
+    def add_new_blog_button_clicked(self):
+        self.toggle_window(3)
+        pass
+    def search_blog_by_id_button_clicked(self):
+        pass
+    def retrieve_blogs_by_name_button_clicked(self):
+        pass
+    def change_blog_data_button_clicked(self):
+        pass
+    def remove_blog_button_clicked(self):
+        pass
+    def list_all_blogs_button_clicked(self):
+        pass
+    def edit_blog_button_clicked(self):
+        pass
+    def log_out_button_clicked(self):
+        self.log_out()
+        self.toggle_window(0)
+        pass
+    def login(self):
+        user = self.text_user.text()
+        password = self.text_password.text()
+        self.controller.login(user, password)
+        pass
+    def log_out(self):
+        self.controller.logout()
+
+    def add_blog_complete_button_clicked(self):
+        pass
+    def add_blog_clear_button_clicked(self):
+        pass
+
+class LoginGUI(QMainWindow):
+    def __init__(self, controller):
+        super().__init__()
+        self.controller = controller
+        self.setWindowTitle("Login")
+
+        ################# define textbox layout ####################
+        layout1 = QGridLayout()
+        
+
+        ##### text box definition and labeling #######
+        label_user = QLabel("Username")
+        self.text_user = QLineEdit()
+        label_password = QLabel("Password")
+        self.text_password = QLineEdit()
+
+        ##### add text boxes to layout ###########
+        layout1.addWidget(label_user, 0, 0)
+        layout1.addWidget(self.text_user, 0, 1)
+        layout1.addWidget(label_password, 1, 0)
+        layout1.addWidget(self.text_password, 1, 1)
+
+        ################# define login button layout ###############
+        layout2 = QHBoxLayout()
+
+        #### button config ####
+        self.button_login = QPushButton("Log in")
+        self.button_clear = QPushButton("Clear")
+        self.button_cancel = QPushButton("Cancel")
+
+        self.button_login.setEnabled(True)
+        self.button_clear.setEnabled(True)
+        self.button_cancel.setEnabled(True)
+
+        layout2.addWidget(self.button_login)
+        layout2.addWidget(self.button_clear)
+        layout2.addWidget(self.button_cancel)
+
+        ### connect button signals to slots ###
+        self.button_login.clicked.connect(self.login_button_clicked)
+        self.button_clear.clicked.connect(self.clear_button_clicked)
+        self.button_cancel.clicked.connect(self.cancel_button_clicked)
+
+        ####################### widget layout config ##############################
+
+        layout3 = QVBoxLayout()
+
+        top_widget = QWidget()
+        top_widget.setLayout(layout1)
+        bottom_widget = QWidget()
+        bottom_widget.setLayout(layout2)
+        layout3.addWidget(top_widget)
+        layout3.addWidget(bottom_widget)
+        widget = QWidget()
+        widget.setLayout(layout3)
+
         self.setCentralWidget(widget)
 
-    def Log_in_button(self):
-        print("You want to log in :)")
+    def login_button_clicked(self):
+        try:
+            self.login()
+            button = QMessageBox.information(self, 'Success', 'Login successful')
+            if button == QMessageBox.StandardButton.Ok:
+                self.cancel_button_clicked()
+        except:
+            button = QMessageBox.warning(self, 'Failure', 'Login failed')
+            if button == QMessageBox.StandardButton.Ok:
+                self.clear_button_clicked()
 
-    def Quit_Button(self):
-        print("You want to quit :(")
+        pass
+    def clear_button_clicked(self):
+        self.text_password.setText('')
+        self.text_user.setText('')
+
+    def cancel_button_clicked(self):
+        self.close()
+        pass
+    def login(self):
+        user = self.text_user.text()
+        password = self.text_password.text()
+        self.controller.login(user, password)
+        pass
 
 
 class CustomDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Log in")
-        
+
+# class AddBlogGUI(QMainWindow):
+#     def __init__(self, controller):
+#         super.__init__()
+#         self.controller = controller
+#         self.setWindowTitle("Add a Blog")       
+
+#         #################### Create the Grid Layout ##################
+#         add_blog_layout = QGridLayout()
+
+
+#         #################### Create Labels and Lines for all Fields################
+
+#         label_id = QLabel("ID")
+#         self.text_id = QLineEdit()
+#         label_name = QLabel("Name")
+#         self.text_name = QLineEdit()
+#         label_url = QLabel("Url")
+#         self.text_url = QLineEdit()
+#         label_email = QLabel("Email")
+#         self.text_email = QLineEdit
+
+
+#         ################### Organize layouts ######################
+
+#         add_blog_layout.addWidget(label_id, 0, 0)
+#         add_blog_layout.addWidget(self.text_id, 0, 1)
+
+#         add_blog_layout.addWidget(label_name, 1, 0)
+#         add_blog_layout.addWidget(self.text_name, 1, 1)
+
+#         add_blog_layout.addWidget(label_url, 2, 0)
+#         add_blog_layout.addWidget(self.text_url, 2, 1)
+
+#         add_blog_layout.addWidget(label_email, 3, 0)
+#         add_blog_layout.addWidget(self.text_email, 3, 1)
+
+#         ################### Complete/Clear/Cancel Buttons ################
+#         button_layout = QHBoxLayout()
+#         self.complete_button = QPushButton()
+#         self.clear_button = QPushButton()
+#         self.cancel_button = QPushButton()
+
+#         self.complete_button.setEnabled(True)
+#         self.clear_button.setEnabled(True)
+#         self.cancel_button.setEnabled(True)
+
+#         button_layout.addWidget(self.complete_button)
+#         button_layout.addWidget(self.clear_button)
+#         button_layout.addWidget(self.cancel_button)
+
+#         ################### Page Layout ###############
+#         page_layout = QVBoxLayout()
+
+#         top_widget = QWidget()
+#         top_widget.setLayout(add_blog_layout)
+#         bottom_widget = QWidget()
+#         bottom_widget.setLayout(button_layout)
+#         page_layout.addWidget(top_widget)
+#         page_layout.addWidget(bottom_widget)
+#         widget = QWidget()
+#         widget.setLayout(page_layout)
+
 
 def main():
     app = QApplication(sys.argv)
