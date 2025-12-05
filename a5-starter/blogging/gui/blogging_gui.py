@@ -267,6 +267,9 @@ class BloggingGUI(QMainWindow):
     def list_all_blogs_button_clicked(self):
         pass
     def edit_blog_button_clicked(self):
+        # dialog_select_blog = QDialog()
+        # dialog_select_blog.setWindowTitle('Select Blog')
+        # dialog_select_blog.setWindowTitle('Select Blog')
         self.toggle_window(3)
         pass
     def log_out_button_clicked(self):
@@ -371,9 +374,9 @@ class LoginGUI(QMainWindow):
 
 
 class CustomDialog(QDialog):
-    def __init__(self):
+    def __init__(self, title):
         super().__init__()
-        self.setWindowTitle("Log in")
+        self.setWindowTitle(title)
 
 # class AddBlogGUI(QMainWindow):
 #     def __init__(self, controller):
