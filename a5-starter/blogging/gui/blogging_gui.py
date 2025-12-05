@@ -193,7 +193,7 @@ class BloggingGUI(QMainWindow):
         button_layout.addWidget(self.add_blog_clear_button)
         button_layout.addWidget(self.add_blog_cancel_button)
 
-        self.add_blog_cancel_button.clicked.connect(self.cancel_button_clicked)
+        self.add_blog_cancel_button.clicked.connect(self.add_blog_cancel_button_clicked)
         self.add_blog_complete_button.clicked.connect(self.add_blog_complete_button_clicked)
         self.add_blog_clear_button.clicked.connect(self.add_blog_clear_button_clicked)
         ################### Add Blog Page Layout ###############
@@ -255,11 +255,51 @@ class BloggingGUI(QMainWindow):
 
 
 
+        ########################### Search Blog by Name #######################
 
+        layout_search_blog_name = QGridLayout()
+        search_blog_name_widget = QWidget()
 
+        ########################### Search Bar #######################
 
+        label_search_blog_name = QLabel("Search by name")
+        self.search_blog_name = QLineEdit()
 
+        layout_search_blog_name.addWidget(label_search_blog_name, 0, 0)
+        layout_search_blog_name.addWidget(self.search_blog_name, 0, 1)
 
+        ########################## Search/Quit Button #####################
+
+        layout_search_blog_name_button = QHBoxLayout()
+
+        self.search_blog_name_search_button = QPushButton("Search")
+        self.search_blog_name_quit_button = QPushButton("Quit")
+
+        self.search_blog_name_search_button.setEnabled(True)
+        self.search_blog_name_quit_button.setEnabled(True)
+
+        layout_search_blog_name_button.addWidget(self.search_blog_name_search_button)
+        layout_search_blog_name_button.addWidget(self.search_blog_name_quit_button)
+
+        self.search_blog_name_search_button.clicked.connect(self.search_blog_name_search_button_clicked)
+        self.search_blog_name_quit_button.clicked.connect(self.search_blog_name_quit_button_clicked)
+
+        ############################## Create Search by name page #######################
+        
+
+        search_blog_name_page_layout = QVBoxLayout()
+
+        search_blog_name_top_widget = QWidget()
+        search_blog_name_top_widget.setLayout(layout_search_blog_name)
+
+        search_blog_name_bottom_widget = QWidget()
+        search_blog_name_bottom_widget.setLayout(layout_search_blog_name_button)
+
+        search_blog_name_page_layout.addWidget(search_blog_name_top_widget)
+        search_blog_name_page_layout.addWidget(search_blog_name_bottom_widget)
+
+        search_blog_name_widget.setLayout(search_blog_name_page_layout)
+        self.layout_page.addWidget(search_blog_name_widget)
 
     def toggle_window(self, window):
         self.layout_page.setCurrentIndex(window)
@@ -296,11 +336,10 @@ class BloggingGUI(QMainWindow):
 
     def cancel_button_clicked(self):
         # self.close()
-        if(self.layout_page.currentIndex == 1):
+        
             self.toggle_window(0)
-        else:
-            self.toggle_window(2)
-        pass
+        
+        
     
     def add_new_blog_button_clicked(self):
         self.toggle_window(3)
@@ -309,6 +348,7 @@ class BloggingGUI(QMainWindow):
         self.toggle_window(4)
         pass
     def retrieve_blogs_by_name_button_clicked(self):
+        self.toggle_window(5)
         pass
     def change_blog_data_button_clicked(self):
         pass
@@ -355,6 +395,9 @@ class BloggingGUI(QMainWindow):
         url = self.text_url.text()
         self.controller.create_blog(id, name, url, email)
 
+    def add_blog_cancel_button_clicked(self):
+        self.toggle_window(2)
+
 
 
     ############################### Search Blog Functions #############################
@@ -363,6 +406,7 @@ class BloggingGUI(QMainWindow):
     
 
     def search_blog_search_button_clicked(self):
+        self.blog_search_id_text.setText("")
         self.search_blog()
 
     def search_blog(self):
@@ -378,21 +422,59 @@ class BloggingGUI(QMainWindow):
             dialog = QDialog(self)
             dialog.setWindowTitle("Found your blog!")
 
-            message = QLabel(f'ID: {found_blog.id}\nNAME: {found_blog.name} \nURL: {found_blog.url} \nEmail: {found_blog.email}')
-            dialog_layout.addWidget(message)
+            label_message = QLabel(f'ID: {found_blog.id}\nNAME: {found_blog.name} \nURL: {found_blog.url} \nEmail: {found_blog.email}')
+            dialog_layout.addWidget(label_message)
             dialog.setFixedSize(500, 500)
             dialog.setLayout(dialog_layout)
             button = dialog.exec()
             
             
 
-            if button == QMessageBox.StandardButton.Ok:
-                self.toggle_window(4)
+            
         except:
 
             button = QMessageBox.warning(self, "Error", "Blog could not be found :(")
             if button == QMessageBox.StandardButton.Ok:
-                self.toggle_window(4)
+                self.blog_search_id_text.setText("")
+                self.toggle_window(2)
+
+        ########################## Search Blog by name functions ############################3
+    def search_blog_name_quit_button_clicked(self):
+        self.search_blog_name.setText("")
+        self.toggle_window(2)
+
+    def search_blog_name_search_button_clicked(self):
+        self.search_blog_by_name()
+
+    def search_blog_by_name(self):
+        try:
+
+
+            dialog_layout = QVBoxLayout()
+
+            search_string = self.search_blog_name.text()
+
+            found_blogs = self.controller.retrieve_blogs(search_string)
+
+            dialog = QDialog(self)
+            dialog.setWindowTitle("Found your blog!")
+            for results in found_blogs:
+                label_message = QLabel(f'ID: {results.id}\nNAME: {results.name} \nURL: {results.url} \nEmail: {results.email}')
+                dialog_layout.addWidget(label_message)
+
+            dialog.setFixedSize(500, 500)
+            dialog.setLayout(dialog_layout)
+            button = dialog.exec()
+            
+            
+
+            
+        except:
+
+            button = QMessageBox.warning(self, "Error", "Blog could not be found :(")
+            if button == QMessageBox.StandardButton.Ok:
+                self.search_blog_name.setText("")
+                self.toggle_window(2)
 
 # class LoginGUI(QMainWindow):
 #     def __init__(self, controller):
