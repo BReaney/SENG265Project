@@ -278,88 +278,88 @@ class BloggingGUI(QMainWindow):
     def add_blog_clear_button_clicked(self):
         pass
 
-class LoginGUI(QMainWindow):
-    def __init__(self, controller):
-        super().__init__()
-        self.controller = controller
-        self.setWindowTitle("Login")
+# class LoginGUI(QMainWindow):
+#     def __init__(self, controller):
+#         super().__init__()
+#         self.controller = controller
+#         self.setWindowTitle("Login")
 
-        ################# define textbox layout ####################
-        layout1 = QGridLayout()
+#         ################# define textbox layout ####################
+#         layout1 = QGridLayout()
         
 
-        ##### text box definition and labeling #######
-        label_user = QLabel("Username")
-        self.text_user = QLineEdit()
-        label_password = QLabel("Password")
-        self.text_password = QLineEdit()
+#         ##### text box definition and labeling #######
+#         label_user = QLabel("Username")
+#         self.text_user = QLineEdit()
+#         label_password = QLabel("Password")
+#         self.text_password = QLineEdit()
 
-        ##### add text boxes to layout ###########
-        layout1.addWidget(label_user, 0, 0)
-        layout1.addWidget(self.text_user, 0, 1)
-        layout1.addWidget(label_password, 1, 0)
-        layout1.addWidget(self.text_password, 1, 1)
+#         ##### add text boxes to layout ###########
+#         layout1.addWidget(label_user, 0, 0)
+#         layout1.addWidget(self.text_user, 0, 1)
+#         layout1.addWidget(label_password, 1, 0)
+#         layout1.addWidget(self.text_password, 1, 1)
 
-        ################# define login button layout ###############
-        layout2 = QHBoxLayout()
+#         ################# define login button layout ###############
+#         layout2 = QHBoxLayout()
 
-        #### button config ####
-        self.button_login = QPushButton("Log in")
-        self.button_clear = QPushButton("Clear")
-        self.button_cancel = QPushButton("Cancel")
+#         #### button config ####
+#         self.button_login = QPushButton("Log in")
+#         self.button_clear = QPushButton("Clear")
+#         self.button_cancel = QPushButton("Cancel")
 
-        self.button_login.setEnabled(True)
-        self.button_clear.setEnabled(True)
-        self.button_cancel.setEnabled(True)
+#         self.button_login.setEnabled(True)
+#         self.button_clear.setEnabled(True)
+#         self.button_cancel.setEnabled(True)
 
-        layout2.addWidget(self.button_login)
-        layout2.addWidget(self.button_clear)
-        layout2.addWidget(self.button_cancel)
+#         layout2.addWidget(self.button_login)
+#         layout2.addWidget(self.button_clear)
+#         layout2.addWidget(self.button_cancel)
 
-        ### connect button signals to slots ###
-        self.button_login.clicked.connect(self.login_button_clicked)
-        self.button_clear.clicked.connect(self.clear_button_clicked)
-        self.button_cancel.clicked.connect(self.cancel_button_clicked)
+#         ### connect button signals to slots ###
+#         self.button_login.clicked.connect(self.login_button_clicked)
+#         self.button_clear.clicked.connect(self.clear_button_clicked)
+#         self.button_cancel.clicked.connect(self.cancel_button_clicked)
 
-        ####################### widget layout config ##############################
+#         ####################### widget layout config ##############################
 
-        layout3 = QVBoxLayout()
+#         layout3 = QVBoxLayout()
 
-        top_widget = QWidget()
-        top_widget.setLayout(layout1)
-        bottom_widget = QWidget()
-        bottom_widget.setLayout(layout2)
-        layout3.addWidget(top_widget)
-        layout3.addWidget(bottom_widget)
-        widget = QWidget()
-        widget.setLayout(layout3)
+#         top_widget = QWidget()
+#         top_widget.setLayout(layout1)
+#         bottom_widget = QWidget()
+#         bottom_widget.setLayout(layout2)
+#         layout3.addWidget(top_widget)
+#         layout3.addWidget(bottom_widget)
+#         widget = QWidget()
+#         widget.setLayout(layout3)
 
-        self.setCentralWidget(widget)
+#         self.setCentralWidget(widget)
 
-    def login_button_clicked(self):
-        try:
-            self.login()
-            button = QMessageBox.information(self, 'Success', 'Login successful')
-            if button == QMessageBox.StandardButton.Ok:
-                self.cancel_button_clicked()
-        except:
-            button = QMessageBox.warning(self, 'Failure', 'Login failed')
-            if button == QMessageBox.StandardButton.Ok:
-                self.clear_button_clicked()
+    # def login_button_clicked(self):
+    #     try:
+    #         self.login()
+    #         button = QMessageBox.information(self, 'Success', 'Login successful')
+    #         if button == QMessageBox.StandardButton.Ok:
+    #             self.cancel_button_clicked()
+    #     except:
+    #         button = QMessageBox.warning(self, 'Failure', 'Login failed')
+    #         if button == QMessageBox.StandardButton.Ok:
+    #             self.clear_button_clicked()
 
-        pass
-    def clear_button_clicked(self):
-        self.text_password.setText('')
-        self.text_user.setText('')
+    #     pass
+    # def clear_button_clicked(self):
+    #     self.text_password.setText('')
+    #     self.text_user.setText('')
 
-    def cancel_button_clicked(self):
-        self.close()
-        pass
-    def login(self):
-        user = self.text_user.text()
-        password = self.text_password.text()
-        self.controller.login(user, password)
-        pass
+    # def cancel_button_clicked(self):
+    #     self.close()
+    #     pass
+    # def login(self):
+    #     user = self.text_user.text()
+    #     password = self.text_password.text()
+    #     self.controller.login(user, password)
+    #     pass
 
 
 class CustomDialog(QDialog):
