@@ -85,16 +85,20 @@ class LoginGUI(QMainWindow):
 
         #### button config ####
         self.button_login = QPushButton("Log in")
+        self.button_clear = QPushButton("Clear")
         self.button_cancel = QPushButton("Cancel")
 
         self.button_login.setEnabled(True)
+        self.button_clear.setEnabled(True)
         self.button_cancel.setEnabled(True)
 
         layout2.addWidget(self.button_login)
+        layout2.addWidget(self.button_clear)
         layout2.addWidget(self.button_cancel)
 
         ### connect button signals to slots ###
         self.button_login.clicked.connect(self.login_button_clicked)
+        self.button_clear.clicked.connect(self.clear_button_clicked)
         self.button_cancel.clicked.connect(self.cancel_button_clicked)
 
         ####################### widget layout config ##############################
@@ -113,10 +117,28 @@ class LoginGUI(QMainWindow):
         self.setCentralWidget(widget)
 
     def login_button_clicked(self):
+        try:
+            self.login()
+            button = QMessageBox.information(self, 'Success', 'Login successful')
+            if button == QMessageBox.StandardButton.Ok:
+                self.cancel_button_clicked()
+        except:
+            button = QMessageBox.warning(self, 'Failure', 'Login failed')
+            if button == QMessageBox.StandardButton.Ok:
+                self.clear_button_clicked()
+
         pass
+    def clear_button_clicked(self):
+        self.text_password.setText('')
+        self.text_user.setText('')
+
     def cancel_button_clicked(self):
+        self.close()
         pass
     def login(self):
+        user = self.text_user.text()
+        password = self.text_password.text()
+        self.controller.login(user, password)
         pass
 
 
