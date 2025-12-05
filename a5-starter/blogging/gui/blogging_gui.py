@@ -146,7 +146,62 @@ class BloggingGUI(QMainWindow):
         home_page_widget.setLayout(layout_home_page)
         self.layout_page.addWidget(home_page_widget)
 
-        
+                #################### Create Add Blog Window ##################
+        add_blog_layout = QGridLayout()
+        add_blog_widget = QWidget()
+
+        #################### Create Labels and Lines for all Fields################
+
+        label_id = QLabel("ID")
+        self.text_id = QLineEdit()
+        label_name = QLabel("Name")
+        self.text_name = QLineEdit()
+        label_url = QLabel("Url")
+        self.text_url = QLineEdit()
+        label_email = QLabel("Email")
+        self.text_email = QLineEdit()
+
+
+        ################### Organize layouts ######################
+
+        add_blog_layout.addWidget(label_id, 0, 0)
+        add_blog_layout.addWidget(self.text_id, 0, 1)
+
+        add_blog_layout.addWidget(label_name, 1, 0)
+        add_blog_layout.addWidget(self.text_name, 1, 1)
+
+        add_blog_layout.addWidget(label_url, 2, 0)
+        add_blog_layout.addWidget(self.text_url, 2, 1)
+
+        add_blog_layout.addWidget(label_email, 3, 0)
+        add_blog_layout.addWidget(self.text_email, 3, 1)
+
+        ################### Complete/Clear/Cancel Buttons ################
+        button_layout = QHBoxLayout()
+        self.add_blog_complete_button = QPushButton("Complete")
+        self.add_blog_clear_button = QPushButton("Clear")
+        self.add_blog_cancel_button = QPushButton("Cancel")
+
+        self.add_blog_complete_button.setEnabled(True)
+        self.add_blog_clear_button.setEnabled(True)
+        self.add_blog_cancel_button.setEnabled(True)
+
+        button_layout.addWidget(self.add_blog_complete_button)
+        button_layout.addWidget(self.add_blog_clear_button)
+        button_layout.addWidget(self.add_blog_cancel_button)
+
+        self.add_blog_cancel_button.clicked.connect(self.cancel_button_clicked)
+        ################### Page Layout ###############
+        page_layout = QVBoxLayout()
+
+        top_widget = QWidget()
+        top_widget.setLayout(add_blog_layout)
+        bottom_widget = QWidget()
+        bottom_widget.setLayout(button_layout)
+        page_layout.addWidget(top_widget)
+        page_layout.addWidget(bottom_widget)
+        add_blog_widget.setLayout(page_layout)
+        self.layout_page.addWidget(add_blog_widget)
 
         
 
@@ -185,10 +240,14 @@ class BloggingGUI(QMainWindow):
 
     def cancel_button_clicked(self):
         # self.close()
-        self.toggle_window(0)
+        if(self.layout_page.currentIndex == 1):
+            self.toggle_window(0)
+        else:
+            self.toggle_window(2)
         pass
-
+    
     def add_new_blog_button_clicked(self):
+        self.toggle_window(3)
         pass
     def search_blog_by_id_button_clicked(self):
         pass
@@ -213,6 +272,11 @@ class BloggingGUI(QMainWindow):
         pass
     def log_out(self):
         self.controller.logout()
+
+    def add_blog_complete_button_clicked(self):
+        pass
+    def add_blog_clear_button_clicked(self):
+        pass
 
 class LoginGUI(QMainWindow):
     def __init__(self, controller):
@@ -302,7 +366,69 @@ class CustomDialog(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Log in")
-        
+
+# class AddBlogGUI(QMainWindow):
+#     def __init__(self, controller):
+#         super.__init__()
+#         self.controller = controller
+#         self.setWindowTitle("Add a Blog")       
+
+#         #################### Create the Grid Layout ##################
+#         add_blog_layout = QGridLayout()
+
+
+#         #################### Create Labels and Lines for all Fields################
+
+#         label_id = QLabel("ID")
+#         self.text_id = QLineEdit()
+#         label_name = QLabel("Name")
+#         self.text_name = QLineEdit()
+#         label_url = QLabel("Url")
+#         self.text_url = QLineEdit()
+#         label_email = QLabel("Email")
+#         self.text_email = QLineEdit
+
+
+#         ################### Organize layouts ######################
+
+#         add_blog_layout.addWidget(label_id, 0, 0)
+#         add_blog_layout.addWidget(self.text_id, 0, 1)
+
+#         add_blog_layout.addWidget(label_name, 1, 0)
+#         add_blog_layout.addWidget(self.text_name, 1, 1)
+
+#         add_blog_layout.addWidget(label_url, 2, 0)
+#         add_blog_layout.addWidget(self.text_url, 2, 1)
+
+#         add_blog_layout.addWidget(label_email, 3, 0)
+#         add_blog_layout.addWidget(self.text_email, 3, 1)
+
+#         ################### Complete/Clear/Cancel Buttons ################
+#         button_layout = QHBoxLayout()
+#         self.complete_button = QPushButton()
+#         self.clear_button = QPushButton()
+#         self.cancel_button = QPushButton()
+
+#         self.complete_button.setEnabled(True)
+#         self.clear_button.setEnabled(True)
+#         self.cancel_button.setEnabled(True)
+
+#         button_layout.addWidget(self.complete_button)
+#         button_layout.addWidget(self.clear_button)
+#         button_layout.addWidget(self.cancel_button)
+
+#         ################### Page Layout ###############
+#         page_layout = QVBoxLayout()
+
+#         top_widget = QWidget()
+#         top_widget.setLayout(add_blog_layout)
+#         bottom_widget = QWidget()
+#         bottom_widget.setLayout(button_layout)
+#         page_layout.addWidget(top_widget)
+#         page_layout.addWidget(bottom_widget)
+#         widget = QWidget()
+#         widget.setLayout(page_layout)
+
 
 def main():
     app = QApplication(sys.argv)
