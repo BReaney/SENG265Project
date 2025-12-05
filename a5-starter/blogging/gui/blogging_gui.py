@@ -1,7 +1,7 @@
 import sys
 from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
-from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout
+from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
 from blogging.controller import Controller
 # from login_gui import LoginGUI
 
@@ -17,30 +17,30 @@ class BloggingGUI(QMainWindow):
         self.controller = Controller()
         self.setWindowTitle("Main Menu")
         self.resize(600, 400)
-
-        #initializing layout
-        layout = QVBoxLayout()
+        window_selector_widget = QStackedLayout()
+        #initializing login layout
+        layout_front_page = QVBoxLayout()
         #Setting up main page Log In button
-        button = QPushButton("Log in")
+        button_login = QPushButton("Log in")
         
-        button.setCheckable(True)
-        button.clicked.connect(self.login_button_clicked)
+        button_login.setCheckable(True)
+        button_login.clicked.connect(self.login_button_clicked)
 
         #Setting up Quit Button 
-        button2 = QPushButton("Quit")
+        button_quit = QPushButton("Quit")
 
-        button2.setCheckable(True)
-        button2.clicked.connect(self.quit_button_clicked)
+        button_quit.setCheckable(True)
+        button_quit.clicked.connect(self.quit_button_clicked)
         #testing Qline
         
 
         #Adding all buttons to layout
-        layout.addWidget(button)
-        layout.addWidget(button2)
+        layout_front_page.addWidget(button_login)
+        layout_front_page.addWidget(button_quit)
 
         #Window Settings
         widget = QWidget()
-        widget.setLayout(layout)
+        widget.setLayout(layout_front_page)
         self.setFixedSize(QSize(600, 400))
         self.setCentralWidget(widget)
 
