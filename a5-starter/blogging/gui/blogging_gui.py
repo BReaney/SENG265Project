@@ -3,6 +3,9 @@ from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
 from blogging.controller import Controller
+from blogging.exception.invalid_logout_exception import InvalidLogoutException
+from blogging.exception.illegal_access_exception import IllegalAccessException
+from blogging.exception.illegal_operation_exception import IllegalOperationException
 # from login_gui import LoginGUI
 
 class BloggingGUI(QMainWindow):
@@ -192,19 +195,71 @@ class BloggingGUI(QMainWindow):
 
         self.add_blog_cancel_button.clicked.connect(self.cancel_button_clicked)
         self.add_blog_complete_button.clicked.connect(self.add_blog_complete_button_clicked)
-        ################### Page Layout ###############
-        page_layout = QVBoxLayout()
+        self.add_blog_clear_button.clicked.connect(self.add_blog_clear_button_clicked)
+        ################### Add Blog Page Layout ###############
+        add_blog_page_layout = QVBoxLayout()
 
-        top_widget = QWidget()
-        top_widget.setLayout(add_blog_layout)
-        bottom_widget = QWidget()
-        bottom_widget.setLayout(button_layout)
-        page_layout.addWidget(top_widget)
-        page_layout.addWidget(bottom_widget)
-        add_blog_widget.setLayout(page_layout)
+        add_blog_top_widget = QWidget()
+        add_blog_top_widget.setLayout(add_blog_layout)
+        add_blog_bottom_widget = QWidget()
+        add_blog_bottom_widget.setLayout(button_layout)
+        add_blog_page_layout.addWidget(add_blog_top_widget)
+        add_blog_page_layout.addWidget(add_blog_bottom_widget)
+        add_blog_widget.setLayout(add_blog_page_layout)
         self.layout_page.addWidget(add_blog_widget)
 
         
+        ####################Search Blog Window #################
+        search_blog_layout = QGridLayout()
+        search_blog_widget = QWidget()
+
+        ####################Search Bar Label ##############
+
+        label_search_blog = QLabel("Search for blog by ID")
+        self.blog_search_id_text = QLineEdit()
+
+        search_blog_layout.addWidget(label_search_blog, 0, 0)
+        search_blog_layout.addWidget(self.blog_search_id_text, 0, 1)
+
+        ################### Search/Quit Button #################
+
+        search_blog_button_layout = QHBoxLayout()
+
+        self.search_blog_search_button = QPushButton("Search")
+        self.search_blog_quit_button = QPushButton("Quit")
+
+        self.search_blog_search_button.setEnabled(True)
+        self.search_blog_quit_button.setEnabled(True)
+
+        search_blog_button_layout.addWidget(self.search_blog_search_button)
+        search_blog_button_layout.addWidget(self.search_blog_quit_button)
+
+        self.search_blog_search_button.clicked.connect(self.search_blog_search_button_clicked)
+        self.search_blog_quit_button.clicked.connect(self.search_blog_quit_button_clicked)
+
+        #################### Create the Search Blog page #########################
+
+        search_blog_page_layout = QVBoxLayout()
+
+        search_blog_top_widget = QWidget()
+        search_blog_top_widget.setLayout(search_blog_layout)
+
+        search_blog_bottom_widget = QWidget()
+        search_blog_bottom_widget.setLayout(search_blog_button_layout)
+
+        search_blog_page_layout.addWidget(search_blog_top_widget)
+        search_blog_page_layout.addWidget(search_blog_bottom_widget)
+
+        search_blog_widget.setLayout(search_blog_page_layout)
+        self.layout_page.addWidget(search_blog_widget)
+
+
+
+
+
+
+
+
 
     def toggle_window(self, window):
         self.layout_page.setCurrentIndex(window)
@@ -251,6 +306,7 @@ class BloggingGUI(QMainWindow):
         self.toggle_window(3)
         pass
     def search_blog_by_id_button_clicked(self):
+        self.toggle_window(4)
         pass
     def retrieve_blogs_by_name_button_clicked(self):
         pass
@@ -273,7 +329,10 @@ class BloggingGUI(QMainWindow):
         pass
     def log_out(self):
         self.controller.logout()
-
+    
+    
+    
+    ############################ Add Blog Functions ##############################
     def add_blog_complete_button_clicked(self):
 
         self.add_blog()
@@ -283,7 +342,11 @@ class BloggingGUI(QMainWindow):
         
 
     def add_blog_clear_button_clicked(self):
-        pass
+        self.text_email.setText("")
+        self.text_id.setText("")
+        self.text_name.setText("")
+        self.text_url.setText("")
+        
 
     def add_blog(self):
         id = int(self.text_id.text())
@@ -292,6 +355,44 @@ class BloggingGUI(QMainWindow):
         url = self.text_url.text()
         self.controller.create_blog(id, name, url, email)
 
+
+
+    ############################### Search Blog Functions #############################
+    def search_blog_quit_button_clicked(self):
+        self.toggle_window(2)
+    
+
+    def search_blog_search_button_clicked(self):
+        self.search_blog()
+
+    def search_blog(self):
+        try:
+
+
+            dialog_layout = QVBoxLayout()
+
+            searchid = int(self.blog_search_id_text.text())
+
+            found_blog = self.controller.search_blog(searchid)
+
+            dialog = QDialog(self)
+            dialog.setWindowTitle("Found your blog!")
+
+            message = QLabel(f'ID: {found_blog.id}\nNAME: {found_blog.name} \nURL: {found_blog.url} \nEmail: {found_blog.email}')
+            dialog_layout.addWidget(message)
+            dialog.setFixedSize(500, 500)
+            dialog.setLayout(dialog_layout)
+            button = dialog.exec()
+            
+            
+
+            if button == QMessageBox.StandardButton.Ok:
+                self.toggle_window(4)
+        except:
+
+            button = QMessageBox.warning(self, "Error", "Blog could not be found :(")
+            if button == QMessageBox.StandardButton.Ok:
+                self.toggle_window(4)
 
 # class LoginGUI(QMainWindow):
 #     def __init__(self, controller):
