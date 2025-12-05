@@ -1,7 +1,9 @@
 import sys
 from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
-from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton
+from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout
+from blogging.controller import Controller
+# from login_gui import LoginGUI
 
 class BloggingGUI(QMainWindow):
 
@@ -12,7 +14,9 @@ class BloggingGUI(QMainWindow):
         self.configuration.__class__.autosave = True
         # Continue here with your code!
         #Still workshopping title
-        self.setWindowTitle("Cool Title")
+        self.controller = Controller()
+        self.setWindowTitle("Main Menu")
+        self.resize(600, 400)
 
         #initializing layout
         layout = QVBoxLayout()
@@ -20,13 +24,13 @@ class BloggingGUI(QMainWindow):
         button = QPushButton("Log in")
         
         button.setCheckable(True)
-        button.clicked.connect(self.Log_in_button)
+        button.clicked.connect(self.login_button_clicked)
 
         #Setting up Quit Button 
         button2 = QPushButton("Quit")
 
         button2.setCheckable(True)
-        button2.clicked.connect(self.Quit_Button)
+        button2.clicked.connect(self.quit_button_clicked)
         #testing Qline
         
 
@@ -40,11 +44,80 @@ class BloggingGUI(QMainWindow):
         self.setFixedSize(QSize(600, 400))
         self.setCentralWidget(widget)
 
-    def Log_in_button(self):
-        print("You want to log in :)")
+        ################ Add Sub-Windows #####################
+        self.login_gui = LoginGUI(self.controller)
 
-    def Quit_Button(self):
-        print("You want to quit :(")
+        
+
+    def login_button_clicked(self):
+        # QMessageBox.information(self, 'Login', 'You want to log in :)')
+        self.login_gui.show()
+        pass
+
+    def quit_button_clicked(self):
+        # QMessageBox.information(self, 'Quit', 'You want to quit :(')
+        self.close()
+
+class LoginGUI(QMainWindow):
+    def __init__(self, controller):
+        super().__init__()
+        self.controller = controller
+        self.setWindowTitle("Login")
+
+        ################# define textbox layout ####################
+        layout1 = QGridLayout()
+        
+
+        ##### text box definition and labeling #######
+        label_user = QLabel("Username")
+        self.text_user = QLineEdit()
+        label_password = QLabel("Password")
+        self.text_password = QLineEdit()
+
+        ##### add text boxes to layout ###########
+        layout1.addWidget(label_user, 0, 0)
+        layout1.addWidget(self.text_user, 0, 1)
+        layout1.addWidget(label_password, 1, 0)
+        layout1.addWidget(self.text_password, 1, 1)
+
+        ################# define login button layout ###############
+        layout2 = QHBoxLayout()
+
+        #### button config ####
+        self.button_login = QPushButton("Log in")
+        self.button_cancel = QPushButton("Cancel")
+
+        self.button_login.setEnabled(True)
+        self.button_cancel.setEnabled(True)
+
+        layout2.addWidget(self.button_login)
+        layout2.addWidget(self.button_cancel)
+
+        ### connect button signals to slots ###
+        self.button_login.clicked.connect(self.login_button_clicked)
+        self.button_cancel.clicked.connect(self.cancel_button_clicked)
+
+        ####################### widget layout config ##############################
+
+        layout3 = QVBoxLayout()
+
+        top_widget = QWidget()
+        top_widget.setLayout(layout1)
+        bottom_widget = QWidget()
+        bottom_widget.setLayout(layout2)
+        layout3.addWidget(top_widget)
+        layout3.addWidget(bottom_widget)
+        widget = QWidget()
+        widget.setLayout(layout3)
+
+        self.setCentralWidget(widget)
+
+    def login_button_clicked(self):
+        pass
+    def cancel_button_clicked(self):
+        pass
+    def login(self):
+        pass
 
 
 class CustomDialog(QDialog):
