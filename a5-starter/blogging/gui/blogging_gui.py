@@ -17,7 +17,7 @@ class BloggingGUI(QMainWindow):
         self.controller = Controller()
         self.setWindowTitle("Main Menu")
         self.resize(600, 400)
-        window_selector_widget = QStackedLayout()
+        layout = QStackedLayout()
         #initializing login layout
         layout_front_page = QVBoxLayout()
         #Setting up main page Log In button
@@ -39,10 +39,15 @@ class BloggingGUI(QMainWindow):
         layout_front_page.addWidget(button_quit)
 
         #Window Settings
-        widget = QWidget()
-        widget.setLayout(layout_front_page)
+        front_page_widget = QWidget()
+        front_page_widget.setLayout(layout_front_page)
+        layout.addWidget(front_page_widget)
+        layout.setCurrentIndex(0)
+        
+        layout_widget = QWidget()
+        layout_widget.setLayout(layout)
         self.setFixedSize(QSize(600, 400))
-        self.setCentralWidget(widget)
+        self.setCentralWidget(layout_widget)
 
         ################ Add Sub-Windows #####################
         self.login_gui = LoginGUI(self.controller)
