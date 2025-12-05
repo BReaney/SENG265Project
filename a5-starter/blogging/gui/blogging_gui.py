@@ -107,6 +107,48 @@ class BloggingGUI(QMainWindow):
         # self.setCentralWidget(widget)
 
         ######################## Add Home Page ########################
+        layout_home_page = QVBoxLayout()
+        layout_home_menu = QVBoxLayout()
+
+        home_page_widget = QWidget()
+
+        home_menu_widget = QWidget()
+
+        button_add_new_blog = QPushButton('Add New Blog')
+        button_search_blog_by_id = QPushButton('Search Blog By ID')
+        button_retrieve_blogs_by_name = QPushButton('Retrieve Blogs By Name')
+        button_change_blog_data = QPushButton('Change Blog Data')
+        button_remove_blog = QPushButton('Remove Blog')
+        button_list_all_blogs = QPushButton('List All Blogs')
+        button_edit_blog = QPushButton('Edit Blog')
+        button_log_out = QPushButton('Log Out')
+
+        layout_home_menu.addWidget(button_add_new_blog) 
+        layout_home_menu.addWidget(button_search_blog_by_id) 
+        layout_home_menu.addWidget(button_retrieve_blogs_by_name) 
+        layout_home_menu.addWidget(button_change_blog_data) 
+        layout_home_menu.addWidget(button_remove_blog)
+        layout_home_menu.addWidget(button_list_all_blogs) 
+        layout_home_menu.addWidget(button_edit_blog)
+        layout_home_menu.addWidget(button_log_out)
+
+        button_add_new_blog.clicked.connect(self.add_new_blog_button_clicked) 
+        button_search_blog_by_id.clicked.connect(self.search_blog_by_id_button_clicked) 
+        button_retrieve_blogs_by_name.clicked.connect(self.retrieve_blogs_by_name_button_clicked) 
+        button_change_blog_data.clicked.connect(self.change_blog_data_button_clicked) 
+        button_remove_blog.clicked.connect(self.remove_blog_button_clicked)
+        button_list_all_blogs.clicked.connect(self.list_all_blogs_button_clicked) 
+        button_edit_blog.clicked.connect(self.edit_blog_button_clicked)
+        button_log_out.clicked.connect(self.log_out_button_clicked)
+
+        home_menu_widget.setLayout(layout_home_menu)
+        layout_home_page.addWidget(home_menu_widget)
+        home_page_widget.setLayout(layout_home_page)
+        self.layout_page.addWidget(home_page_widget)
+
+        
+
+        
 
     def toggle_window(self, window):
         self.layout_page.setCurrentIndex(window)
@@ -136,6 +178,7 @@ class BloggingGUI(QMainWindow):
                 self.clear_button_clicked()
 
         pass
+
     def clear_button_clicked(self):
         self.text_password.setText('')
         self.text_user.setText('')
@@ -144,11 +187,32 @@ class BloggingGUI(QMainWindow):
         # self.close()
         self.toggle_window(0)
         pass
+
+    def add_new_blog_button_clicked(self):
+        pass
+    def search_blog_by_id_button_clicked(self):
+        pass
+    def retrieve_blogs_by_name_button_clicked(self):
+        pass
+    def change_blog_data_button_clicked(self):
+        pass
+    def remove_blog_button_clicked(self):
+        pass
+    def list_all_blogs_button_clicked(self):
+        pass
+    def edit_blog_button_clicked(self):
+        pass
+    def log_out_button_clicked(self):
+        self.log_out()
+        self.toggle_window(0)
+        pass
     def login(self):
         user = self.text_user.text()
         password = self.text_password.text()
         self.controller.login(user, password)
         pass
+    def log_out(self):
+        self.controller.logout()
 
 class LoginGUI(QMainWindow):
     def __init__(self, controller):
