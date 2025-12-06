@@ -1,12 +1,13 @@
 import sys
 from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
-from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
+from PyQt6.QtWidgets import QTableView, QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
 from blogging.controller import Controller
 from blogging.exception.invalid_logout_exception import InvalidLogoutException
 from blogging.exception.illegal_access_exception import IllegalAccessException
 from blogging.exception.illegal_operation_exception import IllegalOperationException
 from blogging.blog import Blog
+from blogging.gui.blog_table import BlogTableView
 # from login_gui import LoginGUI
 
 class BloggingGUI(QMainWindow):
@@ -419,7 +420,29 @@ class BloggingGUI(QMainWindow):
         delete_blog_widget.setLayout(layout_delete_blog_page)
         self.layout_page.addWidget(delete_blog_widget)
 
+        ############################## Retrive Blog intialization ##################
 
+        layout_retrieve_blog = QVBoxLayout()
+
+        self.retrieve_blog_widget = QWidget()
+        self.retrieve_blog_widget.setLayout(layout_retrieve_blog)
+
+        
+
+        self.dialog = QTableView()
+        self.dialog_model = BlogTableView(self.controller)
+        self.dialog.setModel(self.dialog_model)
+        
+        back_button = QPushButton("Return to Menu")
+
+        back_button.setEnabled(True)
+        layout_retrieve_blog.addWidget(self.dialog)
+        layout_retrieve_blog.addWidget(back_button)
+        
+        back_button.clicked.connect(self.back_button_clicked)
+        
+        
+        self.layout_page.addWidget(self.retrieve_blog_widget)
 
         
     def toggle_window(self, window):
@@ -478,21 +501,10 @@ class BloggingGUI(QMainWindow):
         self.toggle_window(7)
         pass
     def list_all_blogs_button_clicked(self):
-        dialog_layout = QVBoxLayout()
+        self.toggle_window(8)
 
-        blogs = self.controller.list_blogs()
-
-        
-
-        dialog = QDialog(self)
-        dialog.setWindowTitle("List of blogs")
-        for results in blogs:
-            label_message = QLabel(f'ID: {results.id}\nNAME: {results.name} \nURL: {results.url} \nEmail: {results.email}')
-            dialog_layout.addWidget(label_message)
-
-        dialog.setFixedSize(500, 500)
-        dialog.setLayout(dialog_layout)
-        button = dialog.exec()
+        self.refresh_table()
+        ####launch
         pass
     def edit_blog_button_clicked(self):
         pass
@@ -507,6 +519,9 @@ class BloggingGUI(QMainWindow):
         pass
     def log_out(self):
         self.controller.logout()
+
+    def back_button_clicked(self):
+        self.toggle_window(2)
     
     
     
@@ -531,12 +546,14 @@ class BloggingGUI(QMainWindow):
         
 
     def add_blog(self):
-        id = int(self.text_id.text())
-        name = self.text_name.text()
-        email = self.text_name.text()
-        url = self.text_url.text()
-        self.controller.create_blog(id, name, url, email)
-
+        try:
+            id = int(self.text_id.text())
+            name = self.text_name.text()
+            email = self.text_name.text()
+            url = self.text_url.text()
+            self.controller.create_blog(id, name, url, email)
+        except:
+            print("Error!")
     def add_blog_cancel_button_clicked(self):
         self.text_email.setText("")
         self.text_id.setText("")
@@ -595,34 +612,34 @@ class BloggingGUI(QMainWindow):
         self.search_blog_by_name()
 
     def search_blog_by_name(self):
-        try:
-
-
-            dialog_layout = QVBoxLayout()
-
+     
+           
             search_string = self.search_blog_name.text()
 
-            found_blogs = self.controller.retrieve_blogs(search_string)
 
-            dialog = QDialog(self)
-            dialog.setWindowTitle("Found your blog!")
-            for results in found_blogs:
-                label_message = QLabel(f'ID: {results.id}\nNAME: {results.name} \nURL: {results.url} \nEmail: {results.email}')
-                dialog_layout.addWidget(label_message)
+            self.dialog = QTableView()
+            self.dialog_model = BlogTableView(self.controller)
+            self.dialog.setModel(self.dialog_model)
 
-            dialog.setFixedSize(500, 500)
-            dialog.setLayout(dialog_layout)
-            button = dialog.exec()
-            
-            
+            layout = QVBoxLayout()
+            layout.addWidget(self.dialog)
 
-            
-        except:
+            widget = QWidget()
+            widget.setLayout(layout)
+            self.setCentralWidget(widget)
+            self.refresh_table_search(search_string)
 
-            button = QMessageBox.warning(self, "Error", "Blog could not be found :(")
-            if button == QMessageBox.StandardButton.Ok:
-                self.search_blog_name.setText("")
-                self.toggle_window(2)
+           
+        
+    def refresh_table(self):
+        self.dialog_model.refresh_data()
+        self.dialog.setColumnWidth(1, 350)
+        self.dialog.setEnabled(True)
+    
+    def refresh_table_search(self, search_string):
+        self.dialog_model.refresh_data_search(search_string)
+        self.dialog.setColumnWidth(1, 350)
+        self.dialog.setEnabled(True)
 
     ################################ Update Blog Functions ###############################
 
