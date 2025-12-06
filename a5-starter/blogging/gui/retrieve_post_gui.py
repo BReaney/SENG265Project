@@ -4,7 +4,7 @@ from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
 from blogging.controller import Controller
 
-class RetrievePostWidget(QWidget):
+class RetrievePostGUI(QWidget):
     def __init__(self, parent, controller):
         super().__init__()
         self.controller = controller
@@ -51,6 +51,9 @@ class RetrievePostWidget(QWidget):
             for i in posts:
                 label_post = QLabel(f'Code {i.code} Title {i.title}\nText: {i.text}\nCreation {i.creation}\nUpdate {i.update}')
                 layout_dialog.addWidget(label_post)
+            dialog.setFixedSize(500, 500)
+            dialog.setLayout(layout_dialog)
+            button = dialog.exec()
 
         except: 
             button = QMessageBox.warning(self, 'Error', 'Retrieval Exception')

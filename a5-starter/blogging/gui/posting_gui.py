@@ -4,6 +4,7 @@ from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
 from blogging.controller import Controller
 from blogging.gui.add_post_gui import AddPostGUI
+from blogging.gui.retrieve_post_gui import RetrievePostGUI
 # from blogging.gui.blogging_gui import BloggingGUI
 
 class PostingGUI(QWidget):
@@ -65,9 +66,12 @@ class PostingGUI(QWidget):
         button_list_full_blog_contents.clicked.connect(self.list_full_blog_contents_button_clicked)
         button_finish_editing_blog.clicked.connect(self.finish_editing_blog_button_clicked)
 
-        ######## Add Post #######
+        ######## Add Post Widget #######
         add_post_to_blog_widget = AddPostGUI(self, controller)
         self.layout_stack.addWidget(add_post_to_blog_widget) 
+        ######## Retrieve Posts form Blog By Text Widget ##########
+        retrieve_posts_from_blog_by_text_widget = RetrievePostGUI(self, controller)
+        self.layout_stack.addWidget(retrieve_posts_from_blog_by_text_widget)
 
     def toggle_window(self, window):
         self.layout_stack.setCurrentIndex(window)
@@ -104,6 +108,7 @@ class PostingGUI(QWidget):
         self.toggle_window(2)
         pass
     def retrieve_posts_from_blog_by_text_button_clicked(self):
+        self.toggle_window(3)
         pass
     def change_post_from_blog_button_clicked(self):
         pass
