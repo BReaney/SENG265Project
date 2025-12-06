@@ -372,6 +372,56 @@ class BloggingGUI(QMainWindow):
         update_blog_widget.setLayout(update_blog_page_layout)
         self.layout_page.addWidget(update_blog_widget)
 
+        
+         ########################### Delete Blog #######################
+
+        layout_delete_blog = QGridLayout()
+        delete_blog_widget = QWidget()
+
+        ########################### Delete Choice #######################
+
+        label_delete_blog = QLabel("Id of blog you want to delete:")
+        self.delete_blog_id = QLineEdit()
+
+        layout_delete_blog.addWidget(label_delete_blog, 0, 0)
+        layout_delete_blog.addWidget(self.delete_blog_id, 0, 1)
+
+        ########################## Delete/Quit Button #####################
+
+        layout_delete_blog_button = QHBoxLayout()
+
+        self.delete_blog_delete_button = QPushButton("Delete")
+        self.delete_blog_quit_button = QPushButton("Quit")
+
+        self.delete_blog_delete_button.setEnabled(True)
+        self.delete_blog_quit_button.setEnabled(True)
+
+        layout_delete_blog.addWidget(self.delete_blog_delete_button)
+        layout_delete_blog.addWidget(self.delete_blog_quit_button)
+
+        self.delete_blog_delete_button.clicked.connect(self.delete_blog_delete_button_clicked)
+        self.delete_blog_quit_button.clicked.connect(self.delete_blog_quit_button_clicked)
+
+        ############################## Create delete blog page #######################
+        
+
+        layout_delete_blog_page = QVBoxLayout()
+
+        delete_blog_top_widget = QWidget()
+        delete_blog_top_widget.setLayout(layout_delete_blog)
+
+        delete_blog_bottom_widget = QWidget()
+        delete_blog_bottom_widget.setLayout(layout_delete_blog_button)
+
+        layout_delete_blog_page.addWidget(delete_blog_top_widget)
+        layout_delete_blog_page.addWidget(delete_blog_bottom_widget)
+
+        delete_blog_widget.setLayout(layout_delete_blog_page)
+        self.layout_page.addWidget(delete_blog_widget)
+
+
+
+        
     def toggle_window(self, window):
         self.layout_page.setCurrentIndex(window)
         self.page_widget.setLayout(self.layout_page)
@@ -425,8 +475,24 @@ class BloggingGUI(QMainWindow):
         self.toggle_window(6)
         pass
     def remove_blog_button_clicked(self):
+        self.toggle_window(7)
         pass
     def list_all_blogs_button_clicked(self):
+        dialog_layout = QVBoxLayout()
+
+        blogs = self.controller.list_blogs()
+
+        
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("List of blogs")
+        for results in blogs:
+            label_message = QLabel(f'ID: {results.id}\nNAME: {results.name} \nURL: {results.url} \nEmail: {results.email}')
+            dialog_layout.addWidget(label_message)
+
+        dialog.setFixedSize(500, 500)
+        dialog.setLayout(dialog_layout)
+        button = dialog.exec()
         pass
     def edit_blog_button_clicked(self):
         pass
@@ -450,6 +516,10 @@ class BloggingGUI(QMainWindow):
         self.add_blog()
         button = QMessageBox.information(self, "Added Blog Successfully!", "Success!")
         if button == QMessageBox.StandardButton.Ok:
+            self.text_email.setText("")
+            self.text_id.setText("")
+            self.text_name.setText("")
+            self.text_url.setText("")
             self.toggle_window(2)
         
 
@@ -468,17 +538,22 @@ class BloggingGUI(QMainWindow):
         self.controller.create_blog(id, name, url, email)
 
     def add_blog_cancel_button_clicked(self):
+        self.text_email.setText("")
+        self.text_id.setText("")
+        self.text_name.setText("")
+        self.text_url.setText("")
         self.toggle_window(2)
 
 
 
     ############################### Search Blog Functions #############################
     def search_blog_quit_button_clicked(self):
+        self.blog_search_id_text.setText("")
         self.toggle_window(2)
     
 
     def search_blog_search_button_clicked(self):
-        self.blog_search_id_text.setText("")
+        
         self.search_blog()
 
     def search_blog(self):
@@ -516,6 +591,7 @@ class BloggingGUI(QMainWindow):
         self.toggle_window(2)
 
     def search_blog_name_search_button_clicked(self):
+        
         self.search_blog_by_name()
 
     def search_blog_by_name(self):
@@ -571,6 +647,29 @@ class BloggingGUI(QMainWindow):
                 self.toggle_window(2)
             
             
+    ############################## Delete Blog Functions #############################
+
+    def delete_blog_delete_button_clicked(self):
+        self.delete_blog()
+
+    def delete_blog_quit_button_clicked(self):
+        self.delete_blog_id.setText("")
+        self.toggle_window(2)
+
+    def delete_blog(self):
+        try:
+            self.controller.delete_blog(int(self.delete_blog_id.text()))
+
+            button = QMessageBox.information(self, "Complete", "The blog was deleted!")
+            if button == QMessageBox.StandardButton.Ok:
+                self.delete_blog_id.setText("")
+                self.toggle_window(2)
+        except:
+            button = QMessageBox.warning(self, "Error","Something went wrong!")
+
+
+
+
 
 
 
