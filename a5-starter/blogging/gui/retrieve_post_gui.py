@@ -2,6 +2,7 @@ import sys
 from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
+from PyQt6.QtWidgets import QPlainTextEdit
 from blogging.controller import Controller
 
 class RetrievePostGUI(QWidget):
@@ -46,11 +47,12 @@ class RetrievePostGUI(QWidget):
         try: 
             posts = self.controller.retrieve_posts(title)
             layout_dialog = QVBoxLayout()
+            text_list = QPlainTextEdit()
             dialog = QDialog(self)
             dialog.setWindowTitle('Posts Retrieved')
             for i in posts:
-                label_post = QLabel(f'Code {i.code} Title {i.title}\nText: {i.text}\nCreation {i.creation}\nUpdate {i.update}')
-                layout_dialog.addWidget(label_post)
+                text_list.appendPlainText(f'Code {i.code}\nTitle {i.title}\nText: {i.text}\nCreation {i.creation}\nUpdate {i.update}\n')
+                layout_dialog.addWidget(text_list)
             dialog.setFixedSize(500, 500)
             dialog.setLayout(layout_dialog)
             button = dialog.exec()

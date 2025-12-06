@@ -2,9 +2,11 @@ import sys
 from blogging.configuration import Configuration
 from PyQt6.QtCore import QSize, Qt 
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit,QVBoxLayout, QWidget, QApplication, QMainWindow, QPushButton, QMessageBox, QGridLayout, QHBoxLayout, QStackedLayout
+from PyQt6.QtWidgets import QPlainTextEdit
 from blogging.controller import Controller
 from blogging.gui.add_post_gui import AddPostGUI
 from blogging.gui.retrieve_post_gui import RetrievePostGUI
+from blogging.gui.change_post_gui import ChangePostGUI
 # from blogging.gui.blogging_gui import BloggingGUI
 
 class PostingGUI(QWidget):
@@ -69,9 +71,14 @@ class PostingGUI(QWidget):
         ######## Add Post Widget #######
         add_post_to_blog_widget = AddPostGUI(self, controller)
         self.layout_stack.addWidget(add_post_to_blog_widget) 
+
         ######## Retrieve Posts form Blog By Text Widget ##########
         retrieve_posts_from_blog_by_text_widget = RetrievePostGUI(self, controller)
         self.layout_stack.addWidget(retrieve_posts_from_blog_by_text_widget)
+
+        ######## Change Post Widget ########
+        change_post_widget = ChangePostGUI(self, controller)
+        self.layout_stack.addWidget(change_post_widget)
 
     def toggle_window(self, window):
         self.layout_stack.setCurrentIndex(window)
@@ -111,10 +118,27 @@ class PostingGUI(QWidget):
         self.toggle_window(3)
         pass
     def change_post_from_blog_button_clicked(self):
+        self.toggle_window(4)
         pass
     def remove_post_from_blog_button_clicked(self):
         pass
     def list_full_blog_contents_button_clicked(self):
+        try: 
+            posts = self.controller.list_posts()
+            text_list = QPlainTextEdit()
+            layout_dialog = QVBoxLayout()
+            dialog = QDialog(self)
+            dialog.setWindowTitle('Posts Retrieved')
+            for i in posts:
+                text_list.appendPlainText(f'Code {i.code}\nTitle {i.title}\nText: {i.text}\nCreation {i.creation}\nUpdate {i.update}\n')
+            layout_dialog.addWidget(text_list)
+            dialog.setFixedSize(500, 500)
+            dialog.setLayout(layout_dialog)
+            button = dialog.exec()
+
+        except: 
+            button = QMessageBox.warning(self, 'Error', 'List Posts Exception')
+
         pass
     def finish_editing_blog_button_clicked(self):
         self.closeout()
