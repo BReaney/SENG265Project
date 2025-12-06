@@ -8,6 +8,7 @@ from blogging.exception.illegal_access_exception import IllegalAccessException
 from blogging.exception.illegal_operation_exception import IllegalOperationException
 from blogging.blog import Blog
 from blogging.gui.blog_table import BlogTableView
+from blogging.gui.posting_gui import PostingGUI
 # from login_gui import LoginGUI
 
 class BloggingGUI(QMainWindow):
@@ -492,22 +493,22 @@ class BloggingGUI(QMainWindow):
         
     
     def add_new_blog_button_clicked(self):
-        self.toggle_window(3)
-        pass
-    def search_blog_by_id_button_clicked(self):
         self.toggle_window(4)
         pass
-    def retrieve_blogs_by_name_button_clicked(self):
+    def search_blog_by_id_button_clicked(self):
         self.toggle_window(5)
         pass
-    def change_blog_data_button_clicked(self):
+    def retrieve_blogs_by_name_button_clicked(self):
         self.toggle_window(6)
         pass
-    def remove_blog_button_clicked(self):
+    def change_blog_data_button_clicked(self):
         self.toggle_window(7)
         pass
-    def list_all_blogs_button_clicked(self):
+    def remove_blog_button_clicked(self):
         self.toggle_window(8)
+        pass
+    def list_all_blogs_button_clicked(self):
+        self.toggle_window(9)
 
         self.refresh_table()
         ####launch
