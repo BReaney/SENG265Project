@@ -51,8 +51,8 @@ class RetrievePostGUI(QWidget):
             dialog = QDialog(self)
             dialog.setWindowTitle('Posts Retrieved')
             for i in posts:
-                text_list.appendPlainText(f'Code {i.code}\nTitle {i.title}\nText: {i.text}\nCreation {i.creation}\nUpdate {i.update}\n')
-                layout_dialog.addWidget(text_list)
+                text_list.appendPlainText(f'Code: {i.code}\nTitle: {i.title}\nText: {i.text}\nCreation: {i.creation}\nUpdate: {i.update}\n')
+            layout_dialog.addWidget(text_list)
             dialog.setFixedSize(500, 500)
             dialog.setLayout(layout_dialog)
             button = dialog.exec()
