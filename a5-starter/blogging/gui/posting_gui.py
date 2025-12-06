@@ -7,6 +7,7 @@ from blogging.controller import Controller
 from blogging.gui.add_post_gui import AddPostGUI
 from blogging.gui.retrieve_post_gui import RetrievePostGUI
 from blogging.gui.change_post_gui import ChangePostGUI
+from blogging.gui.remove_post_gui import RemovePostGUI
 # from blogging.gui.blogging_gui import BloggingGUI
 
 class PostingGUI(QWidget):
@@ -80,6 +81,10 @@ class PostingGUI(QWidget):
         change_post_widget = ChangePostGUI(self, controller)
         self.layout_stack.addWidget(change_post_widget)
 
+        ######## Remove Post Widget #########
+        remove_post_widget = RemovePostGUI(self, controller)
+        self.layout_stack.addWidget(remove_post_widget)
+
     def toggle_window(self, window):
         self.layout_stack.setCurrentIndex(window)
         # self.setLayout(self.layout_stack)
@@ -121,6 +126,7 @@ class PostingGUI(QWidget):
         self.toggle_window(4)
         pass
     def remove_post_from_blog_button_clicked(self):
+        self.toggle_window(5)
         pass
     def list_full_blog_contents_button_clicked(self):
         try: 
