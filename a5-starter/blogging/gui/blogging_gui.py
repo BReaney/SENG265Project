@@ -151,7 +151,9 @@ class BloggingGUI(QMainWindow):
         blog_menu_widget = PostingGUI(self, self.controller)
         self.layout_page.addWidget(blog_menu_widget)
 
-                #################### Create Add Blog Window ##################
+
+        ######################################################################
+        ############################ Create Add Blog Window ##################
         add_blog_layout = QGridLayout()
         add_blog_widget = QWidget()
 

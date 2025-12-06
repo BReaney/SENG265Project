@@ -13,11 +13,9 @@ class AddPostGUI(QWidget):
         self.layout_grid = QGridLayout()
         self.setLayout(self.layout_grid)
 
-        label_code = QLabel('Code')
         label_title = QLabel('Title')
         label_text = QLabel('Text')
         
-        self.text_code = QLineEdit()
         self.text_title = QLineEdit()
         self.text_text = QLineEdit()
         
@@ -25,8 +23,6 @@ class AddPostGUI(QWidget):
         button_cancel = QPushButton('Cancel')
         button_enter = QPushButton('Enter')
 
-        self.layout_grid.addWidget(label_code, 0, 0)
-        self.layout_grid.addWidget(self.text_code, 0, 1)
         self.layout_grid.addWidget(label_title, 1, 0)
         self.layout_grid.addWidget(self.text_title, 1, 1)
         self.layout_grid.addWidget(label_text, 2, 0)
@@ -39,9 +35,27 @@ class AddPostGUI(QWidget):
         button_cancel.clicked.connect(self.cancel_button_clicked)
         button_enter.clicked.connect(self.enter_button_clicked)
 
-    def clear_button_clicked():
+    def clear_button_clicked(self):
+        self.text_title.setText('')
+        self.text_text.setText('')
         pass
-    def cancel_button_clicked():
+
+    def cancel_button_clicked(self):
+        self.clear_button_clicked()
+        self.parent.toggle_window(1)
         pass
-    def enter_button_clicked():
+
+    def enter_button_clicked(self):
+        title = self.text_title.text()
+        text = self.text_text.text()
+
+        try: 
+            post = self.controller.create_post(title, text)
+            button = QMessageBox.information(self, 'Success', f'Post {post.code}')
+            if button == QMessageBox.StandardButton.Ok:
+                self.clear_button_clicked()
+        except: 
+            button = QMessageBox.warning(self, 'Error', 'Add Post Failed')
+            if button == QMessageBox.StandardButton.Ok:
+                self.clear_button_clicked()
         pass
