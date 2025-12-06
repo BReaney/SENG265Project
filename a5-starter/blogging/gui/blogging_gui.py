@@ -6,6 +6,7 @@ from blogging.controller import Controller
 from blogging.exception.invalid_logout_exception import InvalidLogoutException
 from blogging.exception.illegal_access_exception import IllegalAccessException
 from blogging.exception.illegal_operation_exception import IllegalOperationException
+from blogging.blog import Blog
 # from login_gui import LoginGUI
 
 class BloggingGUI(QMainWindow):
@@ -301,6 +302,76 @@ class BloggingGUI(QMainWindow):
         search_blog_name_widget.setLayout(search_blog_name_page_layout)
         self.layout_page.addWidget(search_blog_name_widget)
 
+
+
+
+
+        ############################# Create Update Blog Page ############################
+
+        layout_update_blog = QGridLayout()
+        update_blog_widget = QWidget()
+
+        ########################### Search Bar #######################
+
+        label_update_blog = QLabel("Put the id of the blog you would like to change here")
+        self.update_blog_name = QLineEdit()
+        
+        label_update_blog_new_id = QLabel("New ID:")
+        self.update_blog_new_id = QLineEdit()
+
+        label_update_blog_new_name = QLabel("New Name:")
+        self.update_blog_new_name = QLineEdit()
+
+        label_update_blog_new_url = QLabel("New URL:")
+        self.update_blog_new_url = QLineEdit()
+
+        label_update_blog_new_email = QLabel("New Email:")
+        self.update_blog_new_email = QLineEdit()
+
+        layout_update_blog.addWidget(label_update_blog, 0, 0)
+        layout_update_blog.addWidget(self.update_blog_name, 0, 1)
+        layout_update_blog.addWidget(label_update_blog_new_id, 1, 0)
+        layout_update_blog.addWidget(self.update_blog_new_id, 1, 1)
+        layout_update_blog.addWidget(label_update_blog_new_name, 2, 0)
+        layout_update_blog.addWidget(self.update_blog_new_name, 2, 1)
+        layout_update_blog.addWidget(label_update_blog_new_url, 3, 0)
+        layout_update_blog.addWidget(self.update_blog_new_url, 3, 1)
+        layout_update_blog.addWidget(label_update_blog_new_email, 4, 0)
+        layout_update_blog.addWidget(self.update_blog_new_email, 4, 1)
+
+        ########################## Search/Quit Button #####################
+
+        layout_update_blog_button = QHBoxLayout()
+
+        self.update_blog_search_button = QPushButton("Update")
+        self.update_blog_quit_button = QPushButton("Quit")
+
+        self.update_blog_search_button.setEnabled(True)
+        self.update_blog_quit_button.setEnabled(True)
+
+        layout_update_blog_button.addWidget(self.update_blog_search_button)
+        layout_update_blog_button.addWidget(self.update_blog_quit_button)
+
+        self.update_blog_search_button.clicked.connect(self.update_blog_search_button_clicked)
+        self.update_blog_quit_button.clicked.connect(self.update_blog_quit_button_clicked)
+
+        ############################## Create Update Blog page #######################
+        
+
+        update_blog_page_layout = QVBoxLayout()
+
+        update_blog_top_widget = QWidget()
+        update_blog_top_widget.setLayout(layout_update_blog)
+
+        update_blog_bottom_widget = QWidget()
+        update_blog_bottom_widget.setLayout(layout_update_blog_button)
+
+        update_blog_page_layout.addWidget(update_blog_top_widget)
+        update_blog_page_layout.addWidget(update_blog_bottom_widget)
+
+        update_blog_widget.setLayout(update_blog_page_layout)
+        self.layout_page.addWidget(update_blog_widget)
+
     def toggle_window(self, window):
         self.layout_page.setCurrentIndex(window)
         self.page_widget.setLayout(self.layout_page)
@@ -351,6 +422,7 @@ class BloggingGUI(QMainWindow):
         self.toggle_window(5)
         pass
     def change_blog_data_button_clicked(self):
+        self.toggle_window(6)
         pass
     def remove_blog_button_clicked(self):
         pass
@@ -475,6 +547,32 @@ class BloggingGUI(QMainWindow):
             if button == QMessageBox.StandardButton.Ok:
                 self.search_blog_name.setText("")
                 self.toggle_window(2)
+
+    ################################ Update Blog Functions ###############################
+
+    def update_blog_search_button_clicked(self):
+        self.update_blog()
+
+    def update_blog_quit_button_clicked(self):
+        self.update_blog_name.setText("")
+        self.toggle_window(2)
+
+    def update_blog(self):
+        try:
+            
+            self.controller.update_blog(int(self.update_blog_name.text()), int(self.update_blog_new_id.text()), self.update_blog_new_name.text(), self.update_blog_new_url.text(), self.update_blog_new_email.text())
+            button = QMessageBox.information(self, "Complete", "Blog updated")
+            if button == QMessageBox.StandardButton.Ok:
+                self.toggle_window(2)
+
+        except:
+            button = QMessageBox.warning(self, "Error", "Something went wrong :(")
+            if button == QMessageBox.StandardButton.Ok:
+                self.toggle_window(2)
+            
+            
+
+
 
 # class LoginGUI(QMainWindow):
 #     def __init__(self, controller):
